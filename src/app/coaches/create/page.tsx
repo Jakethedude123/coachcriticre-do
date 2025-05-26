@@ -50,6 +50,7 @@ export default function CreateCoachProfile() {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [status, setStatus] = useState('');
+  const [formError, setFormError] = useState<string | null>(null);
   const [formData, setFormData] = useState<CoachFormData>({
     name: '',
     trainingStyle: [],
@@ -72,6 +73,7 @@ export default function CreateCoachProfile() {
     setLoading(true);
     setStatus('Starting profile creation...');
     setUploadProgress(0);
+    setFormError(null);
 
     try {
       if (!user) {
@@ -80,20 +82,28 @@ export default function CreateCoachProfile() {
 
       // Validate required fields
       if (!formData.name.trim()) {
-        throw new Error('Name is required');
+        setFormError('Name is required');
+        setLoading(false);
+        return;
       }
 
       if (!formData.bio.trim()) {
-        throw new Error('Bio is required');
+        setFormError('Bio is required');
+        setLoading(false);
+        return;
       }
 
       if (formData.trainingStyle.length === 0) {
-        throw new Error('Please select at least one training style');
+        setFormError('Please select at least one training style');
+        setLoading(false);
+        return;
       }
 
       // Validate image size if one is provided
       if (formData.profileImage && formData.profileImage.size > 5 * 1024 * 1024) {
-        throw new Error('Profile image must be less than 5MB');
+        setFormError('Profile image must be less than 5MB');
+        setLoading(false);
+        return;
       }
 
       setStatus('Creating coach profile...');
@@ -152,16 +162,12 @@ export default function CreateCoachProfile() {
           setStatus('Profile created successfully (without image)! Redirecting...');
           router.push(`/coaches/profile/${user.uid}`);
         } else {
-          throw error; // Re-throw other errors
+          setFormError(error.message || 'Failed to create coach profile. Please try again.');
         }
       }
     } catch (error: any) {
       console.error('Final error:', error);
-      setStatus('Error creating profile');
-      
-      // Show specific error message
-      const errorMessage = error.message || 'Failed to create coach profile. Please try again.';
-      alert(errorMessage);
+      setFormError(error.message || 'Failed to create coach profile. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -182,6 +188,10 @@ export default function CreateCoachProfile() {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Create Your Coach Profile</h1>
       
+      {formError && (
+        <div className="text-red-600 text-sm text-center mb-4">{formError}</div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Basic Information */}
         <div className="bg-white p-6 rounded-lg shadow-md">

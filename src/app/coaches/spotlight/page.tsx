@@ -18,53 +18,7 @@ interface SpotlightCoach {
 }
 
 export default function CoachSpotlight() {
-  const [spotlightCoaches, setSpotlightCoaches] = useState<SpotlightCoach[]>([
-    {
-      id: '1',
-      name: 'John Smith',
-      title: 'Elite Powerlifting Coach',
-      imageUrl: '/placeholder-coach.jpg',
-      achievements: [
-        'IPF World Champion Coach',
-        '20+ National Champions',
-        'USAPL Coach of the Year'
-      ],
-      rating: 4.9,
-      reviewCount: 156,
-      specialties: ['Powerlifting', 'Strength Training', 'Competition Prep'],
-      featured: true
-    },
-    {
-      id: '2',
-      name: 'Sarah Johnson',
-      title: 'IFBB Pro Coach',
-      imageUrl: '/placeholder-coach.jpg',
-      achievements: [
-        'IFBB Pro Card Holder',
-        'Coached 30+ Pro Card Winners',
-        'Natural Bodybuilding Champion'
-      ],
-      rating: 4.8,
-      reviewCount: 142,
-      specialties: ['Bodybuilding', 'Contest Prep', 'Nutrition Planning'],
-      featured: true
-    },
-    {
-      id: '3',
-      name: 'Mike Davis',
-      title: 'Performance Specialist',
-      imageUrl: '/placeholder-coach.jpg',
-      achievements: [
-        'Elite Powerlifting Total',
-        'Sports Science PhD',
-        'Strength & Conditioning Specialist'
-      ],
-      rating: 4.9,
-      reviewCount: 178,
-      specialties: ['Powerlifting', 'Athletic Performance', 'Injury Prevention'],
-      featured: true
-    }
-  ]);
+  const [spotlightCoaches, setSpotlightCoaches] = useState<SpotlightCoach[]>([]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">

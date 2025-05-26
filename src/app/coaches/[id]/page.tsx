@@ -20,73 +20,7 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
       try {
         const coachData = await getCoach(params.id);
         if (!coachData) {
-          // Mock data for demonstration
-          const mockCoach: Coach = {
-            userId: 'user123',
-            name: 'Sarah Johnson',
-            email: 'sarah@example.com',
-            phone: '123-456-7890',
-            bio: `As an experienced coach, I've dedicated my career to helping people achieve their fitness goals. My comprehensive approach combines precise nutrition planning and training expertise.`,
-            specialties: ['Figure', 'Bikini', 'Contest Prep', 'Posing', 'Nutrition Planning'],
-            experience: '8+ years',
-            credentials: ['IFBB Pro Figure', 'NPC Judge', 'ISSA'],
-            certifications: ['ISSA', 'NASM'],
-            location: {
-              city: 'Miami',
-              state: 'FL',
-              country: 'USA'
-            },
-            pricing: {
-              rate: 150,
-              currency: 'USD',
-              interval: 'hour'
-            },
-            availability: {
-              timezone: 'America/New_York',
-              schedule: {
-                monday: ['9:00', '10:00', '11:00'],
-                tuesday: ['9:00', '10:00', '11:00'],
-                wednesday: ['9:00', '10:00', '11:00'],
-                thursday: ['9:00', '10:00', '11:00'],
-                friday: ['9:00', '10:00', '11:00'],
-                saturday: [],
-                sunday: []
-              }
-            },
-            analytics: {
-              profileViews: 1200,
-              messagesSent: 45,
-              inquiriesReceived: 30,
-              clientsGained: 15,
-              searchAppearances: 2500,
-              profileClicks: 350,
-              history: []
-            },
-            avatar: '/path/to/avatar.jpg',
-            coverImage: '/path/to/cover.jpg',
-            social: {
-              instagram: 'https://instagram.com/coachname',
-              twitter: 'https://twitter.com/coachname',
-              facebook: 'https://facebook.com/coachname',
-              linkedin: 'https://linkedin.com/in/coachname',
-              youtube: 'https://youtube.com/coachname',
-              website: 'https://coachname.com'
-            },
-            status: 'active',
-            featured: false,
-            verified: false,
-            trainingStyle: ['Strength', 'Hypertrophy'],
-            responseTime: '24h',
-            stripeAccountId: '',
-            stripeSubscriptionId: '',
-            subscription: {
-              plan: 'free',
-              status: 'active',
-              stripeCustomerId: '',
-              stripeSubscriptionId: ''
-            }
-          };
-          setCoach(mockCoach);
+          setCoach(null);
         } else {
           setCoach(coachData);
         }

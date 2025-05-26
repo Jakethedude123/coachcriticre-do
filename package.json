@@ -16,7 +16,7 @@
     "@stripe/stripe-js": "^6.1.0",
     "ai": "^4.3.9",
     "date-fns": "^3.6.0",
-    "firebase": "^10.13.0",
+    "firebase": "^10.14.1",
     "framer-motion": "^11.3.31",
     "glob": "^10.3.10",
     "lru-cache": "^10.2.0",
