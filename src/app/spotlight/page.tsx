@@ -18,40 +18,7 @@ interface SpotlightCoach {
 }
 
 export default function SpotlightPage() {
-  const [spotlightCoaches, setSpotlightCoaches] = useState<SpotlightCoach[]>([
-    {
-      id: 'mock-1',
-      name: 'John "The Mountain" Davis',
-      specialty: 'Powerlifting & Bodybuilding',
-      experience: 10,
-      achievements: [
-        'IFBB Pro',
-        'Team Pro Physique Coach',
-        'ISSA Certified',
-        'Trained 100+ Competition Winners'
-      ],
-      rating: 4.9,
-      testimonial: "His attention to detail with form correction and programming helped me add 150lbs to my total in just 6 months while staying injury-free.",
-      clientCount: 200,
-      imageUrl: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5'
-    },
-    {
-      id: 'mock-2',
-      name: 'Sarah Johnson',
-      specialty: 'Figure & Bikini',
-      experience: 8,
-      achievements: [
-        'IFBB Pro Figure Athlete',
-        'NPC National Level Coach',
-        '20+ Pro Card Winners',
-        'Posing Specialist'
-      ],
-      rating: 4.9,
-      testimonial: "Her knowledge of peak week strategies and posing was invaluable. She helped me win my pro card in Figure!",
-      clientCount: 150,
-      imageUrl: 'https://images.unsplash.com/photo-1609899464726-861593284d78'
-    }
-  ]);
+  const [spotlightCoaches, setSpotlightCoaches] = useState<SpotlightCoach[]>([]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">

@@ -97,7 +97,7 @@ export default function Home() {
       </section>
 
       {/* Featured Coaches Section */}
-      <section className="py-20 bg-white">
+      {/* <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold mb-12 text-center">Featured Coaches</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -168,10 +168,10 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Recent Activity Section */}
-      <section className="py-20 bg-gray-50">
+      {/* <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold mb-12 text-center">Recent Activity</h2>
           <div className="max-w-3xl mx-auto space-y-6">
@@ -209,10 +209,10 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Testimonial Section */}
-      <section className="py-20 bg-gray-50">
+      {/* <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold mb-12 text-center">What Our Clients Say</h2>
           <div className="max-w-3xl mx-auto space-y-6">
@@ -232,7 +232,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }
