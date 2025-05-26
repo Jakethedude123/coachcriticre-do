@@ -131,7 +131,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <div>
               <label className="block text-sm font-medium text-gray-700">Select Your Federation</label>
               <div className="mt-2 space-y-2">
-                {['IFBB', 'NPC', 'IPF', 'USAPL', 'USPA'].map(federation => (
+                {['IFBB', 'NPC', 'IPF', 'USAPL', 'USPA', 'OCB'].map(federation => (
                   <label key={federation} className="inline-flex items-center mr-4">
                     <input
                       type="checkbox"
@@ -144,6 +144,32 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                 ))}
               </div>
               <p className="text-xs text-gray-500 mt-1">Select the federation(s) you plan to compete in</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Select Your Division</label>
+              <div className="mt-2 space-y-2">
+                {[
+                  'Mens Physique',
+                  'Mens Classic Physique',
+                  'Mens Bodybuilding',
+                  "Women's Bodybuilding",
+                  "Women's Physique",
+                  'Figure',
+                  'Wellness',
+                  'Bikini'
+                ].map(division => (
+                  <label key={division} className="inline-flex items-center mr-4">
+                    <input
+                      type="checkbox"
+                      checked={filters.divisions?.includes(division)}
+                      onChange={() => handleArrayFilterChange('divisions', division)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span className="ml-2">{division}</span>
+                  </label>
+                ))}
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Select the division(s) you plan to compete in</p>
             </div>
           </div>
         )}
@@ -263,19 +289,6 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                 </span>
               </label>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Experience Level</label>
-              <select
-                value={filters.experienceLevel}
-                onChange={(e) => handleFilterChange('experienceLevel', e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option value="">Any Level</option>
-                <option value="beginners">Beginners</option>
-                <option value="advanced">Advanced</option>
-                <option value="competitors">Competitors</option>
-              </select>
-            </div>
           </div>
         )}
       </div>
@@ -340,7 +353,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <div>
               <label className="block text-sm font-medium text-gray-700">Required Certifications</label>
               <div className="mt-2 space-y-2">
-                {['ISSA', 'NASM', 'ACE', 'NSCA', 'IFBB Pro'].map(cert => (
+                {['ISSA', 'NASM', 'ACE', 'NSCA', 'IFBB Pro', 'J3U'].map(cert => (
                   <label key={cert} className="inline-flex items-center mr-4">
                     <input
                       type="checkbox"
@@ -356,6 +369,17 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Add a textbox below all sorting criteria */}
+      <div className="mt-6">
+        <input
+          type="text"
+          placeholder="anything else?"
+          value={filters.anythingElse || ''}
+          onChange={e => handleFilterChange('anythingElse', e.target.value)}
+          className="w-full rounded-md border-gray-200 bg-gray-50 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2 text-sm text-gray-700 placeholder-gray-400"
+        />
       </div>
     </div>
   );
