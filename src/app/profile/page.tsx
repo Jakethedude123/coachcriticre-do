@@ -1,0 +1,197 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '@/lib/hooks/useAuth';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { FaUser, FaEdit, FaSave } from 'react-icons/fa';
+
+interface UserProfile {
+  displayName: string;
+  email: string;
+  bio: string;
+  imageUrl: string;
+  location: string;
+  socialLinks: {
+    instagram?: string;
+    twitter?: string;
+    website?: string;
+  };
+}
+
+export default function ProfilePage() {
+  const { user } = useAuth();
+  const router = useRouter();
+  const [isEditing, setIsEditing] = useState(false);
+  const [profile, setProfile] = useState<UserProfile>({
+    displayName: user?.displayName || '',
+    email: user?.email || '',
+    bio: '',
+    imageUrl: '/images/default-avatar.png',
+    location: '',
+    socialLinks: {}
+  });
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/login');
+    }
+    // TODO: Fetch user profile from Firebase
+  }, [user, router]);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // TODO: Implement Firebase Storage upload
+      console.log('Uploading file:', file);
+    }
+  };
+
+  const handleSave = async () => {
+    // TODO: Save profile to Firebase
+    setIsEditing(false);
+  };
+
+  if (!user) return null;
+
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-gray-800">My Profile</h1>
+          <button
+            onClick={() => isEditing ? handleSave() : setIsEditing(true)}
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          >
+            {isEditing ? (
+              <>
+                <FaSave size={16} color="white" />
+                <span>Save Changes</span>
+              </>
+            ) : (
+              <>
+                <FaEdit size={16} color="white" />
+                <span>Edit Profile</span>
+              </>
+            )}
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Profile Image Section */}
+          <div className="text-center">
+            <div className="relative w-48 h-48 mx-auto mb-4">
+              {profile.imageUrl ? (
+                <Image
+                  src={profile.imageUrl}
+                  alt="Profile"
+                  width={192}
+                  height={192}
+                  className="rounded-full object-cover"
+                  priority
+                />
+              ) : (
+                <div className="w-48 h-48 rounded-full bg-gray-200 flex items-center justify-center">
+                  <FaUser size={96} color="#9CA3AF" />
+                </div>
+              )}
+            </div>
+            {isEditing && (
+              <div>
+                <label className="bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-700">
+                  Upload Photo
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  />
+                </label>
+              </div>
+            )}
+          </div>
+
+          {/* Profile Details Section */}
+          <div className="md:col-span-2">
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Display Name</label>
+                <input
+                  type="text"
+                  value={profile.displayName}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                    setProfile({ ...profile, displayName: e.target.value })}
+                  disabled={!isEditing}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Bio</label>
+                <textarea
+                  value={profile.bio}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => 
+                    setProfile({ ...profile, bio: e.target.value })}
+                  disabled={!isEditing}
+                  rows={4}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Location</label>
+                <input
+                  type="text"
+                  value={profile.location}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                    setProfile({ ...profile, location: e.target.value })}
+                  disabled={!isEditing}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Social Links</label>
+                <div className="space-y-2 mt-2">
+                  <input
+                    type="text"
+                    value={profile.socialLinks.instagram || ''}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProfile({
+                      ...profile,
+                      socialLinks: { ...profile.socialLinks, instagram: e.target.value }
+                    })}
+                    disabled={!isEditing}
+                    placeholder="Instagram URL"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  />
+                  <input
+                    type="text"
+                    value={profile.socialLinks.twitter || ''}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProfile({
+                      ...profile,
+                      socialLinks: { ...profile.socialLinks, twitter: e.target.value }
+                    })}
+                    disabled={!isEditing}
+                    placeholder="Twitter URL"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  />
+                  <input
+                    type="text"
+                    value={profile.socialLinks.website || ''}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProfile({
+                      ...profile,
+                      socialLinks: { ...profile.socialLinks, website: e.target.value }
+                    })}
+                    disabled={!isEditing}
+                    placeholder="Website URL"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+} 

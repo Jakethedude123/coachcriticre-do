@@ -1,0 +1,339 @@
+"use client";
+
+import { useState } from 'react';
+import { FaChevronDown, FaChevronUp, FaDumbbell, FaTrophy, FaCog, FaUsers, FaMedal } from 'react-icons/fa';
+import { SearchFilters } from '@/lib/firebase/coachUtils';
+
+interface FilterProps {
+  onFiltersChange: (filters: Partial<SearchFilters>) => void;
+}
+
+export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
+  const [expandedSections, setExpandedSections] = useState({
+    pricing: true,
+    competition: true,
+    technical: false,
+    clientTypes: false,
+    contestPrep: false,
+    certifications: false
+  });
+
+  const [filters, setFilters] = useState<SearchFilters>({
+    specialties: [],
+    location: '',
+    trainingStyle: [],
+    coachingModality: [],
+    federations: [],
+    maxMonthlyPrice: 0,
+    maxYearlyPrice: 0,
+    hasCompetitionExperience: false,
+    requiresFormCorrection: false,
+    requiresPosingCoaching: false,
+    requiresInjuryPrevention: false,
+    requiresNutrition: false,
+    requiresLifestyleCoaching: false,
+    requiresPowerlifting: false,
+    requiresBodybuilding: false,
+    specialtyLifts: [],
+    naturalOnly: false,
+    enhancedExperience: false,
+    experienceLevel: 'beginners',
+    weightClass: '',
+    requiresContestPrep: false,
+    minimumSuccessfulPreps: 0,
+    requiresOffSeasonExperience: false,
+    certifications: [],
+    sortByScore: true
+  });
+
+  const toggleSection = (section: keyof typeof expandedSections) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
+  const handleFilterChange = (key: keyof SearchFilters, value: any) => {
+    const newFilters = { ...filters, [key]: value };
+    setFilters(newFilters);
+    onFiltersChange(newFilters);
+  };
+
+  const handleArrayFilterChange = (key: keyof SearchFilters, value: string) => {
+    const currentArray = filters[key] as string[];
+    const newArray = currentArray.includes(value)
+      ? currentArray.filter(item => item !== value)
+      : [...currentArray, value];
+    handleFilterChange(key, newArray);
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm p-4 space-y-4">
+      {/* Pricing Section */}
+      <div className="border-b pb-4">
+        <button
+          onClick={() => toggleSection('pricing')}
+          className="flex items-center justify-between w-full mb-2"
+        >
+          <span className="text-lg font-semibold flex items-center gap-2">
+            <FaDumbbell className="text-blue-500" />
+            Pricing
+          </span>
+          {expandedSections.pricing ? <FaChevronUp /> : <FaChevronDown />}
+        </button>
+        
+        {expandedSections.pricing && (
+          <div className="space-y-4 mt-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Maximum Monthly Price ($)</label>
+              <input
+                type="number"
+                min="0"
+                value={filters.maxMonthlyPrice}
+                onChange={(e) => handleFilterChange('maxMonthlyPrice', Number(e.target.value))}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                placeholder="Enter maximum monthly price"
+              />
+              <p className="text-xs text-gray-500 mt-1">Maximum amount you&apos;re willing to pay per month</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Maximum Yearly Price ($)</label>
+              <input
+                type="number"
+                min="0"
+                value={filters.maxYearlyPrice}
+                onChange={(e) => handleFilterChange('maxYearlyPrice', Number(e.target.value))}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                placeholder="Enter maximum yearly price"
+              />
+              <p className="text-xs text-gray-500 mt-1">Maximum amount you&apos;re willing to pay per year</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Competition Experience Section */}
+      <div className="border-b pb-4">
+        <button
+          onClick={() => toggleSection('competition')}
+          className="flex items-center justify-between w-full mb-2"
+        >
+          <span className="text-lg font-semibold flex items-center gap-2">
+            <FaTrophy className="text-yellow-500" />
+            Looking to Compete In
+          </span>
+          {expandedSections.competition ? <FaChevronUp /> : <FaChevronDown />}
+        </button>
+        
+        {expandedSections.competition && (
+          <div className="space-y-4 mt-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Select Your Federation</label>
+              <div className="mt-2 space-y-2">
+                {['IFBB', 'NPC', 'IPF', 'USAPL', 'USPA'].map(federation => (
+                  <label key={federation} className="inline-flex items-center mr-4">
+                    <input
+                      type="checkbox"
+                      checked={filters.federations?.includes(federation)}
+                      onChange={() => handleArrayFilterChange('federations', federation)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span className="ml-2">{federation}</span>
+                  </label>
+                ))}
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Select the federation(s) you plan to compete in</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Technical Expertise Section */}
+      <div className="border-b pb-4">
+        <button
+          onClick={() => toggleSection('technical')}
+          className="flex items-center justify-between w-full mb-2"
+        >
+          <span className="text-lg font-semibold flex items-center gap-2">
+            <FaCog className="text-gray-500" />
+            Technical Expertise
+          </span>
+          {expandedSections.technical ? <FaChevronUp /> : <FaChevronDown />}
+        </button>
+        
+        {expandedSections.technical && (
+          <div className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.requiresFormCorrection}
+                  onChange={(e) => handleFilterChange('requiresFormCorrection', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">Form Correction</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.requiresPosingCoaching}
+                  onChange={(e) => handleFilterChange('requiresPosingCoaching', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">Posing Coaching</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.requiresInjuryPrevention}
+                  onChange={(e) => handleFilterChange('requiresInjuryPrevention', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">Injury Prevention</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.requiresNutrition}
+                  onChange={(e) => handleFilterChange('requiresNutrition', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">Nutrition</span>
+              </label>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Client Types Section */}
+      <div className="border-b pb-4">
+        <button
+          onClick={() => toggleSection('clientTypes')}
+          className="flex items-center justify-between w-full mb-2"
+        >
+          <span className="text-lg font-semibold flex items-center gap-2">
+            <FaUsers className="text-purple-500" />
+            Client Types
+          </span>
+          {expandedSections.clientTypes ? <FaChevronUp /> : <FaChevronDown />}
+        </button>
+        
+        {expandedSections.clientTypes && (
+          <div className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.naturalOnly}
+                  onChange={(e) => handleFilterChange('naturalOnly', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">Natural Athletes Only</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.enhancedExperience}
+                  onChange={(e) => handleFilterChange('enhancedExperience', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">Enhanced Athletes</span>
+              </label>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Experience Level</label>
+              <select
+                value={filters.experienceLevel}
+                onChange={(e) => handleFilterChange('experienceLevel', e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              >
+                <option value="">Any Level</option>
+                <option value="beginners">Beginners</option>
+                <option value="advanced">Advanced</option>
+                <option value="competitors">Competitors</option>
+              </select>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Contest Prep Section */}
+      <div className="border-b pb-4">
+        <button
+          onClick={() => toggleSection('contestPrep')}
+          className="flex items-center justify-between w-full mb-2"
+        >
+          <span className="text-lg font-semibold flex items-center gap-2">
+            <FaMedal className="text-yellow-600" />
+            Contest Prep
+          </span>
+          {expandedSections.contestPrep ? <FaChevronUp /> : <FaChevronDown />}
+        </button>
+        
+        {expandedSections.contestPrep && (
+          <div className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.requiresContestPrep}
+                  onChange={(e) => handleFilterChange('requiresContestPrep', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">Contest Prep Experience Required</span>
+              </label>
+            </div>
+            {filters.requiresContestPrep && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Minimum Successful Preps</label>
+                <input
+                  type="number"
+                  value={filters.minimumSuccessfulPreps}
+                  onChange={(e) => handleFilterChange('minimumSuccessfulPreps', e.target.value)}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="Enter minimum number"
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Certifications Section */}
+      <div className="border-b pb-4">
+        <button
+          onClick={() => toggleSection('certifications')}
+          className="flex items-center justify-between w-full mb-2"
+        >
+          <span className="text-lg font-semibold flex items-center gap-2">
+            <FaMedal className="text-yellow-500" />
+            Certifications
+          </span>
+          {expandedSections.certifications ? <FaChevronUp /> : <FaChevronDown />}
+        </button>
+        
+        {expandedSections.certifications && (
+          <div className="space-y-4 mt-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Required Certifications</label>
+              <div className="mt-2 space-y-2">
+                {['ISSA', 'NASM', 'ACE', 'NSCA', 'IFBB Pro'].map(cert => (
+                  <label key={cert} className="inline-flex items-center mr-4">
+                    <input
+                      type="checkbox"
+                      checked={filters.certifications?.includes(cert)}
+                      onChange={() => handleArrayFilterChange('certifications', cert)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span className="ml-2">{cert}</span>
+                  </label>
+                ))}
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Select required certifications</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+} 
