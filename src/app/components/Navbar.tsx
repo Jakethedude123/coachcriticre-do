@@ -14,7 +14,7 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <Image src="/logo.png" alt="Logo" width={48} height={48} />
+              <Image src="/images/logo_transparent.png" alt="Logo" width={48} height={48} />
               <span className="ml-2 text-xl font-bold text-gray-900">CoachCritic</span>
             </Link>
             <div className="hidden md:flex md:ml-10 space-x-8">
