@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, ReactNode } from 'react';
+import { useState, useRef, ReactNode, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface TooltipProps {
@@ -11,27 +11,35 @@ interface TooltipProps {
 
 export function Tooltip({ content, children, position = 'top' }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const tooltipRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    setMousePosition({
+      x: e.clientX,
+      y: e.clientY
+    });
+  };
 
   const positionStyles = {
     top: {
-      top: '-10px',
-      left: '50%',
+      top: mousePosition.y - 10,
+      left: mousePosition.x,
       transform: 'translate(-50%, -100%)'
     },
     right: {
-      top: '50%',
-      left: 'calc(100% + 10px)',
+      top: mousePosition.y,
+      left: mousePosition.x + 10,
       transform: 'translateY(-50%)'
     },
     bottom: {
-      bottom: '-10px',
-      left: '50%',
-      transform: 'translate(-50%, 100%)'
+      top: mousePosition.y + 10,
+      left: mousePosition.x,
+      transform: 'translate(-50%, 0)'
     },
     left: {
-      top: '50%',
-      right: 'calc(100% + 10px)',
+      top: mousePosition.y,
+      right: window.innerWidth - mousePosition.x + 10,
       transform: 'translateY(-50%)'
     }
   };
@@ -68,6 +76,7 @@ export function Tooltip({ content, children, position = 'top' }: TooltipProps) {
       className="relative inline-block"
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
+      onMouseMove={handleMouseMove}
     >
       {children}
       <AnimatePresence>
