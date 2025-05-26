@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaDumbbell, FaTrophy, FaCog, FaUsers, FaMedal } from 'react-icons/fa';
 import { SearchFilters } from '@/lib/firebase/coachUtils';
+import { Tooltip } from '@/components/ui/Tooltip';
 
 interface FilterProps {
   onFiltersChange: (filters: Partial<SearchFilters>) => void;
@@ -238,6 +239,19 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
                 <span className="ml-2">Enhanced Athletes</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.requiresLifestyleCoaching}
+                  onChange={(e) => handleFilterChange('requiresLifestyleCoaching', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2 flex items-center">Lifestyle
+                  <Tooltip content={<span>Lifestyle coaching is focused on helping clients stay healthy, fit, and in good shape year-round, without the demands of contest preparation.</span>}>
+                    <span className="ml-1 text-blue-500 cursor-help">&#9432;</span>
+                  </Tooltip>
+                </span>
               </label>
             </div>
             <div>
