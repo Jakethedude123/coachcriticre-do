@@ -39,7 +39,7 @@ export function Tooltip({ content, children, position = 'top' }: TooltipProps) {
     },
     left: {
       top: mousePosition.y,
-      right: window.innerWidth - mousePosition.x + 10,
+      right: typeof window !== 'undefined' ? window.innerWidth - mousePosition.x + 10 : 0,
       transform: 'translateY(-50%)'
     }
   };
