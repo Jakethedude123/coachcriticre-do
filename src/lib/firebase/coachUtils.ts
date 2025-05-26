@@ -62,6 +62,7 @@ export interface SearchFilters {
   
   // Competition experience filters
   federations?: string[];
+  divisions?: string[];
   hasCompetitionExperience?: boolean;
 
   // Technical expertise filters
