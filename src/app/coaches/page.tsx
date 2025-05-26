@@ -138,42 +138,44 @@ export default function CoachesPage() {
                     />
                     <span className="text-gray-700 font-medium">Sort by Score</span>
                   </label>
-                  <Tooltip
-                    content={
-                      <div className="w-[600px] grid grid-cols-5 gap-4">
-                        <div className="col-span-5 mb-1">
-                          <p className="font-medium text-center">Coach Score Components</p>
+                  <span>
+                    <Tooltip
+                      content={
+                        <div className="w-[600px] grid grid-cols-5 gap-4">
+                          <div className="col-span-5 mb-1">
+                            <p className="font-medium text-center">Coach Score Components</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="font-medium text-blue-300">Satisfaction</p>
+                            <p className="text-sm">20%</p>
+                            <p className="text-xs mt-1">Recent client reviews and feedback</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="font-medium text-blue-300">Consistency</p>
+                            <p className="text-sm">25%</p>
+                            <p className="text-xs mt-1">Success rate with clients</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="font-medium text-blue-300">Experience</p>
+                            <p className="text-sm">15%</p>
+                            <p className="text-xs mt-1">Years coaching and achievements</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="font-medium text-blue-300">Success Ratio</p>
+                            <p className="text-sm">25%</p>
+                            <p className="text-xs mt-1">Client transformations and preps</p>
+                          </div>
+                          <div className="text-center">
+                            <p className="font-medium text-blue-300">Retention</p>
+                            <p className="text-sm">15%</p>
+                            <p className="text-xs mt-1">Long-term client relationships</p>
+                          </div>
                         </div>
-                        <div className="text-center">
-                          <p className="font-medium text-blue-300">Satisfaction</p>
-                          <p className="text-sm">20%</p>
-                          <p className="text-xs mt-1">Recent client reviews and feedback</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="font-medium text-blue-300">Consistency</p>
-                          <p className="text-sm">25%</p>
-                          <p className="text-xs mt-1">Success rate with clients</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="font-medium text-blue-300">Experience</p>
-                          <p className="text-sm">15%</p>
-                          <p className="text-xs mt-1">Years coaching and achievements</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="font-medium text-blue-300">Success Ratio</p>
-                          <p className="text-sm">25%</p>
-                          <p className="text-xs mt-1">Client transformations and preps</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="font-medium text-blue-300">Retention</p>
-                          <p className="text-sm">15%</p>
-                          <p className="text-xs mt-1">Long-term client relationships</p>
-                        </div>
-                      </div>
-                    }
-                  >
-                    <FaInfoCircle className="text-blue-500 hover:text-blue-600 cursor-help w-5 h-5" />
-                  </Tooltip>
+                      }
+                    >
+                      <FaInfoCircle className="text-blue-500 hover:text-blue-600 cursor-help w-5 h-5" />
+                    </Tooltip>
+                  </span>
                 </div>
               </div>
               <AuthRequiredSearch>
