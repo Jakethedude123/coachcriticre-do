@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { FaImage } from 'react-icons/fa';
 import Image from 'next/image';
 import { createCoachProfile } from '@/lib/firebase/coachUtils';
-import { Tooltip } from '@/components/Tooltip';
+import { Tooltip } from '@/components/ui/Tooltip';
 
 interface CoachFormData {
   name: string;
