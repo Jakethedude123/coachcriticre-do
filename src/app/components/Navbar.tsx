@@ -4,9 +4,32 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { FaUser } from 'react-icons/fa';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Navbar() {
   const { user, loading, signOut } = useAuth();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <nav className="bg-white shadow-md">
@@ -52,24 +75,34 @@ export default function Navbar() {
               <div className="h-10 w-10 animate-pulse bg-gray-200 rounded-full"></div>
             ) : user ? (
               <div className="relative group">
-                <button className="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
+                <button
+                  type="button"
+                  ref={buttonRef}
+                  className="flex items-center space-x-2 text-gray-700 hover:text-blue-600"
+                  onClick={handleDropdownToggle}
+                >
                   <FaUser />
                   <span>Profile</span>
                 </button>
-                <div className="absolute right-0 w-48 mt-2 py-2 bg-white rounded-lg shadow-xl hidden group-hover:block z-50">
-                  <Link
-                    href="/profile"
-                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                {isDropdownOpen && (
+                  <div
+                    ref={dropdownRef}
+                    className="absolute right-0 w-48 mt-2 py-2 bg-white rounded-lg shadow-xl z-50"
                   >
-                    View Profile
-                  </Link>
-                  <button
-                    onClick={() => signOut()}
-                    className="w-full text-left px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600"
-                  >
-                    Sign Out
-                  </button>
-                </div>
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      View Profile
+                    </Link>
+                    <button
+                      onClick={() => signOut()}
+                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <Link
