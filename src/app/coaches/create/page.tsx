@@ -12,7 +12,7 @@ interface CoachFormData {
   name: string;
   trainingStyle: ('bodybuilding' | 'powerlifting')[];
   responseTime: '1-12hrs' | '12-24hrs' | '24-36hrs' | '36-48hrs' | '48+hrs';
-  credentials: ('CSCS' | 'NASM' | 'ISSA' | 'NCSF' | 'ACE' | 'MS' | 'BS' | 'IFBB Pro')[];
+  credentials: ('CSCS' | 'NASM' | 'ISSA' | 'NCSF' | 'ACE' | 'MS' | 'BS' | 'IFBB Pro' | 'J3U')[];
   yearsExperience: '1-3' | '3-5' | '5-7' | '7-10' | '10+';
   specialties: ('rehab' | 'injury prevention' | 'injury recovery' | 'nutrition' | 'posing' | 'contest prep' | 'lifestyle' | 'raw' | 'equipped')[];
   coachingModality: 'online' | 'in-person' | 'both';
@@ -291,7 +291,7 @@ export default function CreateCoachProfile() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Credentials</label>
               <div className="flex flex-wrap gap-2">
-                {['CSCS', 'NASM', 'ISSA', 'NCSF', 'ACE', 'MS', 'BS', 'IFBB Pro'].map((credential) => (
+                {['CSCS', 'NASM', 'ISSA', 'NCSF', 'ACE', 'MS', 'BS', 'IFBB Pro', 'J3U'].map((credential) => (
                   <label key={credential} className="inline-flex items-center">
                     <input
                       type="checkbox"
