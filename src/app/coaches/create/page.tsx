@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { FaImage } from 'react-icons/fa';
 import Image from 'next/image';
 import { createCoachProfile } from '@/lib/firebase/coachUtils';
+import { Tooltip } from '@/components/Tooltip';
 
 interface CoachFormData {
   name: string;
@@ -13,7 +14,7 @@ interface CoachFormData {
   responseTime: '1-12hrs' | '12-24hrs' | '24-36hrs' | '36-48hrs' | '48+hrs';
   credentials: ('CSCS' | 'NASM' | 'ISSA' | 'NCSF' | 'ACE' | 'MS' | 'BS' | 'IFBB Pro')[];
   yearsExperience: '1-3' | '3-5' | '5-7' | '7-10' | '10+';
-  specialties: ('rehab' | 'injury prevention' | 'nutrition' | 'posing' | 'contest prep' | 'lifestyle' | 'raw' | 'equipped')[];
+  specialties: ('rehab' | 'injury prevention' | 'injury recovery' | 'nutrition' | 'posing' | 'contest prep' | 'lifestyle' | 'raw' | 'equipped')[];
   coachingModality: 'online' | 'in-person' | 'both';
   location: {
     address: string;
@@ -38,6 +39,8 @@ interface CoachFormData {
     | 'non-enhanced'
     | 'masters'
     | 'female specific'
+    | 'Contest Prep'
+    | 'Lifestyle'
   )[];
   federations: ('OCB' | 'NPC' | 'IFBB' | 'IPF' | 'USAPL' | 'WRPF' | 'RPS' | 'APF')[];
   bio: string;
@@ -331,6 +334,7 @@ export default function CreateCoachProfile() {
                 {[
                   'rehab',
                   'injury prevention',
+                  'injury recovery',
                   'nutrition',
                   'posing',
                   'contest prep',
@@ -463,7 +467,9 @@ export default function CreateCoachProfile() {
                   'enhanced',
                   'non-enhanced',
                   'masters',
-                  'female specific'
+                  'female specific',
+                  'Contest Prep',
+                  'Lifestyle'
                 ].map((type) => (
                   <label key={type} className="inline-flex items-center">
                     <input
@@ -477,7 +483,20 @@ export default function CreateCoachProfile() {
                       }}
                       className="form-checkbox h-4 w-4 text-blue-600"
                     />
-                    <span className="ml-2 capitalize">{type}</span>
+                    <span className="ml-2 capitalize flex items-center">
+                      {type}
+                      {type === 'Lifestyle' && (
+                        <Tooltip
+                          content={
+                            <span>
+                              Lifestyle coaching is focused on helping clients stay healthy, fit, and in good shape year-round, without the demands of contest preparation.
+                            </span>
+                          }
+                        >
+                          <span className="ml-1 text-blue-500 cursor-help">&#9432;</span>
+                        </Tooltip>
+                      )}
+                    </span>
                   </label>
                 ))}
               </div>
