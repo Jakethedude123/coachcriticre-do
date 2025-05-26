@@ -25,8 +25,8 @@ export default function SignUpPage() {
     try {
       await signUp(email, password);
       router.push('/coaches');
-    } catch (err) {
-      setError('Failed to create account. Please try again.');
+    } catch (err: any) {
+      setError(err?.message || 'Failed to create account. Please try again.');
     }
   };
 
