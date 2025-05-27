@@ -21,15 +21,15 @@ function LoginPage() {
   const [isResetting, setIsResetting] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { signIn, resetPassword } = useAuth();
+  const { signIn, resetPassword, user } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     try {
       await signIn(email, password);
-      if (searchParams.get('as') === 'coach') {
-        router.push('/coaches/create');
+      if (searchParams.get('as') === 'coach' && user) {
+        router.push(`/coaches/profile/${user.uid}`);
       } else {
         router.push('/profile');
       }
