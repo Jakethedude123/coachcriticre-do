@@ -17,11 +17,14 @@ export default function CoachProfilePage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!user) return;
+    console.log('[CoachProfile] Auth ready at', new Date().toISOString());
     async function loadCoachProfile() {
-      if (!user) return;
+      console.log('[CoachProfile] Fetch start at', new Date().toISOString());
       try {
         const coachData = await getCoachProfile(user.uid);
         setCoach(coachData);
+        console.log('[CoachProfile] Fetch end at', new Date().toISOString());
       } catch (error) {
         console.error('Error loading coach profile:', error);
         setError('Failed to load coach profile');
@@ -29,14 +32,26 @@ export default function CoachProfilePage() {
         setLoading(false);
       }
     }
-
     loadCoachProfile();
   }, [user]);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        {/* Skeleton Loader */}
+        <div className="w-full max-w-4xl p-8 bg-white rounded-lg shadow-lg animate-pulse">
+          <div className="flex items-center mb-6">
+            <div className="w-32 h-32 bg-gray-200 rounded-lg mr-6" />
+            <div className="flex-1 space-y-4">
+              <div className="h-8 bg-gray-200 rounded w-1/3" />
+              <div className="h-4 bg-gray-200 rounded w-1/4" />
+              <div className="h-4 bg-gray-200 rounded w-1/2" />
+            </div>
+          </div>
+          <div className="h-4 bg-gray-200 rounded w-1/2 mb-4" />
+          <div className="h-4 bg-gray-200 rounded w-1/3 mb-4" />
+          <div className="h-4 bg-gray-200 rounded w-1/4" />
+        </div>
       </div>
     );
   }
