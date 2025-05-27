@@ -22,7 +22,7 @@ export default function CoachProfilePage() {
     async function loadCoachProfile() {
       console.log('[CoachProfile] Fetch start at', new Date().toISOString());
       try {
-        const coachData = await getCoachProfile(user.uid);
+        const coachData = await getCoachProfile(user!.uid);
         setCoach(coachData);
         console.log('[CoachProfile] Fetch end at', new Date().toISOString());
       } catch (error) {
