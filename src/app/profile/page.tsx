@@ -5,6 +5,8 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { FaUser, FaEdit, FaSave } from 'react-icons/fa';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase/firebase';
 
 interface UserProfile {
   displayName: string;
@@ -36,7 +38,7 @@ function ProfilePage() {
     displayName: user?.displayName || '',
     email: user?.email || '',
     bio: '',
-    imageUrl: '/images/default-avatar.png',
+    imageUrl: '/logo_transparent.png',
     location: '',
     socialLinks: {}
   });
@@ -51,7 +53,16 @@ function ProfilePage() {
       const timer = setTimeout(() => setShowWelcome(false), 10000);
       return () => clearTimeout(timer);
     }
-    // TODO: Fetch user profile from Firebase
+    // Fetch user profile from Firestore
+    const fetchProfile = async () => {
+      if (user) {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        if (userDoc.exists()) {
+          setProfile(userDoc.data() as UserProfile);
+        }
+      }
+    };
+    fetchProfile();
   }, [user, router, searchParams]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,8 +74,10 @@ function ProfilePage() {
   };
 
   const handleSave = async () => {
-    // TODO: Save profile to Firebase
-    setIsEditing(false);
+    if (user) {
+      await setDoc(doc(db, 'users', user.uid), profile);
+      setIsEditing(false);
+    }
   };
 
   if (!user) return null;
