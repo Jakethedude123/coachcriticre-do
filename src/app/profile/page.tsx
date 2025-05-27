@@ -206,7 +206,7 @@ function ProfilePage() {
                       socialLinks: { ...profile.socialLinks, twitter: e.target.value }
                     })}
                     disabled={!isEditing}
-                    placeholder="Twitter URL"
+                    placeholder="Extra URL"
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   />
                   <input
@@ -217,7 +217,7 @@ function ProfilePage() {
                       socialLinks: { ...profile.socialLinks, website: e.target.value }
                     })}
                     disabled={!isEditing}
-                    placeholder="Website URL"
+                    placeholder="Extra 2 URL"
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
