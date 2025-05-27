@@ -121,7 +121,7 @@ function ProfilePage() {
                   alt="Profile"
                   width={192}
                   height={192}
-                  className="rounded-full object-cover"
+                  className="object-contain"
                   priority
                 />
               ) : (
