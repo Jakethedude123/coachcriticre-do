@@ -18,8 +18,7 @@ export default function Navbar() {
 
   // Handle clicks outside of dropdown
   useEffect(() => {
-    function handleClick
-    utside(event: MouseEvent) {
+    function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
       }
