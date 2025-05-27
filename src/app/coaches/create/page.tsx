@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useRouter } from 'next/navigation';
-import { FaImage } from 'react-icons/fa';
+import { FaImage, FaUser } from 'react-icons/fa';
 import Image from 'next/image';
 import { createCoachProfile } from '@/lib/firebase/coachUtils';
 import { Tooltip } from '@/components/ui/Tooltip';
@@ -70,6 +70,8 @@ export default function CreateCoachProfile() {
     federations: [],
     bio: ''
   });
+  const [profileCreated, setProfileCreated] = useState(false);
+  const [createdProfile, setCreatedProfile] = useState<CoachFormData | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,63 +113,28 @@ export default function CreateCoachProfile() {
 
       setStatus('Creating coach profile...');
       
-      try {
-        // Create coach profile in Firebase
-        await createCoachProfile(
-          user.uid,
-          {
-            name: formData.name,
-            trainingStyle: formData.trainingStyle,
-            responseTime: formData.responseTime,
-            credentials: formData.credentials,
-            yearsExperience: formData.yearsExperience,
-            specialties: formData.specialties,
-            coachingModality: formData.coachingModality,
-            location: formData.location,
-            divisions: formData.divisions,
-            clientTypes: formData.clientTypes,
-            federations: formData.federations,
-            bio: formData.bio
-          },
-          formData.profileImage
-        );
-        
-        setStatus('Profile created successfully! Redirecting...');
-        
-        // Redirect to the coach's profile page
-        router.push(`/coaches/profile/${user.uid}`);
-      } catch (error: any) {
-        console.error('Error in profile creation:', error);
-        
-        // Check for specific error types
-        if (error.code === 'storage/unauthorized' || error.message?.includes('CORS')) {
-          // If there's a CORS or storage error, try creating profile without image
-          setStatus('Retrying profile creation without image...');
-          
-          await createCoachProfile(
-            user.uid,
-            {
-              name: formData.name,
-              trainingStyle: formData.trainingStyle,
-              responseTime: formData.responseTime,
-              credentials: formData.credentials,
-              yearsExperience: formData.yearsExperience,
-              specialties: formData.specialties,
-              coachingModality: formData.coachingModality,
-              location: formData.location,
-              divisions: formData.divisions,
-              clientTypes: formData.clientTypes,
-              federations: formData.federations,
-              bio: formData.bio
-            }
-          );
-          
-          setStatus('Profile created successfully (without image)! Redirecting...');
-          router.push(`/coaches/profile/${user.uid}`);
-        } else {
-          setFormError(error.message || 'Failed to create coach profile. Please try again.');
-        }
-      }
+      await createCoachProfile(
+        user.uid,
+        {
+          name: formData.name,
+          trainingStyle: formData.trainingStyle,
+          responseTime: formData.responseTime,
+          credentials: formData.credentials,
+          yearsExperience: formData.yearsExperience,
+          specialties: formData.specialties,
+          coachingModality: formData.coachingModality,
+          location: formData.location,
+          divisions: formData.divisions,
+          clientTypes: formData.clientTypes,
+          federations: formData.federations,
+          bio: formData.bio
+        },
+        formData.profileImage
+      );
+      
+      setStatus('Profile created successfully!');
+      setProfileCreated(true);
+      setCreatedProfile(formData);
     } catch (error: any) {
       console.error('Final error:', error);
       setFormError(error.message || 'Failed to create coach profile. Please try again.');
@@ -183,6 +150,51 @@ export default function CreateCoachProfile() {
         <p className="text-gray-600">
           You need to be logged in to create and manage your coach profile.
         </p>
+      </div>
+    );
+  }
+
+  if (profileCreated && createdProfile) {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-8">
+        <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+          <h2 className="text-2xl font-bold mb-4 text-green-600">Profile Created!</h2>
+          <div className="flex flex-col items-center mb-4">
+            <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+              {createdProfile.profileImage ? (
+                <Image
+                  src={URL.createObjectURL(createdProfile.profileImage)}
+                  alt="Profile preview"
+                  width={128}
+                  height={128}
+                  className="object-cover rounded-full"
+                />
+              ) : (
+                <FaUser className="w-16 h-16 text-gray-400" />
+              )}
+            </div>
+            <h3 className="text-xl font-semibold">{createdProfile.name}</h3>
+            <p className="text-gray-600 mb-2">{createdProfile.bio}</p>
+            <div className="text-sm text-gray-500 mb-2">{createdProfile.location.address}</div>
+            <div className="flex flex-wrap justify-center gap-2 mb-2">
+              {createdProfile.specialties.map((s) => (
+                <span key={s} className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs">{s}</span>
+              ))}
+            </div>
+            <div className="flex flex-wrap justify-center gap-2 mb-2">
+              {createdProfile.credentials.map((c) => (
+                <span key={c} className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">{c}</span>
+              ))}
+            </div>
+          </div>
+          <div className="text-green-700 font-semibold mb-4">You are now entered into the system!</div>
+          <button
+            className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            onClick={() => router.push('/coaches')}
+          >
+            Go to Coaches
+          </button>
+        </div>
       </div>
     );
   }
@@ -556,6 +568,16 @@ export default function CreateCoachProfile() {
           </div>
         </div>
       </form>
+
+      {loading && (
+        <div className="flex justify-center items-center py-4">
+          <svg className="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+          </svg>
+          <span className="ml-2 text-blue-600">Creating your profile...</span>
+        </div>
+      )}
     </div>
   );
 } 
