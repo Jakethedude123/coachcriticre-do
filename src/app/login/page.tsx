@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/hooks/useAuth';
 import Link from 'next/link';
 
@@ -12,6 +12,7 @@ export default function LoginPage() {
   const [resetSent, setResetSent] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { signIn, resetPassword } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -19,7 +20,11 @@ export default function LoginPage() {
     setError('');
     try {
       await signIn(email, password);
-      router.push('/coaches/create');
+      if (searchParams.get('as') === 'coach') {
+        router.push('/coaches/create');
+      } else {
+        router.push('/profile');
+      }
     } catch (err: any) {
       setError(err?.message || 'Invalid email or password');
     }
