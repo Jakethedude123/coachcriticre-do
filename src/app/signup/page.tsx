@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/hooks/useAuth';
 import Link from 'next/link';
@@ -10,6 +10,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [showWelcome, setShowWelcome] = useState(false);
   const router = useRouter();
   const { signUp } = useAuth();
 
@@ -24,7 +25,11 @@ export default function SignUpPage() {
 
     try {
       await signUp(email, password);
-      router.push('/coaches');
+      setShowWelcome(true);
+      setTimeout(() => {
+        setShowWelcome(false);
+        router.push('/profile');
+      }, 3000);
     } catch (err: any) {
       let message = err?.message || 'Failed to create account. Please try again.';
       if (err?.code === 'auth/email-already-in-use') {
@@ -117,6 +122,12 @@ export default function SignUpPage() {
             </button>
           </div>
         </form>
+        {showWelcome && (
+          <div className="fixed top-8 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-6 py-4 rounded-lg shadow-lg z-50 flex items-center space-x-2 animate-fade-in">
+            <span>👋 Hello! Thank you for signing up. Customizing your profile will simplify your experience and help you get the most out of CoachCritic!</span>
+            <button onClick={() => setShowWelcome(false)} className="ml-4 text-white hover:text-gray-200 font-bold">&times;</button>
+          </div>
+        )}
       </div>
     </div>
   );
