@@ -25,7 +25,7 @@ export default function SignUpPage() {
 
     try {
       await signUp(email, password);
-      router.push('/profile?welcome=1');
+      router.push('/coaches/create');
     } catch (err: any) {
       let message = err?.message || 'Failed to create account. Please try again.';
       if (err?.code === 'auth/email-already-in-use') {
