@@ -38,7 +38,7 @@ function ProfilePage() {
     displayName: user?.displayName || '',
     email: user?.email || '',
     bio: '',
-    imageUrl: '/logo_transparent.png',
+    imageUrl: '/images/logo_transparent.png',
     location: '',
     socialLinks: {}
   });
