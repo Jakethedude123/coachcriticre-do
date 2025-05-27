@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
@@ -19,7 +19,15 @@ interface UserProfile {
   };
 }
 
-export default function ProfilePage() {
+export default function ProfilePageWrapper() {
+  return (
+    <Suspense fallback={null}>
+      <ProfilePage />
+    </Suspense>
+  );
+}
+
+function ProfilePage() {
   const { user } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
