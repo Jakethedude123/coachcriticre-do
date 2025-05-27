@@ -82,7 +82,6 @@ export default function Navbar() {
           {/* Logo and Brand */}
           <Link href="/" className="flex items-center space-x-2">
             <Logo />
-            <span className="text-xl font-bold text-gray-900">CoachCritic</span>
           </Link>
 
           {/* Navigation Links */}
