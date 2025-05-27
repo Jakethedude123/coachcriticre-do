@@ -25,11 +25,7 @@ export default function SignUpPage() {
 
     try {
       await signUp(email, password);
-      setShowWelcome(true);
-      setTimeout(() => {
-        setShowWelcome(false);
-        router.push('/profile');
-      }, 3000);
+      router.push('/profile?welcome=1');
     } catch (err: any) {
       let message = err?.message || 'Failed to create account. Please try again.';
       if (err?.code === 'auth/email-already-in-use') {

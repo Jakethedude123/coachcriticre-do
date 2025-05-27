@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { FaUser, FaEdit, FaSave } from 'react-icons/fa';
 
@@ -22,6 +22,7 @@ interface UserProfile {
 export default function ProfilePage() {
   const { user } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState<UserProfile>({
     displayName: user?.displayName || '',
@@ -31,13 +32,19 @@ export default function ProfilePage() {
     location: '',
     socialLinks: {}
   });
+  const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
     if (!user) {
       router.push('/login');
     }
+    if (searchParams.get('welcome') === '1') {
+      setShowWelcome(true);
+      const timer = setTimeout(() => setShowWelcome(false), 10000);
+      return () => clearTimeout(timer);
+    }
     // TODO: Fetch user profile from Firebase
-  }, [user, router]);
+  }, [user, router, searchParams]);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -56,6 +63,12 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
+      {showWelcome && (
+        <div className="fixed top-8 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-6 py-4 rounded-lg shadow-lg z-50 flex items-center space-x-2 animate-fade-in">
+          <span>👋 Hello! Thank you for signing up. Customizing your profile will simplify your experience and help you get the most out of CoachCritic!</span>
+          <button onClick={() => setShowWelcome(false)} className="ml-4 text-white hover:text-gray-200 font-bold">&times;</button>
+        </div>
+      )}
       <div className="bg-white rounded-lg shadow-lg p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">My Profile</h1>
