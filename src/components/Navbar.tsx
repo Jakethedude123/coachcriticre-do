@@ -194,7 +194,7 @@ export default function Navbar() {
                 // Show login/signup when logged out
                 <div className="flex items-center space-x-4">
                   <Link
-                    href="/coaches/register"
+                    href="/login?as=coach"
                     className="text-blue-600 hover:text-blue-700 transition-colors"
                   >
                     Register as Coach
