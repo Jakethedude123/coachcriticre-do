@@ -92,6 +92,9 @@ export interface SearchFilters {
 
   // Sorting
   sortByScore?: boolean;
+  
+  // Free-form user input
+  anythingElse?: string;
 }
 
 const COACHES_PER_PAGE = 10;
