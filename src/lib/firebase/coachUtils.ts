@@ -69,6 +69,7 @@ export interface SearchFilters {
   requiresFormCorrection?: boolean;
   requiresPosingCoaching?: boolean;
   requiresInjuryPrevention?: boolean;
+  requiresInjuryRecovery?: boolean;
   requiresNutrition?: boolean;
   requiresLifestyleCoaching?: boolean;
   requiresPowerlifting?: boolean;
@@ -258,6 +259,12 @@ export async function searchCoaches(filters: SearchFilters, lastDoc?: any) {
     }
     if (filters.requiresPosingCoaching) {
       constraints.push(where('technicalExpertise.posingCoaching', '==', true));
+    }
+    if (filters.requiresInjuryPrevention) {
+      constraints.push(where('technicalExpertise.injuryPrevention', '==', true));
+    }
+    if (filters.requiresInjuryRecovery) {
+      constraints.push(where('technicalExpertise.injuryRecovery', '==', true));
     }
     if (filters.requiresNutrition) {
       constraints.push(where('technicalExpertise.nutrition', '==', true));
