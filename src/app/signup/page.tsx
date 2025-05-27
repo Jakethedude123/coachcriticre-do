@@ -21,7 +21,7 @@ function SignUpPage() {
   const [showWelcome, setShowWelcome] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { signUp } = useAuth();
+  const { signUp, user } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,8 +34,8 @@ function SignUpPage() {
 
     try {
       await signUp(email, password);
-      if (searchParams.get('as') === 'coach') {
-        router.push('/coaches/create');
+      if (searchParams.get('as') === 'coach' && user) {
+        router.push(`/coaches/profile/${user.uid}`);
       } else {
         router.push('/profile');
       }
