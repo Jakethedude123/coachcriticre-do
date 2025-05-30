@@ -30,7 +30,7 @@ export default function LandingPage() {
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'admin123') {
+    if (password === 'Thatsmyjacket') {
       router.push('/dashboard'); // Redirect to dashboard or protected page
     } else {
       setError('Incorrect password. Please try again.');
