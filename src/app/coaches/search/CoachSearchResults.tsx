@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import CoachCard from '@/app/components/CoachCard';
 
 export default function CoachSearchResults() {
   const searchParams = useSearchParams();
@@ -27,12 +28,10 @@ export default function CoachSearchResults() {
       ) : coaches.length === 0 ? (
         <p>No coaches found.</p>
       ) : (
-        <ul>
+        <ul className="space-y-6">
           {coaches.map((coach: any) => (
-            <li key={coach.id} className="mb-2">
-              <Link href={`/coaches/${coach.id}`} className="text-blue-600 hover:underline">
-                {coach.name}
-              </Link>
+            <li key={coach.id}>
+              <CoachCard coach={coach} />
             </li>
           ))}
         </ul>
