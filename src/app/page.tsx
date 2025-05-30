@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase/firebase';
+import { useRouter } from 'next/navigation';
 
 export default function LandingPage() {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,6 +25,15 @@ export default function LandingPage() {
       setError('Failed to submit. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === 'admin123') {
+      router.push('/dashboard'); // Redirect to dashboard or protected page
+    } else {
+      setError('Incorrect password. Please try again.');
     }
   };
 
@@ -52,6 +64,25 @@ export default function LandingPage() {
             </button>
           </form>
         )}
+        <div className="mt-8 pt-4 border-t border-gray-200">
+          <h2 className="text-xl font-semibold mb-4">Admin Access</h2>
+          <form onSubmit={handlePasswordSubmit} className="space-y-4">
+            <input
+              type="password"
+              className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="submit"
+              className="w-full bg-gray-600 text-white py-2 rounded font-semibold hover:bg-gray-700 transition-colors"
+            >
+              Enter Site
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
