@@ -5,8 +5,11 @@ import Image from 'next/image';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { FaUser } from 'react-icons/fa';
 import { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
+  const pathname = usePathname();
+  if (pathname === '/') return null;
   const { user, loading, signOut } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
