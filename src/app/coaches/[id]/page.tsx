@@ -8,12 +8,15 @@ import { getCoach } from '@/lib/firebase/firebaseUtils';
 import { Coach } from '@/lib/firebase/models/coach';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { Timestamp } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '@/lib/firebase/firebase';
 
 export default function CoachProfilePage({ params }: { params: { id: string } }) {
   const { user } = useAuth();
   const [coach, setCoach] = useState<Coach | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'testimonials'>('overview');
+  const [testimonials, setTestimonials] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchCoach = async () => {
@@ -36,6 +39,12 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
             eventType: 'profileView',
           }),
         });
+
+        // Fetch testimonials
+        const testimonialsRef = collection(db, 'testimonials');
+        const q = query(testimonialsRef, where('coachId', '==', params.id));
+        const snapshot = await getDocs(q);
+        setTestimonials(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       } catch (error) {
         console.error('Error:', error);
       } finally {
@@ -204,9 +213,9 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
             {/* Reviews Section */}
             <div className="mt-16">
               <h2 className="text-2xl font-bold mb-6">Reviews</h2>
-              {coach.testimonials && coach.testimonials.length > 0 ? (
+              {testimonials && testimonials.length > 0 ? (
                 <div className="space-y-6">
-                  {coach.testimonials.map((review, idx) => (
+                  {testimonials.map((review, idx) => (
                     <div key={review.id || idx} className="bg-white rounded-lg shadow p-6">
                       <div className="flex items-center mb-2">
                         <span className="font-semibold text-gray-900 mr-2">{review.authorName}</span>
