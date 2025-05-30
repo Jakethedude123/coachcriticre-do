@@ -58,7 +58,11 @@ function ProfilePage() {
       if (user) {
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {
-          setProfile(userDoc.data() as UserProfile);
+          const data = userDoc.data() as UserProfile;
+          setProfile({
+            ...data,
+            socialLinks: data.socialLinks || {}
+          });
         }
       }
     };
