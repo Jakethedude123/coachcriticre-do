@@ -44,7 +44,7 @@ export default function LandingPage() {
         <h1 className="text-3xl font-bold mb-4 text-gray-900">CoachCritic</h1>
         <p className="mb-6 text-gray-600">Enter your email to be notified once CoachCritic launches.</p>
         {success ? (
-          <div className="text-green-600 font-semibold">Thank you! We'll notify you soon.</div>
+          <div className="text-green-600 font-semibold">Thank you! We&apos;ll notify you soon.</div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
