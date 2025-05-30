@@ -3,6 +3,7 @@ import "./globals.css";
 import { AuthProvider } from "@/lib/contexts/AuthContext";
 import Navbar from "@/app/components/Navbar";
 import { FC } from "react";
+import { usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,12 +17,14 @@ interface RootLayoutProps {
 }
 
 const RootLayout: FC<RootLayoutProps> = ({ children }) => {
+  const pathname = usePathname();
+  const hideNav = pathname === "/";
   return (
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
           <div className="min-h-screen bg-gray-50">
-            <Navbar />
+            {!hideNav && <Navbar />}
             <main className="container mx-auto px-4 py-8">
               {children}
             </main>
