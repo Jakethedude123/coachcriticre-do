@@ -10,7 +10,6 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import { Timestamp } from 'firebase/firestore';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/lib/firebase/firebase';
-import CoachInquiryModal from '@/app/components/CoachInquiryModal';
 import { addDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function CoachProfilePage({ params }: { params: { id: string } }) {
@@ -219,24 +218,6 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
             >
               Inquire About Coaching
             </button>
-            <CoachInquiryModal
-              open={inquiryOpen}
-              onClose={() => setInquiryOpen(false)}
-              coach={{ name: coach.name, userId: coach.userId, email: coach.email }}
-              user={user ? { name: user.displayName || '', email: user.email || '' } : undefined}
-              onSubmit={async ({ name, email, message, allowContact }) => {
-                await addDoc(collection(db, 'coachInquiries'), {
-                  coachId: coach.userId,
-                  coachName: coach.name,
-                  userName: name,
-                  userEmail: email,
-                  message,
-                  allowContact,
-                  createdAt: serverTimestamp(),
-                });
-                setInquiryOpen(false);
-              }}
-            />
 
             {/* Reviews Section */}
             <div className="mt-16">
