@@ -22,7 +22,7 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
         if (!coachData) {
           setCoach(null);
         } else {
-          setCoach(coachData);
+          setCoach({ ...coachData, social: coachData.social || {} });
         }
 
         // Track profile view
@@ -146,7 +146,7 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
             </div>
 
             <div className="mt-8 flex gap-4">
-              {coach.social.instagram && (
+              {coach.social && coach.social.instagram && (
                 <a
                   href={coach.social.instagram}
                   target="_blank"
@@ -157,7 +157,7 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
                   Instagram
                 </a>
               )}
-              {coach.social.website && (
+              {coach.social && coach.social.website && (
                 <a
                   href={coach.social.website}
                   target="_blank"
