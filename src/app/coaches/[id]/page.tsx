@@ -10,6 +10,8 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import { Timestamp } from 'firebase/firestore';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/lib/firebase/firebase';
+import CoachInquiryModal from '@/app/components/CoachInquiryModal';
+import { addDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function CoachProfilePage({ params }: { params: { id: string } }) {
   const { user } = useAuth();
@@ -17,6 +19,7 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'overview' | 'testimonials'>('overview');
   const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [inquiryOpen, setInquiryOpen] = useState(false);
 
   useEffect(() => {
     const fetchCoach = async () => {
@@ -209,6 +212,31 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
                 </div>
               </div>
             </div>
+
+            <button
+              className="mt-8 mb-4 px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              onClick={() => setInquiryOpen(true)}
+            >
+              Inquire About Coaching
+            </button>
+            <CoachInquiryModal
+              open={inquiryOpen}
+              onClose={() => setInquiryOpen(false)}
+              coach={{ name: coach.name, userId: coach.userId, email: coach.email }}
+              user={user ? { name: user.displayName || '', email: user.email || '' } : undefined}
+              onSubmit={async ({ name, email, message, allowContact }) => {
+                await addDoc(collection(db, 'coachInquiries'), {
+                  coachId: coach.userId,
+                  coachName: coach.name,
+                  userName: name,
+                  userEmail: email,
+                  message,
+                  allowContact,
+                  createdAt: serverTimestamp(),
+                });
+                setInquiryOpen(false);
+              }}
+            />
 
             {/* Reviews Section */}
             <div className="mt-16">
