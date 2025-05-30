@@ -200,6 +200,32 @@ export default function CoachProfilePage({ params }: { params: { id: string } })
                 </div>
               </div>
             </div>
+
+            {/* Reviews Section */}
+            <div className="mt-16">
+              <h2 className="text-2xl font-bold mb-6">Reviews</h2>
+              {coach.testimonials && coach.testimonials.length > 0 ? (
+                <div className="space-y-6">
+                  {coach.testimonials.map((review, idx) => (
+                    <div key={review.id || idx} className="bg-white rounded-lg shadow p-6">
+                      <div className="flex items-center mb-2">
+                        <span className="font-semibold text-gray-900 mr-2">{review.authorName}</span>
+                        <span className="text-yellow-500 mr-2">{'★'.repeat(review.rating)}</span>
+                        <span className="text-gray-500 text-sm">{review.date?.toDate ? review.date.toDate().toLocaleDateString() : ''}</span>
+                      </div>
+                      <p className="text-gray-700 mb-2">{review.text}</p>
+                      {review.verificationBadge && (
+                        <span className="inline-block bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
+                          {review.verificationBadge.text}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500">No reviews yet. Be the first to leave one!</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
