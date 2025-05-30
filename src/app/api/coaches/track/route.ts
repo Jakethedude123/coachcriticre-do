@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getCoach } from '@/lib/firebase/firebaseUtils';
 import { NotificationService } from '@/lib/services/NotificationService';
 import { RateLimiter } from '@/lib/services/RateLimiter';
 
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const { coachId, eventType } = await request.json();
+    const { coachId, eventType } = await req.json();
 
     if (!coachId || !eventType) {
       return NextResponse.json(
