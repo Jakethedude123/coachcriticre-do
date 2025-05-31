@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 export default function SiteGate({ children }: { children: React.ReactNode }) {
   const [gateOpen, setGateOpen] = useState(false);
@@ -10,10 +11,8 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const unlocked = localStorage.getItem('cc_gate_open');
-      if (unlocked === 'true') setGateOpen(true);
-    }
+    const unlocked = Cookies.get('cc_gate_open');
+    if (unlocked === 'true') setGateOpen(true);
   }, []);
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -39,9 +38,7 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
     e.preventDefault();
     if (password === "Thatsmyjacket") {
       setGateOpen(true);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('cc_gate_open', 'true');
-      }
+      Cookies.set('cc_gate_open', 'true', { expires: 30 });
     } else {
       setError("Incorrect password. Please try again.");
     }
@@ -76,7 +73,7 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
             </button>
           </form>
         )}
-        <div className="mt-8 pt-4 border-t border-gray-200">
+        <div className="mt-8 pt-8 border-t">
           <h2 className="text-xl font-semibold mb-4">Admin Access</h2>
           <form onSubmit={handlePasswordSubmit} className="space-y-4">
             <input
