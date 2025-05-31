@@ -3,45 +3,39 @@ import type { NextRequest } from 'next/server'
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-  // Get the pathname of the request (e.g. /, /blog, /about)
+  // Get the pathname of the request
   const path = request.nextUrl.pathname
 
-  // Allow /lock as a public path
-  const isPublicPath = path === '/lock' || 
-    path === '/api/auth' || 
-    path.startsWith('/_next') || 
-    path.startsWith('/images') ||
-    path.startsWith('/api/') ||
-    path.includes('.')
+  // Check if the user is trying to access the lock page
+  const isLockPage = path === '/lock'
 
-  // Check if the user is authenticated
-  const isAuthenticated = request.cookies.has('cc_gate_open')
+  // Get the gate cookie
+  const gateCookie = request.cookies.get('cc_gate_open')
 
-  // If the path is public, allow access
-  if (isPublicPath) {
-    return NextResponse.next()
+  // If trying to access lock page and already authenticated, redirect to home
+  if (isLockPage && gateCookie?.value === 'true') {
+    return NextResponse.redirect(new URL('/', request.url))
   }
 
-  // If the user is not authenticated and trying to access a protected route
-  if (!isAuthenticated) {
-    // Redirect to /lock instead of home
+  // If not on lock page and not authenticated, redirect to lock
+  if (!isLockPage && gateCookie?.value !== 'true') {
     return NextResponse.redirect(new URL('/lock', request.url))
   }
 
   return NextResponse.next()
 }
 
-// See "Matching Paths" below to learn more
+// Configure which paths the middleware should run on
 export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
-     * - api/auth (auth API routes)
+     * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - images (public images)
+     * - public folder
      */
-    '/((?!api/auth|_next/static|_next/image|favicon.ico|images).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|public).*)',
   ],
 } 

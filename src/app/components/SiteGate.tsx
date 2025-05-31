@@ -38,7 +38,10 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
     e.preventDefault();
     if (password === "Thatsmyjacket") {
       setGateOpen(true);
-      Cookies.set('cc_gate_open', 'true', { expires: 30 });
+      Cookies.set('cc_gate_open', 'true', { 
+        secure: true,
+        sameSite: 'strict'
+      });
       window.location.href = '/';
     } else {
       setError("Incorrect password. Please try again.");
