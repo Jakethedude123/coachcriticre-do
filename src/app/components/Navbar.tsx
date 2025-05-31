@@ -33,8 +33,6 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  if (pathname === '/') return null;
-
   return (
     <nav className="bg-white shadow-md" style={{ border: '3px solid red' }}>
       <div className="max-w-7xl mx-auto px-4">
