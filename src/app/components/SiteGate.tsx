@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function SiteGate({ children }: { children: React.ReactNode }) {
   const [gateOpen, setGateOpen] = useState(false);
@@ -8,6 +8,13 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const unlocked = localStorage.getItem('cc_gate_open');
+      if (unlocked === 'true') setGateOpen(true);
+    }
+  }, []);
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,12 +39,20 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
     e.preventDefault();
     if (password === "Thatsmyjacket") {
       setGateOpen(true);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('cc_gate_open', 'true');
+      }
     } else {
       setError("Incorrect password. Please try again.");
     }
   };
 
-  if (gateOpen) return <>{children}</>;
+  if (gateOpen) return (
+    <>
+      <div style={{position: 'fixed', top: 0, left: 0, background: 'yellow', zIndex: 9999, width: '100%', textAlign: 'center', fontWeight: 'bold'}}>DEBUG: Gate Open</div>
+      {children}
+    </>
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" style={{backdropFilter: 'blur(2px)'}}>
