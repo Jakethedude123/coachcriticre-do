@@ -6,12 +6,13 @@ export function middleware(request: NextRequest) {
   // Get the pathname of the request (e.g. /, /blog, /about)
   const path = request.nextUrl.pathname
 
-  // Define public paths that don't require authentication
-  const isPublicPath = path === '/api/auth' || 
-                      path.startsWith('/_next') || 
-                      path.startsWith('/images') ||
-                      path.startsWith('/api/') ||
-                      path.includes('.')
+  // Allow /lock as a public path
+  const isPublicPath = path === '/lock' || 
+    path === '/api/auth' || 
+    path.startsWith('/_next') || 
+    path.startsWith('/images') ||
+    path.startsWith('/api/') ||
+    path.includes('.')
 
   // Check if the user is authenticated
   const isAuthenticated = request.cookies.has('cc_gate_open')
@@ -23,11 +24,8 @@ export function middleware(request: NextRequest) {
 
   // If the user is not authenticated and trying to access a protected route
   if (!isAuthenticated) {
-    // Create a response that redirects to the home page
-    const response = NextResponse.redirect(new URL('/', request.url))
-    // Set a cookie to indicate the user needs to authenticate
-    response.cookies.set('cc_gate_required', 'true')
-    return response
+    // Redirect to /lock instead of home
+    return NextResponse.redirect(new URL('/lock', request.url))
   }
 
   return NextResponse.next()
