@@ -1,90 +1,99 @@
 'use client';
 import { useState } from 'react';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { db } from '@/lib/firebase/firebase';
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
+import { FaDumbbell, FaStar, FaUserCircle, FaTrophy, FaUserCheck, FaSearch } from 'react-icons/fa';
+import CoachCard from '@/app/components/CoachCard';
+import { useAuth } from '@/lib/hooks/useAuth';
 
-export default function LandingPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+export default function Home() {
+  const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
+  const { user } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    try {
-      await addDoc(collection(db, 'launchNotifications'), {
-        email,
-        createdAt: serverTimestamp(),
-      });
-      setSuccess(true);
-    } catch (err: any) {
-      setError('Failed to submit. Please try again.');
-    } finally {
-      setLoading(false);
+  const handleSearch = () => {
+    if (!user && searchQuery.trim()) {
+      localStorage.setItem('pendingSearch', searchQuery.trim());
+      router.push('/login?message=' + encodeURIComponent('Please log in or sign up to search for coaches'));
+      return;
     }
-  };
-
-  const handlePasswordSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password === 'Thatsmyjacket') {
-      router.push('/dashboard'); // Redirect to dashboard or protected page
-    } else {
-      setError('Incorrect password. Please try again.');
+    if (searchQuery.trim()) {
+      router.push(`/coaches/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg text-center">
-        <h1 className="text-3xl font-bold mb-4 text-gray-900">CoachCritic</h1>
-        <p className="mb-6 text-gray-600">Enter your email to be notified once CoachCritic launches.</p>
-        {success ? (
-          <div className="text-green-600 font-semibold">Thank you! We&apos;ll notify you soon.</div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              type="email"
-              className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Your email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-            />
-            {error && <div className="text-red-600 text-sm">{error}</div>}
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded font-semibold hover:bg-blue-700 transition-colors disabled:opacity-60"
-              disabled={loading}
-            >
-              {loading ? 'Submitting...' : 'Notify Me'}
-            </button>
-          </form>
-        )}
-        <div className="mt-8 pt-4 border-t border-gray-200">
-          <h2 className="text-xl font-semibold mb-4">Admin Access</h2>
-          <form onSubmit={handlePasswordSubmit} className="space-y-4">
-            <input
-              type="password"
-              className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-            />
-            <button
-              type="submit"
-              className="w-full bg-gray-600 text-white py-2 rounded font-semibold hover:bg-gray-700 transition-colors"
-            >
-              Enter Site
-            </button>
-          </form>
+    <main className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Find Your Perfect Bodybuilding or Powerlifting Coach
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 text-blue-100">
+              Connect with experienced coaches who can help you achieve your strength and physique goals
+            </p>
+            {/* Search Bar */}
+            <div className="relative max-w-2xl mx-auto">
+              <input
+                type="text"
+                placeholder="Search coaches by name, specialty, or location..."
+                className="w-full p-4 pr-12 text-lg rounded-lg border-2 border-blue-400 shadow-lg focus:border-blue-500 focus:ring-blue-500 text-gray-900"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+              />
+              <button
+                onClick={handleSearch}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-600 hover:text-blue-700 text-xl"
+              >
+                <FaSearch />
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Expert Coaches */}
+            <div className="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-shadow">
+              <div className="text-blue-600 mb-4">
+                <FaDumbbell size={40} />
+              </div>
+              <h2 className="text-2xl font-bold mb-4">Expert Coaches</h2>
+              <p className="text-gray-600 text-lg">
+                Find certified coaches with proven track records in bodybuilding and powerlifting
+              </p>
+            </div>
+
+            {/* Competition Prep */}
+            <div className="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-shadow">
+              <div className="text-blue-600 mb-4">
+                <FaTrophy size={40} />
+              </div>
+              <h2 className="text-2xl font-bold mb-4">Competition Prep</h2>
+              <p className="text-gray-600 text-lg">
+                Get specialized guidance for your next bodybuilding show or powerlifting meet
+              </p>
+            </div>
+
+            {/* Verified Reviews */}
+            <div className="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-shadow">
+              <div className="text-blue-600 mb-4">
+                <FaUserCheck size={40} />
+              </div>
+              <h2 className="text-2xl font-bold mb-4">Verified Reviews</h2>
+              <p className="text-gray-600 text-lg">
+                Read authentic reviews from real clients to find your perfect coaching match
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
