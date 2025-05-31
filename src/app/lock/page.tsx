@@ -14,5 +14,5 @@ export default function LockPage() {
     }
   }, [router]);
 
-  return <SiteGate />;
+  return <SiteGate><></SiteGate>;
 } 
