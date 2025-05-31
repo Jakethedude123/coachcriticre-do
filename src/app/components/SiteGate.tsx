@@ -47,12 +47,7 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
     }
   };
 
-  if (gateOpen) return (
-    <>
-      <div style={{position: 'fixed', top: 0, left: 0, background: 'yellow', zIndex: 9999, width: '100%', textAlign: 'center', fontWeight: 'bold'}}>DEBUG: Gate Open</div>
-      {children}
-    </>
-  );
+  if (gateOpen) return <>{children}</>;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" style={{backdropFilter: 'blur(2px)'}}>
