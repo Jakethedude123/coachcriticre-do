@@ -9,16 +9,8 @@ export function middleware(request: NextRequest) {
   // Check if the user is trying to access the lock page
   const isLockPage = path === '/lock'
 
-  // Get the gate cookie
-  const gateCookie = request.cookies.get('cc_gate_open')
-
-  // If trying to access lock page and already authenticated, redirect to home
-  if (isLockPage && gateCookie?.value === 'true') {
-    return NextResponse.redirect(new URL('/', request.url))
-  }
-
-  // If not on lock page and not authenticated, redirect to lock
-  if (!isLockPage && gateCookie?.value !== 'true') {
+  // If not on lock page, redirect to lock
+  if (!isLockPage) {
     return NextResponse.redirect(new URL('/lock', request.url))
   }
 

@@ -1,6 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
+import { useState } from 'react';
 import Image from 'next/image';
 
 export default function SiteGate({ children }: { children: React.ReactNode }) {
@@ -10,11 +9,6 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    const unlocked = Cookies.get('cc_gate_open');
-    if (unlocked === 'true') setGateOpen(true);
-  }, []);
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,10 +33,6 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
     e.preventDefault();
     if (password === "Thatsmyjacket") {
       setGateOpen(true);
-      Cookies.set('cc_gate_open', 'true', { 
-        secure: true,
-        sameSite: 'strict'
-      });
       window.location.href = '/';
     } else {
       setError("Incorrect password. Please try again.");
