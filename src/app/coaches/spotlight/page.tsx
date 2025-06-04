@@ -1,116 +1,62 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { FaStar, FaTrophy, FaMedal, FaUserCircle } from 'react-icons/fa';
-import Link from 'next/link';
+import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { FaStar, FaTrophy, FaUserCheck } from 'react-icons/fa';
 
-interface SpotlightCoach {
-  id: string;
-  name: string;
-  title: string;
-  imageUrl: string;
-  achievements: string[];
-  rating: number;
-  reviewCount: number;
-  specialties: string[];
-  featured: boolean;
-}
-
-export default function CoachSpotlight() {
-  const [spotlightCoaches, setSpotlightCoaches] = useState<SpotlightCoach[]>([]);
-
+export default function CoachSpotlightPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold mb-4">Coach Spotlight</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Meet our most distinguished coaches, recognized for their exceptional achievements and consistent success in transforming athletes.
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Coach Spotlight</h1>
+          <p className="text-xl text-gray-600">
+            Meet our featured coaches who have demonstrated exceptional expertise and client success
           </p>
         </div>
 
         {/* Featured Coaches Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {spotlightCoaches.map((coach) => (
-            <div key={coach.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-              {/* Coach Image */}
-              <div className="relative h-64">
-                <Image
-                  src={coach.imageUrl}
-                  alt={coach.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                {coach.featured && (
-                  <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    Featured
-                  </div>
-                )}
-              </div>
-
-              {/* Coach Info */}
-              <div className="p-6">
-                <h2 className="text-2xl font-bold mb-2">{coach.name}</h2>
-                <p className="text-blue-600 font-semibold mb-4">{coach.title}</p>
-
-                {/* Achievements */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-3 flex items-center">
-                    <FaTrophy className="text-yellow-400 mr-2" />
-                    Achievements
-                  </h3>
-                  <ul className="space-y-2">
-                    {coach.achievements.map((achievement, index) => (
-                      <li key={index} className="flex items-start">
-                        <FaMedal className="text-blue-600 mt-1 mr-2 flex-shrink-0" />
-                        <span className="text-gray-700">{achievement}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Specialties */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-3">Specialties</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {coach.specialties.map((specialty, index) => (
-                      <span
-                        key={index}
-                        className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
-                      >
-                        {specialty}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Rating and Reviews */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center">
-                    <div className="flex text-yellow-400">
-                      <FaStar />
-                      <span className="ml-1 text-gray-900 font-semibold">
-                        {coach.rating.toFixed(1)}
-                      </span>
-                    </div>
-                    <span className="mx-2 text-gray-400">•</span>
-                    <span className="text-gray-600">{coach.reviewCount} reviews</span>
-                  </div>
-                </div>
-
-                {/* View Profile Button */}
-                <Link
-                  href={`/coaches/${coach.id}`}
-                  className="block w-full text-center bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-                >
-                  View Full Profile
-                </Link>
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Example Featured Coach Card */}
+          <div className="bg-white rounded-xl shadow-md overflow-hidden">
+            <div className="relative h-48">
+              <Image
+                src="/images/placeholder-coach.jpg"
+                alt="Featured Coach"
+                fill
+                className="object-cover"
+              />
             </div>
-          ))}
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900">John Smith</h3>
+                <div className="flex items-center text-yellow-400">
+                  <FaStar />
+                  <span className="ml-1 text-gray-600">4.9</span>
+                </div>
+              </div>
+              <p className="text-gray-600 mb-4">
+                Specializing in bodybuilding competition prep with over 10 years of experience
+              </p>
+              <div className="flex items-center space-x-4 text-sm text-gray-500">
+                <div className="flex items-center">
+                  <FaTrophy className="mr-1" />
+                  <span>50+ Competitions</span>
+                </div>
+                <div className="flex items-center">
+                  <FaUserCheck className="mr-1" />
+                  <span>200+ Clients</span>
+                </div>
+              </div>
+              <Link
+                href="/coaches/john-smith"
+                className="mt-4 block text-center bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                View Profile
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>

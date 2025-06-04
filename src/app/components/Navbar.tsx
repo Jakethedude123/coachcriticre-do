@@ -44,7 +44,7 @@ export default function Navbar() {
             </Link>
             <div className="hidden md:flex md:ml-10 space-x-8">
               <Link
-                href="/coaches"
+                href="/coaches/search"
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md"
               >
                 Find Coaches
