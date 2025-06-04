@@ -35,7 +35,6 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
     e.preventDefault();
     if (password === "Thatsmyjacket") {
       setGateOpen(true);
-      router.push('/');
     } else {
       setError("Incorrect password. Please try again.");
     }
