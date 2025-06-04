@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function SiteGate({ children }: { children: React.ReactNode }) {
   const [gateOpen, setGateOpen] = useState(false);
@@ -9,6 +10,7 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +35,7 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
     e.preventDefault();
     if (password === "Thatsmyjacket") {
       setGateOpen(true);
-      window.location.href = '/';
+      router.push('/');
     } else {
       setError("Incorrect password. Please try again.");
     }
