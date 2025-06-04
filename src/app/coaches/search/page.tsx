@@ -56,7 +56,7 @@ export default function CoachSearchPage() {
           {searchParams.get('q') ? (
             <div className="space-y-6">
               <h2 className="text-2xl font-semibold text-gray-900">
-                Search Results for "{searchParams.get('q')}"
+                Search Results for &quot;{searchParams.get('q')}&quot;
               </h2>
               {/* Add search results here */}
             </div>
