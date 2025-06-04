@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -7,7 +8,7 @@ import { FaSearch } from 'react-icons/fa';
 import CoachCard from '@/app/components/CoachCard';
 import { useAuth } from '@/lib/hooks/useAuth';
 
-export default function CoachSearchPage() {
+function CoachSearchPageContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const searchParams = useSearchParams();
   const { user } = useAuth();
@@ -70,5 +71,13 @@ export default function CoachSearchPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense>
+      <CoachSearchPageContent />
+    </Suspense>
   );
 } 
