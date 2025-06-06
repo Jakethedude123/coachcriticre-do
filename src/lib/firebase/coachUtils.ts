@@ -95,6 +95,14 @@ export interface SearchFilters {
   
   // Free-form user input
   anythingElse?: string;
+
+  // New fields for advanced filters
+  experiencedFemalePED?: boolean;
+  edRecovery?: boolean;
+  labworkInterpretation?: boolean;
+  timeZones?: string[];
+  proximityMiles?: number;
+  proximityLocation?: string;
 }
 
 const COACHES_PER_PAGE = 10;
