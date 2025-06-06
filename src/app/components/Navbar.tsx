@@ -5,10 +5,11 @@ import Image from 'next/image';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { FaUser } from 'react-icons/fa';
 import { useState, useRef, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { user, loading, signOut, isCoach, coachId } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -100,9 +101,10 @@ export default function Navbar() {
                       View Profile
                     </Link>
                     <button
-                      onClick={() => {
+                      onClick={async () => {
                         setIsDropdownOpen(false);
-                        signOut();
+                        await signOut();
+                        router.push('/');
                       }}
                       className="w-full text-left px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600"
                     >
