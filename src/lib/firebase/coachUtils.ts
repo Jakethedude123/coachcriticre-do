@@ -243,13 +243,25 @@ export async function searchCoaches(filters: SearchFilters, lastDoc?: any) {
     const coachesRef = collection(db, 'coaches');
     const constraints: QueryConstraint[] = [];
 
+    // Track if we've already added an array-contains or array-contains-any filter
+    let arrayContainsUsed = false;
+    let clientSideArrayFilters: { key: string, values: any }[] = [];
+
+    // Helper to add array filter or defer to client-side
+    function addArrayFilter(key: string, firestoreKey: string, values: any, type: 'array-contains' | 'array-contains-any') {
+      if (!arrayContainsUsed && values && values.length) {
+        arrayContainsUsed = true;
+        constraints.push(where(firestoreKey, type, values.length === 1 && type === 'array-contains-any' ? values[0] : values));
+      } else if (values && values.length) {
+        clientSideArrayFilters.push({ key, values });
+      }
+    }
+
     // Basic filters
     if (filters.location) {
       constraints.push(where('location', '==', filters.location));
     }
-    if (filters.specialties?.length) {
-      constraints.push(where('specialties', 'array-contains-any', filters.specialties));
-    }
+    addArrayFilter('specialties', 'specialties', filters.specialties, 'array-contains-any');
 
     // Price filters
     if (filters.maxMonthlyPrice) {
@@ -260,9 +272,7 @@ export async function searchCoaches(filters: SearchFilters, lastDoc?: any) {
     }
 
     // Competition experience filters
-    if (filters.federations?.length) {
-      constraints.push(where('competitionHistory.federations', 'array-contains-any', filters.federations));
-    }
+    addArrayFilter('federations', 'competitionHistory.federations', filters.federations, 'array-contains-any');
 
     // Technical expertise filters
     if (filters.requiresFormCorrection) {
@@ -289,14 +299,10 @@ export async function searchCoaches(filters: SearchFilters, lastDoc?: any) {
     if (filters.requiresBodybuilding) {
       constraints.push(where('technicalExpertise.bodybuilding', '==', true));
     }
-    if (filters.specialtyLifts?.length) {
-      constraints.push(where('technicalExpertise.specialtyLifts', 'array-contains-any', filters.specialtyLifts));
-    }
+    addArrayFilter('specialtyLifts', 'technicalExpertise.specialtyLifts', filters.specialtyLifts, 'array-contains-any');
 
     // Certification filters
-    if (filters.certifications?.length) {
-      constraints.push(where('certifications', 'array-contains-any', filters.certifications));
-    }
+    addArrayFilter('certifications', 'certifications', filters.certifications, 'array-contains-any');
 
     // Client type filters
     if (filters.naturalOnly) {
@@ -305,9 +311,7 @@ export async function searchCoaches(filters: SearchFilters, lastDoc?: any) {
     if (filters.enhancedExperience) {
       constraints.push(where('clientTypes.enhanced', '==', true));
     }
-    if (filters.weightClass) {
-      constraints.push(where('clientTypes.weightClasses', 'array-contains', filters.weightClass));
-    }
+    addArrayFilter('weightClass', 'clientTypes.weightClasses', filters.weightClass ? [filters.weightClass] : [], 'array-contains');
 
     // Contest prep filters
     if (filters.requiresContestPrep) {
@@ -328,10 +332,25 @@ export async function searchCoaches(filters: SearchFilters, lastDoc?: any) {
     const q = query(coachesRef, ...constraints);
     const querySnapshot = await getDocs(q);
     
-    const coaches: CoachProfile[] = [];
+    let coaches: CoachProfile[] = [];
     querySnapshot.forEach((doc) => {
       coaches.push({ id: doc.id, ...doc.data() } as CoachProfile);
     });
+
+    // Client-side filtering for additional array filters
+    if (clientSideArrayFilters.length > 0) {
+      coaches = coaches.filter(coach => {
+        return clientSideArrayFilters.every(filter => {
+          const coachValue = (coach as any)[filter.key];
+          if (Array.isArray(coachValue)) {
+            return filter.values.some((val: any) => coachValue.includes(val));
+          } else if (typeof coachValue === 'string') {
+            return filter.values.includes(coachValue);
+          }
+          return false;
+        });
+      });
+    }
 
     // Process and score coaches
     const scoredCoaches = await Promise.all(coaches.map(async coach => {
