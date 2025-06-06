@@ -22,7 +22,7 @@ function LoginPage() {
   const [isResetting, setIsResetting] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { signIn, signInWithGoogle, signInWithMicrosoft, user, resetPassword } = useAuth();
+  const { signIn, signInWithGoogle, user, resetPassword } = useAuth();
 
   const handleGoogle = async () => {
     setError('');
@@ -31,16 +31,6 @@ function LoginPage() {
       router.push('/profile');
     } catch (err: any) {
       setError(err?.message || 'Google sign-in failed');
-    }
-  };
-
-  const handleMicrosoft = async () => {
-    setError('');
-    try {
-      await signInWithMicrosoft();
-      router.push('/profile');
-    } catch (err: any) {
-      setError(err?.message || 'Microsoft sign-in failed');
     }
   };
 
@@ -97,13 +87,6 @@ function LoginPage() {
           >
             <img src="/images/google.svg" alt="Google" className="h-5 w-5" />
             Continue with Google
-          </button>
-          <button
-            onClick={handleMicrosoft}
-            className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-700 font-medium hover:bg-gray-100"
-          >
-            <img src="/images/microsoft.svg" alt="Microsoft" className="h-5 w-5" />
-            Continue with Microsoft
           </button>
         </div>
         <div className="flex items-center my-4">
