@@ -31,16 +31,13 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
     trainingStyle: [],
     coachingModality: [],
     federations: [],
-    maxMonthlyPrice: 0,
-    maxYearlyPrice: 0,
-    hasCompetitionExperience: false,
+        hasCompetitionExperience: false,
     requiresFormCorrection: false,
     requiresPosingCoaching: false,
     requiresInjuryPrevention: false,
     requiresInjuryRecovery: false,
     requiresNutrition: false,
     requiresLifestyleCoaching: false,
-    requiresPowerlifting: false,
     requiresBodybuilding: false,
     specialtyLifts: [],
     naturalOnly: false,
@@ -83,49 +80,6 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-4 space-y-4">
-      {/* Pricing Section */}
-      <div className="border-b pb-4">
-        <button
-          onClick={() => toggleSection('pricing')}
-          className="flex items-center justify-between w-full mb-2"
-        >
-          <span className="text-lg font-semibold flex items-center gap-2">
-            <FaDumbbell className="text-blue-500" />
-            Pricing
-          </span>
-          {expandedSections.pricing ? <FaChevronUp /> : <FaChevronDown />}
-        </button>
-        
-        {expandedSections.pricing && (
-          <div className="space-y-4 mt-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Maximum Monthly Price ($)</label>
-              <input
-                type="number"
-                min="0"
-                value={filters.maxMonthlyPrice}
-                onChange={(e) => handleFilterChange('maxMonthlyPrice', Number(e.target.value))}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                placeholder="Enter maximum monthly price"
-              />
-              <p className="text-xs text-gray-500 mt-1">Maximum amount you&apos;re willing to pay per month</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Maximum Yearly Price ($)</label>
-              <input
-                type="number"
-                min="0"
-                value={filters.maxYearlyPrice}
-                onChange={(e) => handleFilterChange('maxYearlyPrice', Number(e.target.value))}
-                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                placeholder="Enter maximum yearly price"
-              />
-              <p className="text-xs text-gray-500 mt-1">Maximum amount you&apos;re willing to pay per year</p>
-            </div>
-          </div>
-        )}
-      </div>
-
       {/* Competition Experience Section */}
       <div className="border-b pb-4">
         <button
