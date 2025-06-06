@@ -10,11 +10,14 @@ import {
   sendPasswordResetEmail,
   User
 } from "firebase/auth";
-import { auth } from "../firebase/firebase";
+import { auth, db } from "../firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 export interface AuthContextType {
   user: User | null;
   loading: boolean;
+  isCoach: boolean;
+  coachId: string | null;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
@@ -25,6 +28,8 @@ export interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
+  isCoach: false,
+  coachId: null,
   signUp: async () => {},
   signIn: async () => {},
   signInWithGoogle: async () => {},
@@ -35,13 +40,30 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isCoach, setIsCoach] = useState(false);
+  const [coachId, setCoachId] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       setUser(user);
       setLoading(false);
+      if (user) {
+        // Fetch Firestore user data
+        const userRef = doc(db, 'users', user.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          const data = userSnap.data();
+          setIsCoach(!!data.isCoach);
+          setCoachId(data.coachId || null);
+        } else {
+          setIsCoach(false);
+          setCoachId(null);
+        }
+      } else {
+        setIsCoach(false);
+        setCoachId(null);
+      }
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -96,6 +118,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{ 
         user, 
         loading, 
+        isCoach,
+        coachId,
         signUp,
         signIn,
         signInWithGoogle, 
