@@ -19,12 +19,6 @@ export interface CoachProfile {
   // Certifications
   certifications?: string[];
   
-  // Pricing
-  pricing?: {
-    monthly?: number;
-    yearly?: number;
-  };
-  
   // Competition Experience
   competitionHistory?: {
     federations: string[];  // IFBB, NABBA, IPF, USAPL, etc.
@@ -37,7 +31,7 @@ export interface CoachProfile {
     formCorrection: boolean;
     posingCoaching: boolean;
     injuryPrevention: boolean;
-    specialtyLifts: string[]; // "Squat", "Bench", "Deadlift"
+    specialtyLifts: string[];
   };
 
   // Programming Preferences
