@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { user, loading, signOut } = useAuth();
+  const { user, loading, signOut, isCoach, coachId } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -92,7 +92,7 @@ export default function Navbar() {
                     className="absolute right-0 w-48 mt-2 py-2 bg-white rounded-lg shadow-xl z-50"
                   >
                     <Link
-                      href="/profile"
+                      href={isCoach && coachId ? `/coaches/profile/${coachId}` : "/profile"}
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
                     >
                       View Profile
