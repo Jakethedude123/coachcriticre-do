@@ -122,9 +122,9 @@ export default function CoachesPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-4 gap-8">
+        <div className="grid grid-cols-5 gap-8">
           {/* Filters Sidebar */}
-          <div className="col-span-1">
+          <div className="col-span-1 max-w-xs">
             <div className="sticky top-4">
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-3">Find Your Coach</h2>
@@ -185,7 +185,7 @@ export default function CoachesPage() {
           </div>
 
           {/* Coaches Grid */}
-          <div className="col-span-3">
+          <div className="col-span-4">
             {loading && coaches.length === 0 ? (
               <div className="space-y-4">
                 {[...Array(6)].map((_, i) => (
