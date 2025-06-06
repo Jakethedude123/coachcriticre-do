@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { FaChevronDown, FaChevronUp, FaDumbbell, FaTrophy, FaCog, FaUsers, FaMedal } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp, FaDumbbell, FaTrophy, FaCog, FaUsers, FaMedal, FaGlobeAmericas, FaMapMarkerAlt } from 'react-icons/fa';
 import { SearchFilters } from '@/lib/firebase/coachUtils';
 import { Tooltip } from '@/components/ui/Tooltip';
 
@@ -9,11 +9,17 @@ interface FilterProps {
   onFiltersChange: (filters: Partial<SearchFilters>) => void;
 }
 
+const TIME_ZONES = [
+  'EST', 'CST', 'MST', 'PST', 'GMT', 'CET', 'EET', 'IST', 'AEST', 'JST'
+];
+
 export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
   const [expandedSections, setExpandedSections] = useState({
     pricing: true,
     competition: true,
-    technical: false,
+    specializations: false,
+    timeZone: false,
+    proximity: false,
     clientTypes: false,
     contestPrep: false,
     certifications: false
@@ -31,6 +37,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
     requiresFormCorrection: false,
     requiresPosingCoaching: false,
     requiresInjuryPrevention: false,
+    requiresInjuryRecovery: false,
     requiresNutrition: false,
     requiresLifestyleCoaching: false,
     requiresPowerlifting: false,
@@ -44,7 +51,13 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
     minimumSuccessfulPreps: 0,
     requiresOffSeasonExperience: false,
     certifications: [],
-    sortByScore: true
+    sortByScore: true,
+    experiencedFemalePED: false,
+    edRecovery: false,
+    labworkInterpretation: false,
+    timeZones: [],
+    proximityMiles: 0,
+    proximityLocation: ''
   });
 
   const toggleSection = (section: keyof typeof expandedSections) => {
@@ -175,20 +188,19 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         )}
       </div>
 
-      {/* Technical Expertise Section */}
+      {/* Specializations Section (renamed from Technical Expertise) */}
       <div className="border-b pb-4">
         <button
-          onClick={() => toggleSection('technical')}
+          onClick={() => toggleSection('specializations')}
           className="flex items-center justify-between w-full mb-2"
         >
           <span className="text-lg font-semibold flex items-center gap-2">
             <FaCog className="text-gray-500" />
-            Technical Expertise
+            Specializations
           </span>
-          {expandedSections.technical ? <FaChevronUp /> : <FaChevronDown />}
+          {expandedSections.specializations ? <FaChevronUp /> : <FaChevronDown />}
         </button>
-        
-        {expandedSections.technical && (
+        {expandedSections.specializations && (
           <div className="space-y-4 mt-4">
             <div className="space-y-2">
               <label className="flex items-center">
@@ -236,6 +248,103 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                 />
                 <span className="ml-2">Nutrition</span>
               </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.experiencedFemalePED}
+                  onChange={(e) => handleFilterChange('experiencedFemalePED', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">Experienced in Female PED Use</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.edRecovery}
+                  onChange={(e) => handleFilterChange('edRecovery', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">ED Recovery</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.labworkInterpretation}
+                  onChange={(e) => handleFilterChange('labworkInterpretation', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">Labwork Interpretation</span>
+              </label>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Time Zone Section */}
+      <div className="border-b pb-4">
+        <button
+          onClick={() => toggleSection('timeZone')}
+          className="flex items-center justify-between w-full mb-2"
+        >
+          <span className="text-lg font-semibold flex items-center gap-2">
+            <FaGlobeAmericas className="text-green-500" />
+            Time Zone
+          </span>
+          {expandedSections.timeZone ? <FaChevronUp /> : <FaChevronDown />}
+        </button>
+        {expandedSections.timeZone && (
+          <div className="space-y-2 mt-4">
+            {TIME_ZONES.map(tz => (
+              <label key={tz} className="inline-flex items-center mr-4">
+                <input
+                  type="checkbox"
+                  checked={filters.timeZones?.includes(tz)}
+                  onChange={() => handleArrayFilterChange('timeZones', tz)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">{tz}</span>
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Location/Proximity Section */}
+      <div className="border-b pb-4">
+        <button
+          onClick={() => toggleSection('proximity')}
+          className="flex items-center justify-between w-full mb-2"
+        >
+          <span className="text-lg font-semibold flex items-center gap-2">
+            <FaMapMarkerAlt className="text-red-500" />
+            Location / Proximity
+          </span>
+          {expandedSections.proximity ? <FaChevronUp /> : <FaChevronDown />}
+        </button>
+        {expandedSections.proximity && (
+          <div className="space-y-4 mt-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+              <input
+                type="text"
+                value={filters.proximityLocation}
+                onChange={e => handleFilterChange('proximityLocation', e.target.value)}
+                className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                placeholder="Enter city, state, or zip code"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Proximity (miles)</label>
+              <input
+                type="range"
+                min="0"
+                max="500"
+                step="5"
+                value={filters.proximityMiles}
+                onChange={e => handleFilterChange('proximityMiles', Number(e.target.value))}
+                className="w-full"
+              />
+              <div className="text-xs text-gray-500 mt-1">Show coaches within {filters.proximityMiles} miles</div>
             </div>
           </div>
         )}
