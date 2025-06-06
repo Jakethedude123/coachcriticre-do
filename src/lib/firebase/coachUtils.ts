@@ -56,10 +56,6 @@ export interface SearchFilters {
   trainingStyle?: string[];
   coachingModality?: string[];
   
-  // Price filters
-  maxMonthlyPrice?: number;
-  maxYearlyPrice?: number;
-  
   // Competition experience filters
   federations?: string[];
   divisions?: string[];
@@ -72,7 +68,6 @@ export interface SearchFilters {
   requiresInjuryRecovery?: boolean;
   requiresNutrition?: boolean;
   requiresLifestyleCoaching?: boolean;
-  requiresPowerlifting?: boolean;
   requiresBodybuilding?: boolean;
   specialtyLifts?: string[];
 
@@ -263,14 +258,6 @@ export async function searchCoaches(filters: SearchFilters, lastDoc?: any) {
     }
     addArrayFilter('specialties', 'specialties', filters.specialties, 'array-contains-any');
 
-    // Price filters
-    if (filters.maxMonthlyPrice) {
-      constraints.push(where('pricing.monthly', '<=', Number(filters.maxMonthlyPrice)));
-    }
-    if (filters.maxYearlyPrice) {
-      constraints.push(where('pricing.yearly', '<=', Number(filters.maxYearlyPrice)));
-    }
-
     // Competition experience filters
     addArrayFilter('federations', 'competitionHistory.federations', filters.federations, 'array-contains-any');
 
@@ -292,9 +279,6 @@ export async function searchCoaches(filters: SearchFilters, lastDoc?: any) {
     }
     if (filters.requiresLifestyleCoaching) {
       constraints.push(where('technicalExpertise.lifestyleCoaching', '==', true));
-    }
-    if (filters.requiresPowerlifting) {
-      constraints.push(where('technicalExpertise.powerlifting', '==', true));
     }
     if (filters.requiresBodybuilding) {
       constraints.push(where('technicalExpertise.bodybuilding', '==', true));

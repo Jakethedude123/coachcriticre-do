@@ -42,9 +42,6 @@ export default function CoachCard({ coach }: CoachCardProps) {
                 </div>
               </div>
               <div className="flex flex-col items-end">
-                <span className="text-blue-600 font-semibold whitespace-nowrap">
-                  {formatPricing(coach)}
-                </span>
                 <span className="text-sm text-gray-500">{coach.experience}</span>
               </div>
             </div>
