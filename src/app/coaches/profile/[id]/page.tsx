@@ -8,7 +8,6 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import { getCoachProfile } from '@/lib/firebase/coachUtils';
 import Image from 'next/image';
 import type { CoachData } from '@/lib/firebase/coachUtils';
-import { CoachProfile } from '@/lib/dynamic-imports';
 import CoachCard from '@/components/CoachCard';
 
 export default function CoachProfilePage() {
