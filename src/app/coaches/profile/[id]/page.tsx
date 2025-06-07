@@ -8,10 +8,12 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import { getCoachProfile } from '@/lib/firebase/coachUtils';
 import Image from 'next/image';
 import type { CoachData } from '@/lib/firebase/coachUtils';
+import { CoachProfile } from '@/lib/dynamic-imports';
+import CoachCard from '@/components/CoachCard';
 
 export default function CoachProfilePage() {
   const { id } = useParams();
-  const { user } = useAuth();
+  const { user, isCoach } = useAuth();
   const [coach, setCoach] = useState<CoachData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -67,73 +69,7 @@ export default function CoachProfilePage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* Header */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <div className="flex items-start justify-between mb-6">
-          <div className="flex items-center">
-            {coach.profileImageUrl ? (
-              <Image
-                src={coach.profileImageUrl}
-                alt={`${coach.name}'s profile`}
-                width={128}
-                height={128}
-                className="rounded-lg object-cover"
-              />
-            ) : (
-              <div className="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center">
-                <FaUserCircle className="w-16 h-16 text-gray-400" />
-              </div>
-            )}
-            <div className="ml-6">
-              <h1 className="text-3xl font-bold">{coach.name}</h1>
-              <p className="text-gray-600 capitalize">{coach.trainingStyle.join(', ')}</p>
-              <div className="flex items-center mt-2">
-                <div className="flex items-center">
-                  {[...Array(5)].map((_, index) => (
-                    <FaStar
-                      key={index}
-                      className={`w-5 h-5 ${
-                        index < coach.rating ? 'text-yellow-400' : 'text-gray-300'
-                      }`}
-                    />
-                  ))}
-                </div>
-                <span className="ml-2 text-gray-600">
-                  {coach.rating.toFixed(1)} ({coach.testimonialCount} reviews)
-                </span>
-              </div>
-            </div>
-          </div>
-          {user?.uid === coach.userId && (
-            <Link
-              href={`/coaches/profile/${id}/edit`}
-              className="flex items-center space-x-2 text-blue-600 hover:text-blue-700"
-            >
-              <FaEdit />
-              <span>Edit Profile</span>
-            </Link>
-          )}
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <div className="flex items-center text-gray-600">
-              <FaMapMarkerAlt className="w-5 h-5 mr-2" />
-              <span>{coach.location.address}</span>
-            </div>
-            <div className="flex items-center text-gray-600">
-              <FaClock className="w-5 h-5 mr-2" />
-              <span>Responds within {coach.responseTime}</span>
-            </div>
-            <div className="text-gray-600">
-              <span className="font-semibold">Experience:</span> {coach.yearsExperience}
-            </div>
-            <div className="text-gray-600">
-              <span className="font-semibold">Coaching:</span> {coach.coachingModality}
-            </div>
-          </div>
-        </div>
-      </div>
+      <CoachCard coach={coach} />
 
       {/* Bio */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-8">
@@ -198,11 +134,13 @@ export default function CoachProfilePage() {
       </div>
 
       {/* Contact Button */}
-      <div className="fixed bottom-8 right-8">
-        <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-colors">
-          Contact Coach
-        </button>
-      </div>
+      {!isCoach && (
+        <div className="fixed bottom-8 right-8">
+          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-colors">
+            Contact Coach
+          </button>
+        </div>
+      )}
     </div>
   );
 } 
