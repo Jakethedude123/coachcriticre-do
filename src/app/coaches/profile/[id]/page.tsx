@@ -69,63 +69,49 @@ export default function CoachProfilePage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <CoachCard coach={coach} />
-
-      {/* Bio */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h2 className="text-xl font-semibold mb-4">About</h2>
-        <p className="text-gray-600 whitespace-pre-wrap">{coach.bio}</p>
-      </div>
-
-      {/* Credentials and Specialties */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Credentials</h2>
-          <ul className="list-disc list-inside text-gray-600">
-            {coach.credentials.map((credential: string) => (
-              <li key={credential}>{credential}</li>
-            ))}
-          </ul>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-lg font-semibold mb-2">About</h2>
+          <p className="text-gray-700">{coach.bio}</p>
         </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Specialties</h2>
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-lg font-semibold mb-2">Specialties</h2>
           <div className="flex flex-wrap gap-2">
             {coach.specialties.map((specialty) => (
-              <span
-                key={specialty}
-                className="px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800 capitalize"
-              >
+              <span key={specialty} className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm">
                 {specialty}
               </span>
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Competition Categories */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Divisions</h2>
-          <ul className="list-disc list-inside text-gray-600">
-            {coach.divisions.map((division: string) => (
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-lg font-semibold mb-2">Credentials</h2>
+          <ul className="list-disc list-inside text-gray-700">
+            {coach.credentials.map((credential) => (
+              <li key={credential}>{credential}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-lg font-semibold mb-2">Divisions</h2>
+          <ul className="list-disc list-inside text-gray-700">
+            {coach.divisions.map((division) => (
               <li key={division}>{division}</li>
             ))}
           </ul>
         </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Client Types</h2>
-          <ul className="list-disc list-inside text-gray-600">
-            {coach.clientTypes.map((type: string) => (
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-lg font-semibold mb-2">Client Types</h2>
+          <ul className="list-disc list-inside text-gray-700">
+            {coach.clientTypes.map((type) => (
               <li key={type}>{type}</li>
             ))}
           </ul>
         </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Federations</h2>
-          <ul className="list-disc list-inside text-gray-600">
-            {coach.federations.map((federation: string) => (
+        <div className="bg-white rounded-lg shadow p-6">
+          <h2 className="text-lg font-semibold mb-2">Federations</h2>
+          <ul className="list-disc list-inside text-gray-700">
+            {coach.federations.map((federation) => (
               <li key={federation}>{federation}</li>
             ))}
           </ul>
