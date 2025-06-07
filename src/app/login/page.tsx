@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/lib/hooks/useAuth';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function LoginPageWrapper() {
   return (
@@ -85,7 +86,14 @@ function LoginPage() {
             onClick={handleGoogle}
             className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-md bg-white text-gray-700 font-medium hover:bg-gray-100"
           >
-            <img src="/images/google.svg" alt="Google" className="h-5 w-5" />
+            <Image
+              src="/images/google.svg"
+              alt="Google"
+              width={20}
+              height={20}
+              className="h-5 w-5"
+              priority
+            />
             Continue with Google
           </button>
         </div>
