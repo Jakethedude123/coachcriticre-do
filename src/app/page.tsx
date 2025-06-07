@@ -18,7 +18,7 @@ export default function Home() {
       return;
     }
     if (searchQuery.trim()) {
-      router.push(`/coaches/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      router.push(`/coaches?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
