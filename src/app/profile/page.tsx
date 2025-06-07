@@ -7,6 +7,9 @@ import Image from 'next/image';
 import { FaUser, FaEdit, FaSave } from 'react-icons/fa';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase/firebase';
+import { getCoachProfile } from '@/lib/firebase/coachUtils';
+import CoachCard from '@/components/CoachCard';
+import type { CoachData } from '@/lib/firebase/coachUtils';
 
 interface UserProfile {
   displayName: string;
@@ -19,6 +22,8 @@ interface UserProfile {
     twitter?: string;
     website?: string;
   };
+  isCoach?: boolean;
+  coachId?: string;
 }
 
 export default function ProfilePageWrapper() {
@@ -43,6 +48,7 @@ function ProfilePage() {
     socialLinks: {}
   });
   const [showWelcome, setShowWelcome] = useState(false);
+  const [coachProfile, setCoachProfile] = useState<CoachData | null>(null);
 
   useEffect(() => {
     if (!user) {
@@ -63,6 +69,11 @@ function ProfilePage() {
             ...data,
             socialLinks: data.socialLinks || {}
           });
+          // If user is a coach, fetch their coach profile
+          if (data.isCoach && data.coachId) {
+            const coachData = await getCoachProfile(data.coachId);
+            setCoachProfile(coachData);
+          }
         }
       }
     };
@@ -85,6 +96,25 @@ function ProfilePage() {
   };
 
   if (!user) return null;
+
+  // If user is a coach, show their coach profile card
+  if (profile.isCoach && coachProfile) {
+    return (
+      <div className="max-w-4xl mx-auto p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-gray-800">My Coach Profile</h1>
+          <button
+            onClick={() => router.push(`/coaches/profile/${profile.coachId}/edit`)}
+            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          >
+            <FaEdit size={16} color="white" />
+            <span>Edit Profile</span>
+          </button>
+        </div>
+        <CoachCard coach={coachProfile} />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6">
