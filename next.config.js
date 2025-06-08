@@ -1,3 +1,7 @@
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -12,6 +16,7 @@ const nextConfig = {
         hostname: '**',
       },
     ],
+    formats: ['image/webp'],
   },
   env: {
     NEXT_PUBLIC_FIREBASE_API_KEY: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -55,7 +60,46 @@ const nextConfig = {
   },
   experimental: {
     esmExternals: 'loose' // Handle ESM packages more loosely
-  }
+  },
+  // Enable React strict mode for better development
+  reactStrictMode: true,
+  // Enable production source maps for better debugging
+  productionBrowserSourceMaps: true,
+  // Enable compression
+  compress: true,
+  // Optimize production builds
+  swcMinify: true,
+  // Enable tree shaking
+  webpack: (config, { dev, isServer }) => {
+    // Optimize bundle size in production
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        minimize: true,
+        splitChunks: {
+          chunks: 'all',
+          minSize: 20000,
+          maxSize: 244000,
+          minChunks: 1,
+          maxAsyncRequests: 30,
+          maxInitialRequests: 30,
+          cacheGroups: {
+            defaultVendors: {
+              test: /[\\/]node_modules[\\/]/,
+              priority: -10,
+              reuseExistingChunk: true,
+            },
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      };
+    }
+    return config;
+  },
 };
 
-module.exports = nextConfig 
+module.exports = withBundleAnalyzer(nextConfig); 
