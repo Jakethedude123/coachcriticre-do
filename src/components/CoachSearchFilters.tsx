@@ -98,7 +98,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <div>
               <label className="block text-sm font-medium text-gray-700">Select Your Federation</label>
               <div className="mt-2 space-y-2">
-                {['IFBB', 'NPC', 'USPA', 'OCB'].map(federation => (
+                {['IFBB', 'NPC', 'OCB'].map(federation => (
                   <label key={federation} className="inline-flex items-center mr-4">
                     <input
                       type="checkbox"
