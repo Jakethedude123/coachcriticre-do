@@ -40,7 +40,15 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <Image src="/images/logo_transparent.png" alt="Logo" width={48} height={48} />
+              <Image
+                src="/images/optimized/logo.webp"
+                alt="CoachCritic Logo"
+                width={150}
+                height={40}
+                className="h-8 w-auto"
+                priority
+                quality={80}
+              />
               <span className="ml-2 text-xl font-bold text-gray-900">CoachCritic</span>
             </Link>
             <div className="hidden md:flex md:ml-10 space-x-8">
@@ -61,6 +69,12 @@ export default function Navbar() {
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md"
               >
                 Recent Activity
+              </Link>
+              <Link
+                href="/upgrade"
+                className="text-gray-700 hover:text-yellow-600 px-3 py-2 rounded-md font-semibold"
+              >
+                Upgrade
               </Link>
             </div>
           </div>
