@@ -18,14 +18,11 @@ export default function CoachProfilePage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user) return;
-    console.log('[CoachProfile] Auth ready at', new Date().toISOString());
+    if (!id) return;
     async function loadCoachProfile() {
-      console.log('[CoachProfile] Fetch start at', new Date().toISOString());
       try {
-        const coachData = await getCoachProfile(user!.uid);
+        const coachData = await getCoachProfile(id as string);
         setCoach(coachData);
-        console.log('[CoachProfile] Fetch end at', new Date().toISOString());
       } catch (error) {
         console.error('Error loading coach profile:', error);
         setError('Failed to load coach profile');
@@ -34,7 +31,7 @@ export default function CoachProfilePage() {
       }
     }
     loadCoachProfile();
-  }, [user]);
+  }, [id]);
 
   if (loading) {
     return (
