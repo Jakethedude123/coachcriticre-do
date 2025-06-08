@@ -39,6 +39,7 @@ function ProfilePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<UserProfile>({
     displayName: user?.displayName || '',
     email: user?.email || '',
@@ -53,6 +54,7 @@ function ProfilePage() {
   useEffect(() => {
     if (!user) {
       router.push('/login');
+      return;
     }
     if (searchParams.get('welcome') === '1') {
       setShowWelcome(true);
@@ -62,18 +64,24 @@ function ProfilePage() {
     // Fetch user profile from Firestore
     const fetchProfile = async () => {
       if (user) {
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (userDoc.exists()) {
-          const data = userDoc.data() as UserProfile;
-          setProfile({
-            ...data,
-            socialLinks: data.socialLinks || {}
-          });
-          // If user is a coach, fetch their coach profile
-          if (data.isCoach && data.coachId) {
-            const coachData = await getCoachProfile(data.coachId);
-            setCoachProfile(coachData);
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            const data = userDoc.data() as UserProfile;
+            setProfile({
+              ...data,
+              socialLinks: data.socialLinks || {}
+            });
+            // If user is a coach, fetch their coach profile
+            if (data.isCoach && data.coachId) {
+              const coachData = await getCoachProfile(data.coachId);
+              setCoachProfile(coachData);
+            }
           }
+        } catch (error) {
+          console.error('Error fetching profile:', error);
+        } finally {
+          setLoading(false);
         }
       }
     };
@@ -96,6 +104,23 @@ function ProfilePage() {
   };
 
   if (!user) return null;
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto p-6">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="h-48 bg-gray-200 rounded"></div>
+            <div className="md:col-span-2 space-y-4">
+              <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+              <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+              <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // If user is a coach, show their coach profile card
   if (profile.isCoach && coachProfile) {
