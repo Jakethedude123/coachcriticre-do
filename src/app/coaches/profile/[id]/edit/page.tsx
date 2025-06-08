@@ -6,7 +6,7 @@ import { getCoachProfile, updateCoachProfile } from "@/lib/firebase/coachUtils";
 import type { CoachData } from "@/lib/firebase/coachUtils";
 
 const SPECIALTIES = [
-  'rehab', 'injury prevention', 'injury recovery', 'nutrition', 'posing', 'contest prep', 'lifestyle', 'raw', 'equipped'
+  'rehab', 'injury prevention', 'injury recovery', 'nutrition', 'posing', 'contest prep', 'lifestyle'
 ];
 const CREDENTIALS = [
   'CSCS', 'NASM', 'ISSA', 'NCSF', 'ACE', 'MS', 'BS', 'J3U', 'VizualFX', 'N1', 'HCU'
@@ -18,7 +18,7 @@ const CLIENT_TYPES = [
   'beginner', 'intermediate', 'advanced', 'enhanced', 'non-enhanced', 'masters', 'female specific', 'Contest Prep', 'Lifestyle'
 ];
 const FEDERATIONS = [
-  'OCB', 'NPC', 'IFBB', 'IPF', 'USAPL', 'WRPF', 'RPS', 'APF'
+  'OCB', 'NPC', 'IFBB'
 ];
 
 export default function EditCoachProfilePage() {
@@ -98,6 +98,17 @@ export default function EditCoachProfilePage() {
             className="w-full border rounded px-3 py-2"
             rows={4}
             required
+          />
+        </div>
+        <div>
+          <label className="block font-medium mb-1">Location</label>
+          <input
+            type="text"
+            name="location"
+            value={coach.location?.address || ''}
+            onChange={e => setCoach({ ...coach, location: { ...coach.location, address: e.target.value } })}
+            className="w-full border rounded px-3 py-2"
+            placeholder="Enter your city, state, or country"
           />
         </div>
         <div>
