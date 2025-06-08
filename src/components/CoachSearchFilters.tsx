@@ -408,7 +408,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <div>
               <label className="block text-sm font-medium text-gray-700">Required Certifications</label>
               <div className="mt-2 space-y-2">
-                {['ISSA', 'NASM', 'ACE', 'NSCA', 'IFBB Pro', 'J3U'].map(cert => (
+                {['ISSA', 'NASM', 'ACE', 'NSCA', 'CSCS', 'NCSF', 'B.S.', 'M.S.', 'PhD', 'VizualFX', 'N1', 'HCU', 'J3U'].map(cert => (
                   <label key={cert} className="inline-flex items-center mr-4">
                     <input
                       type="checkbox"
