@@ -15,7 +15,7 @@ function formatPricing(coach: Coach): string {
 export default function CoachCard({ coach }: CoachCardProps) {
   return (
     <Link
-      href={`/coaches/${coach.userId}`}
+      href={`/coaches/profile/${coach.userId}`}
       className="block bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
     >
       <div className="p-6">
