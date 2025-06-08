@@ -98,7 +98,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <div>
               <label className="block text-sm font-medium text-gray-700">Select Your Federation</label>
               <div className="mt-2 space-y-2">
-                {['IFBB', 'NPC', 'IPF', 'USAPL', 'USPA', 'OCB'].map(federation => (
+                {['IFBB', 'NPC', 'USPA', 'OCB'].map(federation => (
                   <label key={federation} className="inline-flex items-center mr-4">
                     <input
                       type="checkbox"
@@ -184,15 +184,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                 />
                 <span className="ml-2">Injury Prevention</span>
               </label>
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={filters.requiresInjuryRecovery}
-                  onChange={(e) => handleFilterChange('requiresInjuryRecovery', e.target.checked)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="ml-2">Injury Recovery</span>
-              </label>
+              
               <label className="flex items-center">
                 <input
                   type="checkbox"
