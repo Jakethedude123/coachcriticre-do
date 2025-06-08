@@ -5,6 +5,22 @@ import { useParams, useRouter } from "next/navigation";
 import { getCoachProfile, updateCoachProfile } from "@/lib/firebase/coachUtils";
 import type { CoachData } from "@/lib/firebase/coachUtils";
 
+const SPECIALTIES = [
+  'rehab', 'injury prevention', 'injury recovery', 'nutrition', 'posing', 'contest prep', 'lifestyle', 'raw', 'equipped'
+];
+const CREDENTIALS = [
+  'CSCS', 'NASM', 'ISSA', 'NCSF', 'ACE', 'MS', 'BS', 'J3U', 'VizualFX', 'N1', 'HCU'
+];
+const DIVISIONS = [
+  'mens physique', 'classic physique', 'mens bodybuilding', 'womens physique', 'bikini', 'wellness', 'figure', 'womens bodybuilding'
+];
+const CLIENT_TYPES = [
+  'beginner', 'intermediate', 'advanced', 'enhanced', 'non-enhanced', 'masters', 'female specific', 'Contest Prep', 'Lifestyle'
+];
+const FEDERATIONS = [
+  'OCB', 'NPC', 'IFBB', 'IPF', 'USAPL', 'WRPF', 'RPS', 'APF'
+];
+
 export default function EditCoachProfilePage() {
   const { id } = useParams();
   const router = useRouter();
@@ -85,49 +101,109 @@ export default function EditCoachProfilePage() {
           />
         </div>
         <div>
-          <label className="block font-medium mb-1">Specialties (comma separated)</label>
-          <input
-            type="text"
-            value={coach.specialties.join(", ")}
-            onChange={(e) => handleArrayChange("specialties", e.target.value)}
-            className="w-full border rounded px-3 py-2"
-          />
+          <label className="block font-medium mb-1">Specialties</label>
+          <div className="flex flex-wrap gap-2">
+            {SPECIALTIES.map((specialty) => (
+              <label key={specialty} className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  checked={coach.specialties.includes(specialty)}
+                  onChange={e => {
+                    const newSpecialties = e.target.checked
+                      ? [...coach.specialties, specialty]
+                      : coach.specialties.filter(s => s !== specialty);
+                    setCoach({ ...coach, specialties: newSpecialties });
+                  }}
+                  className="form-checkbox h-4 w-4 text-blue-600"
+                />
+                <span className="ml-2">{specialty}</span>
+              </label>
+            ))}
+          </div>
         </div>
         <div>
-          <label className="block font-medium mb-1">Credentials (comma separated)</label>
-          <input
-            type="text"
-            value={coach.credentials.join(", ")}
-            onChange={(e) => handleArrayChange("credentials", e.target.value)}
-            className="w-full border rounded px-3 py-2"
-          />
+          <label className="block font-medium mb-1">Credentials</label>
+          <div className="flex flex-wrap gap-2">
+            {CREDENTIALS.map((credential) => (
+              <label key={credential} className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  checked={coach.credentials.includes(credential)}
+                  onChange={e => {
+                    const newCredentials = e.target.checked
+                      ? [...coach.credentials, credential]
+                      : coach.credentials.filter(c => c !== credential);
+                    setCoach({ ...coach, credentials: newCredentials });
+                  }}
+                  className="form-checkbox h-4 w-4 text-blue-600"
+                />
+                <span className="ml-2">{credential}</span>
+              </label>
+            ))}
+          </div>
         </div>
         <div>
-          <label className="block font-medium mb-1">Divisions (comma separated)</label>
-          <input
-            type="text"
-            value={coach.divisions.join(", ")}
-            onChange={(e) => handleArrayChange("divisions", e.target.value)}
-            className="w-full border rounded px-3 py-2"
-          />
+          <label className="block font-medium mb-1">Divisions</label>
+          <div className="flex flex-wrap gap-2">
+            {DIVISIONS.map((division) => (
+              <label key={division} className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  checked={coach.divisions.includes(division)}
+                  onChange={e => {
+                    const newDivisions = e.target.checked
+                      ? [...coach.divisions, division]
+                      : coach.divisions.filter(d => d !== division);
+                    setCoach({ ...coach, divisions: newDivisions });
+                  }}
+                  className="form-checkbox h-4 w-4 text-blue-600"
+                />
+                <span className="ml-2">{division}</span>
+              </label>
+            ))}
+          </div>
         </div>
         <div>
-          <label className="block font-medium mb-1">Client Types (comma separated)</label>
-          <input
-            type="text"
-            value={coach.clientTypes.join(", ")}
-            onChange={(e) => handleArrayChange("clientTypes", e.target.value)}
-            className="w-full border rounded px-3 py-2"
-          />
+          <label className="block font-medium mb-1">Client Types</label>
+          <div className="flex flex-wrap gap-2">
+            {CLIENT_TYPES.map((type) => (
+              <label key={type} className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  checked={coach.clientTypes.includes(type)}
+                  onChange={e => {
+                    const newTypes = e.target.checked
+                      ? [...coach.clientTypes, type]
+                      : coach.clientTypes.filter(t => t !== type);
+                    setCoach({ ...coach, clientTypes: newTypes });
+                  }}
+                  className="form-checkbox h-4 w-4 text-blue-600"
+                />
+                <span className="ml-2">{type}</span>
+              </label>
+            ))}
+          </div>
         </div>
         <div>
-          <label className="block font-medium mb-1">Federations (comma separated)</label>
-          <input
-            type="text"
-            value={coach.federations.join(", ")}
-            onChange={(e) => handleArrayChange("federations", e.target.value)}
-            className="w-full border rounded px-3 py-2"
-          />
+          <label className="block font-medium mb-1">Federations</label>
+          <div className="flex flex-wrap gap-2">
+            {FEDERATIONS.map((federation) => (
+              <label key={federation} className="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  checked={coach.federations.includes(federation)}
+                  onChange={e => {
+                    const newFeds = e.target.checked
+                      ? [...coach.federations, federation]
+                      : coach.federations.filter(f => f !== federation);
+                    setCoach({ ...coach, federations: newFeds });
+                  }}
+                  className="form-checkbox h-4 w-4 text-blue-600"
+                />
+                <span className="ml-2">{federation}</span>
+              </label>
+            ))}
+          </div>
         </div>
         <div className="flex gap-4 mt-8">
           <button
