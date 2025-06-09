@@ -56,6 +56,10 @@ const nextConfig = {
       'undici': false
     };
 
+    if (isServer) {
+      config.externals.push('undici');
+    }
+
     return config;
   },
   experimental: {
