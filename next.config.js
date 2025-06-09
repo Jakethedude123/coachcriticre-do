@@ -58,6 +58,15 @@ const nextConfig = {
 
     if (isServer) {
       config.externals.push('undici');
+      config.module.rules.push({
+        test: /node_modules\/undici\/lib\/web\/fetch\/util\.js$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      });
     }
 
     return config;
