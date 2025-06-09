@@ -1,7 +1,7 @@
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { db } from '@/lib/firebase/firebase';
+import { adminDb as db } from '@/lib/firebase/firebaseAdmin';
 import { doc, updateDoc } from 'firebase/firestore';
 import { getCoachByStripeAccount, updateCoach } from '@/lib/firebase/firebaseUtils';
 import { NotificationService } from '@/lib/services/NotificationService';
