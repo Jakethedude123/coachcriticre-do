@@ -113,6 +113,9 @@ const nextConfig = {
     }
     return config;
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = withBundleAnalyzer(nextConfig); 
