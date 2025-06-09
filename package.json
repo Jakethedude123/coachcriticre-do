@@ -32,7 +32,8 @@
     "replicate": "^0.32.0",
     "sharp": "^0.34.2",
     "stripe": "^17.7.0",
-    "twilio": "^5.5.1"
+    "twilio": "^5.5.1",
+    "undici": "^5.22.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.27.2",
