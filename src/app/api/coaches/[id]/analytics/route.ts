@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { adminDb as db } from '@/lib/firebase/firebaseAdmin';
-import { doc, getDoc } from 'firebase/firestore';
 
 export async function GET(
   request: Request,
@@ -11,10 +10,10 @@ export async function GET(
     const timeRange = searchParams.get('timeRange') || '7d'; // Default to 7 days
 
     // Get the coach document
-    const coachRef = doc(db, 'coaches', params.id);
-    const coachDoc = await getDoc(coachRef);
+    const coachRef = db.collection('coaches').doc(params.id);
+    const coachDoc = await coachRef.get();
 
-    if (!coachDoc.exists()) {
+    if (!coachDoc.exists) {
       return NextResponse.json(
         { error: 'Coach not found' },
         { status: 404 }
