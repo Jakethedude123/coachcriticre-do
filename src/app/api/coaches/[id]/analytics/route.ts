@@ -21,6 +21,12 @@ export async function GET(
     }
 
     const coach = coachDoc.data();
+    if (!coach) {
+      return NextResponse.json(
+        { error: 'Coach data not found' },
+        { status: 404 }
+      );
+    }
 
     // Calculate start date based on time range
     const now = new Date();
