@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getCoach } from '@/lib/firebase/firebaseUtils';
+import { adminDb } from '@/lib/firebase/firebaseAdmin';
 import { NotificationService } from '@/lib/services/NotificationService';
 import { RateLimiter } from '@/lib/services/RateLimiter';
 
@@ -14,8 +14,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Get coach data
-    const coach = await getCoach(coachId);
+    // Get coach data using Admin SDK
+    const doc = await adminDb.collection('coaches').doc(coachId).get();
+    const coach = doc.exists ? doc.data() : null;
     if (!coach) {
       return NextResponse.json(
         { error: 'Coach not found' },
