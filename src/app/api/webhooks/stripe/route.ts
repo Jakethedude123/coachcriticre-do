@@ -2,7 +2,6 @@ import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { adminDb as db } from '@/lib/firebase/firebaseAdmin';
-import { doc, updateDoc } from 'firebase/firestore';
 import { getCoachByStripeAccount, updateCoach } from '@/lib/firebase/firebaseUtils';
 import { NotificationService } from '@/lib/services/NotificationService';
 import { type CoachTier } from '@/lib/firebase/models/coach';
@@ -31,32 +30,32 @@ export async function POST(req: Request) {
 
   try {
     switch (event.type) {
-      case 'payment_intent.succeeded':
+      case 'payment_intent.succeeded': {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
         // Update coach's earnings
         if (paymentIntent.metadata.coachId) {
-          const coachRef = doc(db, 'coaches', paymentIntent.metadata.coachId);
-          await updateDoc(coachRef, {
+          const coachRef = db.collection('coaches').doc(paymentIntent.metadata.coachId);
+          await coachRef.update({
             'earnings.total': paymentIntent.amount / 100,
             'earnings.lastPayment': new Date(),
           });
         }
         break;
-
+      }
       case 'customer.subscription.created':
       case 'customer.subscription.updated':
-      case 'customer.subscription.deleted':
+      case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
         // Update coach's subscription status
         if (subscription.metadata.coachId) {
-          const coachRef = doc(db, 'coaches', subscription.metadata.coachId);
-          await updateDoc(coachRef, {
+          const coachRef = db.collection('coaches').doc(subscription.metadata.coachId);
+          await coachRef.update({
             'subscription.status': subscription.status,
             'subscription.currentPeriodEnd': new Date(subscription.current_period_end * 1000),
           });
         }
         break;
-
+      }
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
         const coach = await getCoachByStripeAccount(session.customer as string);

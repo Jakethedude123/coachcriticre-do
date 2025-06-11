@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { collection, getDocs } from 'firebase/firestore';
 import { adminDb as db } from '@/lib/firebase/firebaseAdmin';
 
 export async function POST(req: NextRequest) {
   try {
-    const coachesRef = collection(db, 'coaches');
-    const snapshot = await getDocs(coachesRef);
+    const coachesRef = db.collection('coaches');
+    const snapshot = await coachesRef.get();
     const coaches = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     return NextResponse.json({ coaches });
   } catch (error) {
@@ -15,8 +14,8 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const coachesRef = collection(db, 'coaches');
-    const snapshot = await getDocs(coachesRef);
+    const coachesRef = db.collection('coaches');
+    const snapshot = await coachesRef.get();
     const coaches = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     return NextResponse.json({ coaches });
   } catch (error) {
