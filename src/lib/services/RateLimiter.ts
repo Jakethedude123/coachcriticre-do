@@ -1,5 +1,4 @@
-import { getDoc, setDoc, doc } from 'firebase/firestore';
-import { db } from '@/lib/firebase/firebase';
+import { adminDb } from '@/lib/firebase/firebaseAdmin';
 
 interface RateLimitData {
   count: number;
@@ -14,10 +13,10 @@ export class RateLimiter {
   };
 
   private static async getRateLimitData(coachId: string, type: keyof typeof RateLimiter.LIMITS): Promise<RateLimitData> {
-    const docRef = doc(db, 'rateLimits', `${coachId}_${type}`);
-    const docSnap = await getDoc(docRef);
+    const docRef = adminDb.collection('rateLimits').doc(`${coachId}_${type}`);
+    const docSnap = await docRef.get();
     
-    if (!docSnap.exists()) {
+    if (!docSnap.exists) {
       return {
         count: 0,
         lastReset: Date.now()
@@ -28,8 +27,8 @@ export class RateLimiter {
   }
 
   private static async updateRateLimit(coachId: string, type: keyof typeof RateLimiter.LIMITS, data: RateLimitData) {
-    const docRef = doc(db, 'rateLimits', `${coachId}_${type}`);
-    await setDoc(docRef, data);
+    const docRef = adminDb.collection('rateLimits').doc(`${coachId}_${type}`);
+    await docRef.set(data);
   }
 
   static async checkRateLimit(coachId: string, type: keyof typeof RateLimiter.LIMITS): Promise<boolean> {
