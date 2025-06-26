@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
     // Get coach data using Admin SDK
     const doc = await adminDb.collection('coaches').doc(coachId).get();
-    const coach = doc.exists ? doc.data() : null;
+    const coach = doc.exists ? (doc.data() as import('@/lib/firebase/models/coach').Coach) : null;
     if (!coach) {
       return NextResponse.json(
         { error: 'Coach not found' },
