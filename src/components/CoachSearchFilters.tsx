@@ -178,11 +178,11 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
               <label className="flex items-center">
                 <input
                   type="checkbox"
-                  checked={filters.requiresInjuryPrevention}
-                  onChange={(e) => handleFilterChange('requiresInjuryPrevention', e.target.checked)}
+                  checked={filters.requiresInjuryRecovery}
+                  onChange={(e) => handleFilterChange('requiresInjuryRecovery', e.target.checked)}
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
-                <span className="ml-2">Injury Prevention</span>
+                <span className="ml-2">Injury Recovery</span>
               </label>
               
               <label className="flex items-center">
