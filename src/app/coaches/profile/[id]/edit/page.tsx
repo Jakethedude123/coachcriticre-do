@@ -6,7 +6,7 @@ import { getCoachProfile, updateCoachProfile } from "@/lib/firebase/coachUtils";
 import type { CoachData } from "@/lib/firebase/coachUtils";
 
 const SPECIALTIES = [
-  'rehab', 'injury prevention', 'injury recovery', 'nutrition', 'posing', 'contest prep', 'lifestyle'
+  'rehab', 'injury recovery', 'nutrition', 'posing', 'contest prep', 'lifestyle'
 ];
 const CREDENTIALS = [
   'CSCS', 'NASM', 'ISSA', 'NCSF', 'ACE', 'MS', 'BS', 'J3U', 'VizualFX', 'N1', 'HCU'
