@@ -4,8 +4,12 @@ import { NotificationService } from '@/lib/services/NotificationService';
 import { RateLimiter } from '@/lib/services/RateLimiter';
 
 export async function POST(req: NextRequest) {
+  let coachId: string | undefined;
+  let eventType: string | undefined;
   try {
-    const { coachId, eventType } = await req.json();
+    const body = await req.json();
+    coachId = body.coachId;
+    eventType = body.eventType;
 
     if (!coachId || !eventType) {
       return NextResponse.json(
