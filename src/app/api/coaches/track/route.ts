@@ -55,7 +55,12 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error tracking event:', error);
+    console.error('Error tracking event:', {
+      message: error instanceof Error ? error.message : error,
+      stack: error instanceof Error ? error.stack : undefined,
+      coachId: typeof coachId !== 'undefined' ? coachId : null,
+      eventType: typeof eventType !== 'undefined' ? eventType : null,
+    });
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
