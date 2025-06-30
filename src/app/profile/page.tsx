@@ -10,6 +10,8 @@ import { db } from '@/lib/firebase/firebase';
 import { getCoachProfile } from '@/lib/firebase/coachUtils';
 import CoachProfileDetails from '@/components/CoachProfileDetails';
 import type { CoachData } from '@/lib/firebase/coachUtils';
+import { storage } from '@/lib/firebase/firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 interface UserProfile {
   displayName: string;
@@ -50,6 +52,9 @@ function ProfilePage() {
   });
   const [showWelcome, setShowWelcome] = useState(false);
   const [coachProfile, setCoachProfile] = useState<CoachData | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   useEffect(() => {
     if (!user) {
@@ -90,9 +95,31 @@ function ProfilePage() {
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      // TODO: Implement Firebase Storage upload
-      console.log('Uploading file:', file);
+    if (!file || !user) return;
+    setUploading(true);
+    setUploadError(null);
+    setUploadProgress(0);
+    try {
+      const storageRef = ref(storage, `profileImages/${user.uid}/${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setUploadProgress(progress);
+        },
+        (error) => {
+          setUploadError(error.message);
+          setUploading(false);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setProfile((prev) => ({ ...prev, imageUrl: downloadURL }));
+          setUploading(false);
+        }
+      );
+    } catch (error: any) {
+      setUploadError(error.message || 'Upload failed');
+      setUploading(false);
     }
   };
 
@@ -186,6 +213,12 @@ function ProfilePage() {
                     onChange={handleImageUpload}
                   />
                 </label>
+                {uploading && (
+                  <div className="mt-2 text-blue-600">Uploading: {uploadProgress.toFixed(0)}%</div>
+                )}
+                {uploadError && (
+                  <div className="mt-2 text-red-600">Error: {uploadError}</div>
+                )}
               </div>
             )}
           </div>
