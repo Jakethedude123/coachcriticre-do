@@ -95,7 +95,7 @@ export default function EditCoachProfilePage() {
         },
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          setCoach((prev) => prev ? { ...prev, imageUrl: downloadURL } : prev);
+          setCoach((prev) => prev ? { ...prev, profileImageUrl: downloadURL } : prev);
           setUploading(false);
         }
       );
@@ -116,9 +116,9 @@ export default function EditCoachProfilePage() {
         {/* Profile Image Upload */}
         <div className="flex flex-col items-center mb-4">
           <div className="relative w-32 h-32 mb-2">
-            {coach.imageUrl ? (
+            {coach.profileImageUrl ? (
               <img
-                src={coach.imageUrl}
+                src={coach.profileImageUrl}
                 alt="Profile"
                 className="object-cover w-32 h-32 rounded-full border"
               />
