@@ -29,10 +29,10 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Find Your Perfect Bodybuilding or Powerlifting Coach
+              Find the Perfect Bodybuilding or Lifestyle Coach for You
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Connect with experienced coaches who can help you achieve your strength and physique goals
+              Connect with experienced coaches who can help you achieve your physique, health, and fitness goals—whether you're aiming for the stage or just want to get in shape.
             </p>
             {/* Search Bar */}
             <div className="relative max-w-2xl mx-auto">
@@ -66,7 +66,7 @@ export default function Home() {
               </div>
               <h2 className="text-2xl font-bold mb-4">Expert Coaches</h2>
               <p className="text-gray-600 text-lg">
-                Find certified coaches with proven track records in bodybuilding and powerlifting
+                Find certified coaches with proven track records in bodybuilding and lifestyle transformation.
               </p>
             </div>
 
@@ -75,9 +75,9 @@ export default function Home() {
               <div className="text-blue-600 mb-4">
                 <FaTrophy size={40} />
               </div>
-              <h2 className="text-2xl font-bold mb-4">Competition Prep</h2>
+              <h2 className="text-2xl font-bold mb-4">Competition & Lifestyle Prep</h2>
               <p className="text-gray-600 text-lg">
-                Get specialized guidance for your next bodybuilding show or powerlifting meet
+                Get specialized guidance for your next bodybuilding show—or expert help to get lean, healthy, and confident for everyday life.
               </p>
             </div>
 
@@ -88,7 +88,7 @@ export default function Home() {
               </div>
               <h2 className="text-2xl font-bold mb-4">Verified Reviews</h2>
               <p className="text-gray-600 text-lg">
-                Read authentic reviews from real clients to find your perfect coaching match
+                Read authentic reviews from real clients to find your perfect bodybuilding or lifestyle coaching match.
               </p>
             </div>
           </div>
