@@ -3,6 +3,9 @@ import { adminDb } from '@/lib/firebase/firebaseAdmin';
 import { NotificationService } from '@/lib/services/NotificationService';
 import { RateLimiter } from '@/lib/services/RateLimiter';
 
+const allowedEventTypes = ["profileViews", "searchAppearances", "profileClicks"] as const;
+type AllowedEventType = typeof allowedEventTypes[number];
+
 export async function POST(req: NextRequest) {
   let coachId: string | undefined;
   let eventType: string | undefined;
@@ -18,6 +21,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (!allowedEventTypes.includes(eventType as AllowedEventType)) {
+      return NextResponse.json(
+        { error: 'Invalid event type' },
+        { status: 400 }
+      );
+    }
+
     // Get coach data using Admin SDK
     const doc = await adminDb.collection('coaches').doc(coachId).get();
     const coach = doc.exists ? (doc.data() as import('@/lib/firebase/models/coach').Coach) : null;
@@ -29,24 +39,24 @@ export async function POST(req: NextRequest) {
     }
 
     // Check rate limit before proceeding
-    const isWithinLimit = await RateLimiter.checkRateLimit(coachId, eventType);
+    const isWithinLimit = await RateLimiter.checkRateLimit(coachId, eventType as AllowedEventType);
     if (!isWithinLimit) {
       // Still update analytics but skip notifications
-      await NotificationService.updateAnalytics(coachId, eventType);
+      await NotificationService.updateAnalytics(coachId, eventType as AllowedEventType);
       return NextResponse.json({ success: true, rateLimit: true });
     }
 
     // Update analytics and send notifications based on event type
     switch (eventType) {
-      case 'profileView':
+      case 'profileViews':
         await NotificationService.notifyProfileView(coach);
         await NotificationService.updateAnalytics(coachId, 'profileViews');
         break;
-      case 'searchAppearance':
+      case 'searchAppearances':
         await NotificationService.notifySearchAppearance(coach);
         await NotificationService.updateAnalytics(coachId, 'searchAppearances');
         break;
-      case 'profileClick':
+      case 'profileClicks':
         await NotificationService.notifyProfileClick(coach);
         await NotificationService.updateAnalytics(coachId, 'profileClicks');
         break;
