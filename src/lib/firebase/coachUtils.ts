@@ -25,6 +25,7 @@ export interface CoachData {
   federations: string[];
   bio: string;
   profileImageUrl?: string;
+  imageUrl?: string;
   userId: string;
   createdAt: Date;
   updatedAt: Date;
