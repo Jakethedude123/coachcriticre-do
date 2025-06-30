@@ -285,7 +285,6 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                 type="range"
                 min="0"
                 max="500"
-                step="5"
                 value={filters.proximityMiles}
                 onChange={e => handleFilterChange('proximityMiles', Number(e.target.value))}
                 className="w-full"

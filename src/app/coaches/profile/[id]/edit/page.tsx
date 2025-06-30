@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getCoachProfile, updateCoachProfile } from "@/lib/firebase/coachUtils";
 import type { CoachData } from "@/lib/firebase/coachUtils";
+import { storage } from '@/lib/firebase/firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 const SPECIALTIES = [
   'rehab', 'injury recovery', 'nutrition', 'posing', 'contest prep', 'lifestyle'
@@ -28,6 +30,9 @@ export default function EditCoachProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   useEffect(() => {
     async function fetchCoach() {
@@ -70,6 +75,36 @@ export default function EditCoachProfilePage() {
     }
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !coach) return;
+    setUploading(true);
+    setUploadError(null);
+    setUploadProgress(0);
+    try {
+      const storageRef = ref(storage, `coachProfileImages/${coach.id}/${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setUploadProgress(progress);
+        },
+        (error) => {
+          setUploadError(error.message);
+          setUploading(false);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setCoach((prev) => prev ? { ...prev, imageUrl: downloadURL } : prev);
+          setUploading(false);
+        }
+      );
+    } catch (error: any) {
+      setUploadError(error.message || 'Upload failed');
+      setUploading(false);
+    }
+  };
+
   if (loading) return <div className="p-8 text-center">Loading...</div>;
   if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
   if (!coach) return <div className="p-8 text-center">Coach not found.</div>;
@@ -78,6 +113,37 @@ export default function EditCoachProfilePage() {
     <div className="max-w-3xl mx-auto p-8">
       <h1 className="text-2xl font-bold mb-6">Edit Coach Profile</h1>
       <form onSubmit={handleSave} className="space-y-6">
+        {/* Profile Image Upload */}
+        <div className="flex flex-col items-center mb-4">
+          <div className="relative w-32 h-32 mb-2">
+            {coach.imageUrl ? (
+              <img
+                src={coach.imageUrl}
+                alt="Profile"
+                className="object-cover w-32 h-32 rounded-full border"
+              />
+            ) : (
+              <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
+                <span className="text-4xl text-gray-400">?</span>
+              </div>
+            )}
+          </div>
+          <label className="bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-700">
+            Upload Photo
+            <input
+              type="file"
+              className="hidden"
+              accept="image/*"
+              onChange={handleImageUpload}
+            />
+          </label>
+          {uploading && (
+            <div className="mt-2 text-blue-600">Uploading: {uploadProgress.toFixed(0)}%</div>
+          )}
+          {uploadError && (
+            <div className="mt-2 text-red-600">Error: {uploadError}</div>
+          )}
+        </div>
         <div>
           <label className="block font-medium mb-1">Name</label>
           <input
