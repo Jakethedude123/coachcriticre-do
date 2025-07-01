@@ -71,7 +71,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
   };
 
   const handleArrayFilterChange = (key: keyof SearchFilters, value: string) => {
-    const currentArray = filters[key] as string[];
+    const currentArray = (filters[key] as string[]) || [];
     const newArray = currentArray.includes(value)
       ? currentArray.filter(item => item !== value)
       : [...currentArray, value];
