@@ -15,6 +15,7 @@ export default function Navbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
+  const hasNewMessages = true; // TODO: Replace with real logic
 
   // Handle clicks outside of dropdown
   useEffect(() => {
@@ -138,11 +139,6 @@ export default function Navbar() {
                     Register as Coach
                   </Link>
                   <div className="h-6 w-px bg-gray-300"></div>
-                  {/* Messages Icon */}
-                  <Link href="/messages" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center">
-                    <FaEnvelope className="h-5 w-5 mr-1" />
-                    <span className="hidden md:inline">Messages</span>
-                  </Link>
                   {/* Profile Dropdown */}
                   <div 
                     className="relative"
@@ -193,6 +189,13 @@ export default function Navbar() {
                       </div>
                     </div>
                   </div>
+                  {/* Messages Icon to the right of Profile */}
+                  <Link href="/messages" className="relative text-gray-600 hover:text-blue-600 transition-colors flex items-center ml-2">
+                    <FaEnvelope className="h-5 w-5" />
+                    {hasNewMessages && (
+                      <span className="absolute -top-1 -right-1 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>
+                    )}
+                  </Link>
                 </div>
               ) : (
                 // Show login/signup when logged out
