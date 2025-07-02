@@ -127,7 +127,8 @@ export default function Navbar() {
                 {isDropdownOpen && (
                   <div
                     ref={dropdownRef}
-                    className="absolute right-0 w-48 mt-2 py-2 bg-white rounded-lg shadow-xl z-50"
+                    className="absolute left-0 min-w-[8rem] w-40 mt-2 py-1 bg-white rounded-md shadow-lg z-50 border border-gray-200"
+                    style={{ top: '100%' }}
                   >
                     <Link
                       href={isCoach && coachId ? `/coaches/profile/${coachId}` : "/profile"}
