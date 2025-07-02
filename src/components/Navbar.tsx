@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { FaSearch, FaUser, FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
+import { FaSearch, FaUser, FaSignOutAlt, FaUserCircle, FaEnvelope } from 'react-icons/fa';
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Logo from '@/components/Logo';
@@ -138,7 +138,11 @@ export default function Navbar() {
                     Register as Coach
                   </Link>
                   <div className="h-6 w-px bg-gray-300"></div>
-                  
+                  {/* Messages Icon */}
+                  <Link href="/messages" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center">
+                    <FaEnvelope className="h-5 w-5 mr-1" />
+                    <span className="hidden md:inline">Messages</span>
+                  </Link>
                   {/* Profile Dropdown */}
                   <div 
                     className="relative"
