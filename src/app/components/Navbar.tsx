@@ -6,6 +6,8 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import { FaUser, FaEnvelope } from 'react-icons/fa';
 import { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { db } from '@/lib/firebase/firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -14,7 +16,7 @@ export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const hasNewMessages = true; // TODO: Replace with real logic
+  const [hasNewMessages, setHasNewMessages] = useState(false);
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -34,6 +36,19 @@ export default function Navbar() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    const q = query(
+      collection(db, 'messages'),
+      where('to', '==', user.uid),
+      where('read', '==', false)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setHasNewMessages(!snapshot.empty);
+    });
+    return () => unsubscribe();
+  }, [user]);
 
   return (
     <nav className="bg-white shadow-md">
