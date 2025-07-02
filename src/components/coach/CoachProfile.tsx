@@ -1,6 +1,7 @@
 "use client";
 
 import Image from 'next/image';
+import { useState } from 'react';
 import { Coach, TIER_BENEFITS } from '@/lib/firebase/models/coach';
 import VerifiedBadge from './VerifiedBadge';
 
@@ -11,6 +12,18 @@ interface CoachProfileProps {
 
 export default function CoachProfile({ coach, showActions = true }: CoachProfileProps) {
   const isVerified = coach.subscription?.plan === 'pro' || coach.subscription?.plan === 'premium';
+  const [showMessageBox, setShowMessageBox] = useState(false);
+  const [message, setMessage] = useState('');
+
+  // For debugging avatar
+  // console.log('Avatar:', coach.avatar);
+
+  const handleSend = () => {
+    // TODO: Send message to coach via API
+    alert(`Message sent: ${message}`);
+    setMessage('');
+    setShowMessageBox(false);
+  };
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
@@ -70,13 +83,33 @@ export default function CoachProfile({ coach, showActions = true }: CoachProfile
           </div>
 
           {showActions && (
-            <div className="mt-6 flex space-x-4">
-              <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+            <div className="mt-6 flex flex-col space-y-4">
+              <button
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                onClick={() => setShowMessageBox((v) => !v)}
+              >
                 Contact Coach
               </button>
               <button className="border border-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-50 transition-colors">
                 View Reviews
               </button>
+              {showMessageBox && (
+                <div className="mt-4">
+                  <textarea
+                    className="w-full border rounded-lg p-2 mb-2"
+                    rows={4}
+                    placeholder="Write your message..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                  <button
+                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                    onClick={handleSend}
+                  >
+                    Send
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
