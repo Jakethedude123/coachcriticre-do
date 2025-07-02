@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { FaUser } from 'react-icons/fa';
+import { FaUser, FaEnvelope } from 'react-icons/fa';
 import { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -14,6 +14,7 @@ export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const hasNewMessages = true; // TODO: Replace with real logic
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -92,7 +93,7 @@ export default function Navbar() {
             {loading ? (
               <div className="h-10 w-10 animate-pulse bg-gray-200 rounded-full"></div>
             ) : user ? (
-              <div className="relative group">
+              <div className="relative group flex items-center space-x-2">
                 <button
                   type="button"
                   ref={buttonRef}
@@ -102,6 +103,12 @@ export default function Navbar() {
                   <FaUser />
                   <span>Profile</span>
                 </button>
+                <Link href="/messages" className="relative text-gray-600 hover:text-blue-600 transition-colors flex items-center ml-2">
+                  <FaEnvelope className="h-5 w-5" />
+                  {hasNewMessages && (
+                    <span className="absolute -top-1 -right-1 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>
+                  )}
+                </Link>
                 {isDropdownOpen && (
                   <div
                     ref={dropdownRef}
