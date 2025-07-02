@@ -90,9 +90,6 @@ export default function CoachProfile({ coach, showActions = true }: CoachProfile
               >
                 Contact Coach
               </button>
-              <button className="border border-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-50 transition-colors">
-                View Reviews
-              </button>
               {showMessageBox && (
                 <div className="mt-4">
                   <textarea
