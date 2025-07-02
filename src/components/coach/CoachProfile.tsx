@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { Coach, TIER_BENEFITS } from '@/lib/firebase/models/coach';
 import VerifiedBadge from './VerifiedBadge';
+import { useAuth } from '@/lib/hooks/useAuth';
 
 interface CoachProfileProps {
   coach: Coach;
@@ -14,15 +15,35 @@ export default function CoachProfile({ coach, showActions = true }: CoachProfile
   const isVerified = coach.subscription?.plan === 'pro' || coach.subscription?.plan === 'premium';
   const [showMessageBox, setShowMessageBox] = useState(false);
   const [message, setMessage] = useState('');
+  const [sendStatus, setSendStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const { user } = useAuth();
 
   // For debugging avatar
   // console.log('Avatar:', coach.avatar);
 
-  const handleSend = () => {
-    // TODO: Send message to coach via API
-    alert(`Message sent: ${message}`);
-    setMessage('');
-    setShowMessageBox(false);
+  const handleSend = async () => {
+    setSendStatus('idle');
+    if (!user) return;
+    try {
+      const res = await fetch('/api/messages/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: coach.userId,
+          from: user.uid,
+          text: message,
+        }),
+      });
+      if (res.ok) {
+        setSendStatus('success');
+        setMessage('');
+        setShowMessageBox(false);
+      } else {
+        setSendStatus('error');
+      }
+    } catch {
+      setSendStatus('error');
+    }
   };
 
   return (
@@ -105,6 +126,12 @@ export default function CoachProfile({ coach, showActions = true }: CoachProfile
                   >
                     Send
                   </button>
+                  {sendStatus === 'success' && (
+                    <div className="text-green-600 mt-2 text-sm">Message sent!</div>
+                  )}
+                  {sendStatus === 'error' && (
+                    <div className="text-red-600 mt-2 text-sm">Failed to send message.</div>
+                  )}
                 </div>
               )}
             </div>
@@ -113,4 +140,6 @@ export default function CoachProfile({ coach, showActions = true }: CoachProfile
       </div>
     </div>
   );
-} 
+}
+
+// Force redeploy: update for Vercel cache busting 
