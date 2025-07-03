@@ -69,33 +69,37 @@ export default function MessagesPage() {
   // Load conversation when a message is expanded
   useEffect(() => {
     if (!user || !expanded) return;
-    // Fetch all messages between user and expanded
-    const fetchConversation = async () => {
-      const q1 = query(
-        collection(db, 'messages'),
-        where('from', '==', user.uid),
-        where('to', '==', expanded),
-        orderBy('createdAt', 'asc')
-      );
-      const q2 = query(
-        collection(db, 'messages'),
-        where('from', '==', expanded),
-        where('to', '==', user.uid),
-        orderBy('createdAt', 'asc')
-      );
-      const [snap1, snap2] = await Promise.all([
-        getDocs(q1),
-        getDocs(q2)
-      ]);
-      const all = [
+    // Real-time listeners for both directions
+    let all: any[] = [];
+    const q1 = query(
+      collection(db, 'messages'),
+      where('from', '==', user.uid),
+      where('to', '==', expanded),
+      orderBy('createdAt', 'asc')
+    );
+    const q2 = query(
+      collection(db, 'messages'),
+      where('from', '==', expanded),
+      where('to', '==', user.uid),
+      orderBy('createdAt', 'asc')
+    );
+    const unsub1 = onSnapshot(q1, (snap1) => {
+      all = [
         ...snap1.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) })),
-        ...snap2.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) }))
-      ] as any[];
+        ...all.filter(m => m.from !== user.uid || m.to !== expanded)
+      ];
       all.sort((a, b) => new Date(a.createdAt ?? 0).getTime() - new Date(b.createdAt ?? 0).getTime());
-      setConversation(all);
-      console.log('[MessagesPage] loaded conversation:', all);
-    };
-    fetchConversation();
+      setConversation([...all]);
+    });
+    const unsub2 = onSnapshot(q2, (snap2) => {
+      all = [
+        ...all.filter(m => m.from !== expanded || m.to !== user.uid),
+        ...snap2.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) }))
+      ];
+      all.sort((a, b) => new Date(a.createdAt ?? 0).getTime() - new Date(b.createdAt ?? 0).getTime());
+      setConversation([...all]);
+    });
+    return () => { unsub1(); unsub2(); };
   }, [user, expanded]);
 
   // Helper to get the other participant's UID
