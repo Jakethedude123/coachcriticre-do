@@ -88,10 +88,10 @@ export default function MessagesPage() {
         getDocs(q2)
       ]);
       const all = [
-        ...snap1.docs.map(doc => ({ id: doc.id, ...doc.data() })),
-        ...snap2.docs.map(doc => ({ id: doc.id, ...doc.data() }))
-      ];
-      all.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+        ...snap1.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) })),
+        ...snap2.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) }))
+      ] as any[];
+      all.sort((a, b) => new Date(a.createdAt ?? 0).getTime() - new Date(b.createdAt ?? 0).getTime());
       setConversation(all);
       console.log('[MessagesPage] loaded conversation:', all);
     };
