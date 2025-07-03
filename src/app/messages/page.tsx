@@ -6,7 +6,10 @@ import { collection, query, where, orderBy, onSnapshot, doc, getDoc, updateDoc, 
 
 export default function MessagesPage() {
   const { user } = useAuth();
-  if (!user) return <div>Loading...</div>;
+  if (!user) {
+    console.log('[MessagesPage] user is null or not loaded');
+    return <div>Loading...</div>;
+  }
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [usernames, setUsernames] = useState<{ [uid: string]: string }>({});
@@ -93,19 +96,20 @@ export default function MessagesPage() {
               </div>
               <div className="text-xs text-gray-400">{msg.createdAt ? new Date(msg.createdAt).toLocaleString() : ''}</div>
               {expanded === msg.from && (
-                <div className="mt-4 bg-gray-50 p-3 rounded">
+                <div className={`mt-4 bg-gray-50 rounded transition-all duration-300 shadow-lg border border-blue-300 ${expanded === msg.from ? 'p-6 max-w-xl' : 'p-3 max-w-md'}`}
+                  style={{ minHeight: expanded === msg.from ? 320 : 120 }}>
                   <div className="mb-2 font-semibold">Conversation</div>
-                  <div className="max-h-48 overflow-y-auto space-y-2 mb-2">
+                  <div className="max-h-64 overflow-y-auto space-y-2 mb-2 flex flex-col">
                     {conversation.map((c, i) => (
-                      <div key={c.id || i} className={c.from === user.uid ? 'text-right' : 'text-left'}>
-                        <span className="inline-block px-2 py-1 rounded bg-blue-100 text-blue-800 text-sm">
+                      <div key={c.id || i} className={`flex ${c.from === user.uid ? 'justify-end' : 'justify-start'}`}> 
+                        <span className={`inline-block px-4 py-2 rounded-2xl text-sm shadow ${c.from === user.uid ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-900'}`}
+                          style={{ transition: 'background 0.3s' }}>
                           {c.text}
                         </span>
-                        <div className="text-xs text-gray-400">{c.createdAt ? new Date(c.createdAt).toLocaleString() : ''}</div>
                       </div>
                     ))}
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 mt-2">
                     <input
                       type="text"
                       className="flex-1 border rounded p-2"
@@ -116,7 +120,7 @@ export default function MessagesPage() {
                       disabled={sending}
                     />
                     <button
-                      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
                       onClick={handleReply}
                       disabled={sending}
                     >
