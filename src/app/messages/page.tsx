@@ -90,7 +90,7 @@ export default function MessagesPage() {
       }
       return acc;
     }, {} as { [from: string]: any })
-  );
+  ) as any[];
 
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
