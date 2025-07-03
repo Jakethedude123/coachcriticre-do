@@ -82,28 +82,40 @@ export default function MessagesPage() {
     setSending(false);
   };
 
+  // Group messages by sender (show only latest per sender)
+  const latestMessagesBySender = Object.values(
+    messages.reduce((acc, msg) => {
+      if (!acc[msg.from] || new Date(msg.createdAt) > new Date(acc[msg.from].createdAt)) {
+        acc[msg.from] = msg;
+      }
+      return acc;
+    }, {} as { [from: string]: any })
+  );
+
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
       <h1 className="text-2xl font-bold mb-4">Messages</h1>
-      {messages.length === 0 ? (
+      {latestMessagesBySender.length === 0 ? (
         <p className="text-gray-600">No messages found.</p>
       ) : (
         <ul className="space-y-4">
-          {messages.map(msg => (
-            <li key={msg.id} className="border-b pb-2">
-              <div className="text-sm text-gray-500">
-                From: {usernames[msg.from] || msg.from}
-                <span style={{color: 'red', fontSize: 10}}>
-                  [msg.from: {msg.from}] [usernames[msg.from]: {usernames[msg.from]}]
-                </span>
+          {latestMessagesBySender.map(msg => (
+            <li
+              key={msg.from}
+              className={`transition-all duration-300 bg-white rounded-lg shadow border cursor-pointer overflow-hidden ${expanded === msg.from ? 'ring-2 ring-blue-400 scale-105' : 'hover:ring-1 hover:ring-blue-200'}`}
+              style={{ minHeight: expanded === msg.from ? 320 : 64, maxHeight: expanded === msg.from ? 600 : 64 }}
+              onMouseEnter={() => handleExpand(msg.from)}
+              onMouseLeave={() => setExpanded(null)}
+            >
+              <div className="flex items-center justify-between px-6 py-4">
+                <div>
+                  <div className="font-semibold text-lg">{usernames[msg.from] || msg.from}</div>
+                  <div className="text-gray-500 text-sm truncate max-w-xs">{msg.text}</div>
+                </div>
+                <div className="text-xs text-gray-400 ml-4">{msg.createdAt ? new Date(msg.createdAt).toLocaleString() : ''}</div>
               </div>
-              <div className="text-gray-800 cursor-pointer underline" onClick={() => handleExpand(msg.from)}>
-                {msg.text}
-              </div>
-              <div className="text-xs text-gray-400">{msg.createdAt ? new Date(msg.createdAt).toLocaleString() : ''}</div>
               {expanded === msg.from && (
-                <div className={`mt-4 bg-gray-50 rounded transition-all duration-300 shadow-lg border border-blue-300 ${expanded === msg.from ? 'p-6 max-w-xl' : 'p-3 max-w-md'}`}
-                  style={{ minHeight: expanded === msg.from ? 320 : 120 }}>
+                <div className="px-6 pb-6 animate-fade-in">
                   <div className="mb-2 font-semibold">Conversation</div>
                   <div className="max-h-64 overflow-y-auto space-y-2 mb-2 flex flex-col">
                     {conversation.map((c, i) => (
