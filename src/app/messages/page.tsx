@@ -109,36 +109,35 @@ export default function MessagesPage() {
             >
               <div className="flex items-center justify-between px-6 py-4">
                 <div>
-                  <div className="font-semibold text-lg">{usernames[msg.from] || msg.from}</div>
+                  <div className="font-semibold text-lg">{usernames[msg.from] || 'Unknown User'}</div>
                   <div className="text-gray-500 text-sm truncate max-w-xs">{msg.text}</div>
                 </div>
                 <div className="text-xs text-gray-400 ml-4">{msg.createdAt ? new Date(msg.createdAt).toLocaleString() : ''}</div>
               </div>
               {expanded === msg.from && (
-                <div className="px-6 pb-6 animate-fade-in">
-                  <div className="mb-2 font-semibold">Conversation</div>
-                  <div className="max-h-64 overflow-y-auto space-y-2 mb-2 flex flex-col">
+                <div className="px-6 pb-6 animate-fade-in flex flex-col h-80">
+                  <div className="flex-1 max-h-64 overflow-y-auto space-y-2 mb-2 flex flex-col">
                     {conversation.map((c, i) => (
                       <div key={c.id || i} className={`flex ${c.from === user.uid ? 'justify-end' : 'justify-start'}`}> 
-                        <span className={`inline-block px-4 py-2 rounded-2xl text-sm shadow ${c.from === user.uid ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-900'}`}
+                        <span className={`inline-block px-4 py-2 rounded-2xl text-sm shadow ${c.from === user.uid ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-900'}`}
                           style={{ transition: 'background 0.3s' }}>
                           {c.text}
                         </span>
                       </div>
                     ))}
                   </div>
-                  <div className="flex items-center space-x-2 mt-2">
+                  <div className="flex items-center space-x-2 mt-2 pt-2 border-t border-gray-200">
                     <input
                       type="text"
                       className="flex-1 border rounded p-2"
-                      placeholder="Type a reply..."
+                      placeholder="Type your message..."
                       value={reply}
                       onChange={e => setReply(e.target.value)}
                       onKeyDown={e => { if (e.key === 'Enter') handleReply(); }}
                       disabled={sending}
                     />
                     <button
-                      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+                      className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
                       onClick={handleReply}
                       disabled={sending}
                     >
