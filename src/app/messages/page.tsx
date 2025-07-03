@@ -22,7 +22,7 @@ export default function MessagesPage() {
       orderBy('createdAt', 'desc')
     );
     const unsubscribe = onSnapshot(q, async (snapshot) => {
-      const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) }));
       setMessages(msgs);
       setLoading(false);
       // Mark unread messages as read
