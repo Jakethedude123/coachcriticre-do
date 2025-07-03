@@ -40,7 +40,7 @@ export default function MessagesPage() {
       const usernameMap: { [uid: string]: string } = {};
       await Promise.all(uniqueFrom.map(async (uid) => {
         const userDoc = await getDoc(doc(db, 'users', uid));
-        usernameMap[uid] = userDoc.exists() ? userDoc.data().username || uid : uid;
+        usernameMap[uid] = userDoc.exists() ? userDoc.data().displayName || uid : uid;
       }));
       console.log('[MessagesPage] usernameMap:', usernameMap);
       setUsernames(usernameMap);
@@ -58,7 +58,9 @@ export default function MessagesPage() {
       orderBy('createdAt', 'asc')
     );
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      setConversation(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      const conv = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      console.log('[MessagesPage] loaded conversation:', conv);
+      setConversation(conv);
     });
     return () => unsubscribe();
   }, [user, expanded]);
