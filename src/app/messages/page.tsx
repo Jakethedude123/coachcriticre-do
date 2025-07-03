@@ -144,7 +144,7 @@ export default function MessagesPage() {
               <div className="flex items-center justify-between px-6 py-4">
                 <div>
                   <div className="font-semibold text-lg">{usernames[msg.from] || 'Unknown User'}</div>
-                  <div className="text-gray-500 text-sm truncate max-w-xs">{msg.text}</div>
+                  <div className="inline-block px-4 py-2 rounded-2xl text-sm shadow bg-gray-200 text-gray-900 max-w-xs truncate mt-1">{msg.text}</div>
                 </div>
                 <div className="text-xs text-gray-400 ml-4">{msg.createdAt ? new Date(msg.createdAt).toLocaleString() : ''}</div>
               </div>
