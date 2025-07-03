@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { db } from '@/lib/firebase/firebase';
-import { collection, query, where, orderBy, onSnapshot, doc, getDoc, updateDoc, addDoc } from 'firebase/firestore';
+import { collection, query, where, orderBy, onSnapshot, doc, getDoc, updateDoc, addDoc, getDocs } from 'firebase/firestore';
 
 export default function MessagesPage() {
   const { user, loading } = useAuth();
@@ -70,29 +70,32 @@ export default function MessagesPage() {
   useEffect(() => {
     if (!user || !expanded) return;
     // Fetch all messages between user and expanded
-    const q1 = query(
-      collection(db, 'messages'),
-      where('from', '==', user.uid),
-      where('to', '==', expanded),
-      orderBy('createdAt', 'asc')
-    );
-    const q2 = query(
-      collection(db, 'messages'),
-      where('from', '==', expanded),
-      where('to', '==', user.uid),
-      orderBy('createdAt', 'asc')
-    );
-    let all: any[] = [];
-    const unsub1 = onSnapshot(q1, (snap1) => {
-      all = [...snap1.docs.map(doc => ({ id: doc.id, ...doc.data() }))];
-    });
-    const unsub2 = onSnapshot(q2, (snap2) => {
-      all = [...all, ...snap2.docs.map(doc => ({ id: doc.id, ...doc.data() }))];
+    const fetchConversation = async () => {
+      const q1 = query(
+        collection(db, 'messages'),
+        where('from', '==', user.uid),
+        where('to', '==', expanded),
+        orderBy('createdAt', 'asc')
+      );
+      const q2 = query(
+        collection(db, 'messages'),
+        where('from', '==', expanded),
+        where('to', '==', user.uid),
+        orderBy('createdAt', 'asc')
+      );
+      const [snap1, snap2] = await Promise.all([
+        getDocs(q1),
+        getDocs(q2)
+      ]);
+      const all = [
+        ...snap1.docs.map(doc => ({ id: doc.id, ...doc.data() })),
+        ...snap2.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+      ];
       all.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
       setConversation(all);
       console.log('[MessagesPage] loaded conversation:', all);
-    });
-    return () => { unsub1(); unsub2(); };
+    };
+    fetchConversation();
   }, [user, expanded]);
 
   // Helper to get the other participant's UID
