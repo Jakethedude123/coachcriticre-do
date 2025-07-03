@@ -22,27 +22,28 @@ export default function MessagesPage() {
   const [sending, setSending] = useState(false);
 
   useEffect(() => {
+    if (!user) return;
+    // Fetch all messages where user is sender or recipient
     const q = query(
       collection(db, 'messages'),
-      where('to', '==', user.uid),
+      where('participants', 'array-contains', user.uid),
       orderBy('createdAt', 'desc')
     );
     const unsubscribe = onSnapshot(q, async (snapshot) => {
       const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) }));
       setMessages(msgs);
       // Mark unread messages as read
-      const unread = msgs.filter(m => m.read === false);
+      const unread = msgs.filter(m => m.to === user.uid && m.read === false);
       for (const m of unread) {
         await updateDoc(doc(db, 'messages', m.id), { read: true });
       }
-      // Fetch usernames for all unique senders
-      const uniqueFrom = Array.from(new Set(msgs.map(m => m.from)));
+      // Fetch usernames for all unique participants
+      const uniqueUsers = Array.from(new Set(msgs.flatMap(m => [m.from, m.to])));
       const usernameMap: { [uid: string]: string } = {};
-      await Promise.all(uniqueFrom.map(async (uid) => {
+      await Promise.all(uniqueUsers.map(async (uid) => {
         const userDoc = await getDoc(doc(db, 'users', uid));
         usernameMap[uid] = userDoc.exists() ? userDoc.data().displayName || uid : uid;
       }));
-      console.log('[MessagesPage] usernameMap:', usernameMap);
       setUsernames(usernameMap);
     });
     return () => unsubscribe();
@@ -51,18 +52,31 @@ export default function MessagesPage() {
   // Load conversation when a message is expanded
   useEffect(() => {
     if (!user || !expanded) return;
-    const q = query(
+    // Fetch all messages between user and expanded
+    const q1 = query(
       collection(db, 'messages'),
-      where('to', 'in', [user.uid, expanded]),
-      where('from', 'in', [user.uid, expanded]),
+      where('from', '==', user.uid),
+      where('to', '==', expanded),
       orderBy('createdAt', 'asc')
     );
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const conv = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      console.log('[MessagesPage] loaded conversation:', conv);
-      setConversation(conv);
+    const q2 = query(
+      collection(db, 'messages'),
+      where('from', '==', expanded),
+      where('to', '==', user.uid),
+      orderBy('createdAt', 'asc')
+    );
+    let all: any[] = [];
+    const unsub1 = onSnapshot(q1, (snap1) => {
+      all = [...snap1.docs.map(doc => ({ id: doc.id, ...doc.data() }))];
+      // Wait for q2
     });
-    return () => unsubscribe();
+    const unsub2 = onSnapshot(q2, (snap2) => {
+      all = [...all, ...snap2.docs.map(doc => ({ id: doc.id, ...doc.data() }))];
+      all.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+      setConversation(all);
+      console.log('[MessagesPage] loaded conversation:', all);
+    });
+    return () => { unsub1(); unsub2(); };
   }, [user, expanded]);
 
   const handleExpand = (fromUid: string) => {
@@ -76,6 +90,7 @@ export default function MessagesPage() {
     await addDoc(collection(db, 'messages'), {
       to: expanded,
       from: user.uid,
+      participants: [user.uid, expanded],
       text: reply,
       read: false,
       createdAt: new Date().toISOString(),
