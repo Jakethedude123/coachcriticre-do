@@ -23,22 +23,39 @@ export default function MessagesPage() {
 
   useEffect(() => {
     if (!user) return;
-    // Fetch all messages where user is sender or recipient
-    const q = query(
+    // Fetch all messages where user is sender or recipient (backward compatible)
+    const qFrom = query(
       collection(db, 'messages'),
-      where('participants', 'array-contains', user.uid),
+      where('from', '==', user.uid),
       orderBy('createdAt', 'desc')
     );
-    const unsubscribe = onSnapshot(q, async (snapshot) => {
-      const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) }));
-      setMessages(msgs);
+    const qTo = query(
+      collection(db, 'messages'),
+      where('to', '==', user.uid),
+      orderBy('createdAt', 'desc')
+    );
+    let allMsgs: any[] = [];
+    const unsubFrom = onSnapshot(qFrom, async (snapFrom) => {
+      allMsgs = [...snapFrom.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) }))];
+    });
+    const unsubTo = onSnapshot(qTo, async (snapTo) => {
+      allMsgs = [...allMsgs, ...snapTo.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) }))];
+      // Group by the other participant
+      const grouped: { [uid: string]: any } = {};
+      allMsgs.forEach(m => {
+        const other = m.from === user.uid ? m.to : m.from;
+        if (!grouped[other] || new Date(m.createdAt) > new Date(grouped[other].createdAt)) {
+          grouped[other] = m;
+        }
+      });
+      setMessages(Object.values(grouped));
       // Mark unread messages as read
-      const unread = msgs.filter(m => m.to === user.uid && m.read === false);
+      const unread = allMsgs.filter(m => m.to === user.uid && m.read === false);
       for (const m of unread) {
         await updateDoc(doc(db, 'messages', m.id), { read: true });
       }
       // Fetch usernames for all unique participants
-      const uniqueUsers = Array.from(new Set(msgs.flatMap(m => [m.from, m.to])));
+      const uniqueUsers = Array.from(new Set(allMsgs.flatMap(m => [m.from, m.to])));
       const usernameMap: { [uid: string]: string } = {};
       await Promise.all(uniqueUsers.map(async (uid) => {
         const userDoc = await getDoc(doc(db, 'users', uid));
@@ -46,7 +63,7 @@ export default function MessagesPage() {
       }));
       setUsernames(usernameMap);
     });
-    return () => unsubscribe();
+    return () => { unsubFrom(); unsubTo(); };
   }, [user]);
 
   // Load conversation when a message is expanded
