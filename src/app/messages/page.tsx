@@ -5,13 +5,16 @@ import { db } from '@/lib/firebase/firebase';
 import { collection, query, where, orderBy, onSnapshot, doc, getDoc, updateDoc, addDoc } from 'firebase/firestore';
 
 export default function MessagesPage() {
-  const { user } = useAuth();
-  if (!user) {
-    console.log('[MessagesPage] user is null or not loaded');
+  const { user, loading } = useAuth();
+  if (loading) {
+    console.log('[MessagesPage] loading...');
     return <div>Loading...</div>;
   }
+  if (!user) {
+    console.log('[MessagesPage] user is null after loading');
+    return <div>Please log in to view your messages.</div>;
+  }
   const [messages, setMessages] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
   const [usernames, setUsernames] = useState<{ [uid: string]: string }>({});
   const [expanded, setExpanded] = useState<string | null>(null);
   const [conversation, setConversation] = useState<any[]>([]);
@@ -27,7 +30,6 @@ export default function MessagesPage() {
     const unsubscribe = onSnapshot(q, async (snapshot) => {
       const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) }));
       setMessages(msgs);
-      setLoading(false);
       // Mark unread messages as read
       const unread = msgs.filter(m => m.read === false);
       for (const m of unread) {
@@ -82,9 +84,7 @@ export default function MessagesPage() {
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
       <h1 className="text-2xl font-bold mb-4">Messages</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : messages.length === 0 ? (
+      {messages.length === 0 ? (
         <p className="text-gray-600">No messages found.</p>
       ) : (
         <ul className="space-y-4">
