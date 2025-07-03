@@ -42,6 +42,7 @@ export default function MessagesPage() {
         const userDoc = await getDoc(doc(db, 'users', uid));
         usernameMap[uid] = userDoc.exists() ? userDoc.data().username || uid : uid;
       }));
+      console.log('[MessagesPage] usernameMap:', usernameMap);
       setUsernames(usernameMap);
     });
     return () => unsubscribe();
@@ -90,7 +91,12 @@ export default function MessagesPage() {
         <ul className="space-y-4">
           {messages.map(msg => (
             <li key={msg.id} className="border-b pb-2">
-              <div className="text-sm text-gray-500">From: {usernames[msg.from] || msg.from}</div>
+              <div className="text-sm text-gray-500">
+                From: {usernames[msg.from] || msg.from}
+                <span style={{color: 'red', fontSize: 10}}>
+                  [msg.from: {msg.from}] [usernames[msg.from]: {usernames[msg.from]}]
+                </span>
+              </div>
               <div className="text-gray-800 cursor-pointer underline" onClick={() => handleExpand(msg.from)}>
                 {msg.text}
               </div>
