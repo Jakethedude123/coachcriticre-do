@@ -84,20 +84,26 @@ export default function MessagesPage() {
       orderBy('createdAt', 'asc')
     );
     const unsub1 = onSnapshot(q1, (snap1) => {
+      const fromMsgs = snap1.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) }));
+      console.log('[MessagesPage] q1 (from user to other):', fromMsgs);
       all = [
-        ...snap1.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) })),
+        ...fromMsgs,
         ...all.filter(m => m.from !== user.uid || m.to !== expanded)
       ];
       all.sort((a, b) => new Date(a.createdAt ?? 0).getTime() - new Date(b.createdAt ?? 0).getTime());
       setConversation([...all]);
+      console.log('[MessagesPage] combined conversation after q1:', all);
     });
     const unsub2 = onSnapshot(q2, (snap2) => {
+      const toMsgs = snap2.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) }));
+      console.log('[MessagesPage] q2 (from other to user):', toMsgs);
       all = [
         ...all.filter(m => m.from !== expanded || m.to !== user.uid),
-        ...snap2.docs.map(doc => ({ id: doc.id, ...(doc.data() as any) }))
+        ...toMsgs
       ];
       all.sort((a, b) => new Date(a.createdAt ?? 0).getTime() - new Date(b.createdAt ?? 0).getTime());
       setConversation([...all]);
+      console.log('[MessagesPage] combined conversation after q2:', all);
     });
     return () => { unsub1(); unsub2(); };
   }, [user, expanded]);
