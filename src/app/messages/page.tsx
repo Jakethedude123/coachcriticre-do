@@ -85,7 +85,6 @@ export default function MessagesPage() {
     let all: any[] = [];
     const unsub1 = onSnapshot(q1, (snap1) => {
       all = [...snap1.docs.map(doc => ({ id: doc.id, ...doc.data() }))];
-      // Wait for q2
     });
     const unsub2 = onSnapshot(q2, (snap2) => {
       all = [...all, ...snap2.docs.map(doc => ({ id: doc.id, ...doc.data() }))];
@@ -96,8 +95,22 @@ export default function MessagesPage() {
     return () => { unsub1(); unsub2(); };
   }, [user, expanded]);
 
-  const handleExpand = (fromUid: string) => {
-    setExpanded(expanded === fromUid ? null : fromUid);
+  // Helper to get the other participant's UID
+  const getOtherParticipant = (msg: any) => (msg.from === user.uid ? msg.to : msg.from);
+
+  // Group messages by the other participant
+  const latestMessagesByOther = Object.values(
+    messages.reduce((acc, msg) => {
+      const other = getOtherParticipant(msg);
+      if (!acc[other] || new Date(msg.createdAt) > new Date(acc[other].createdAt)) {
+        acc[other] = msg;
+      }
+      return acc;
+    }, {} as { [other: string]: any })
+  ) as any[];
+
+  const handleExpand = (otherUid: string) => {
+    setExpanded(expanded === otherUid ? null : otherUid);
     setReply('');
   };
 
@@ -116,72 +129,65 @@ export default function MessagesPage() {
     setSending(false);
   };
 
-  // Group messages by sender (show only latest per sender)
-  const latestMessagesBySender = Object.values(
-    messages.reduce((acc, msg) => {
-      if (!acc[msg.from] || new Date(msg.createdAt) > new Date(acc[msg.from].createdAt)) {
-        acc[msg.from] = msg;
-      }
-      return acc;
-    }, {} as { [from: string]: any })
-  ) as any[];
-
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
       <h1 className="text-2xl font-bold mb-4">Messages</h1>
-      {latestMessagesBySender.length === 0 ? (
+      {latestMessagesByOther.length === 0 ? (
         <p className="text-gray-600">No messages found.</p>
       ) : (
         <ul className="space-y-4">
-          {latestMessagesBySender.map(msg => (
-            <li
-              key={msg.from}
-              className={`transition-all duration-300 bg-white rounded-lg shadow border cursor-pointer overflow-hidden ${expanded === msg.from ? 'ring-2 ring-blue-400 scale-105' : 'hover:ring-1 hover:ring-blue-200'}`}
-              style={{ minHeight: expanded === msg.from ? 320 : 64, maxHeight: expanded === msg.from ? 600 : 64 }}
-              onMouseEnter={() => handleExpand(msg.from)}
-              onMouseLeave={() => setExpanded(null)}
-            >
-              <div className="flex items-center justify-between px-6 py-4">
-                <div>
-                  <div className="font-semibold text-lg">{usernames[msg.from] || 'Unknown User'}</div>
-                  <div className="inline-block px-4 py-2 rounded-2xl text-sm shadow bg-gray-200 text-gray-900 max-w-xs truncate mt-1">{msg.text}</div>
-                </div>
-                <div className="text-xs text-gray-400 ml-4">{msg.createdAt ? new Date(msg.createdAt).toLocaleString() : ''}</div>
-              </div>
-              {expanded === msg.from && (
-                <div className="px-6 pb-6 animate-fade-in flex flex-col h-80">
-                  <div className="flex-1 max-h-64 overflow-y-auto space-y-2 mb-2 flex flex-col">
-                    {conversation.map((c, i) => (
-                      <div key={c.id || i} className={`flex ${c.from === user.uid ? 'justify-end' : 'justify-start'}`}> 
-                        <span className={`inline-block px-4 py-2 rounded-2xl text-sm shadow ${c.from === user.uid ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-900'}`}
-                          style={{ transition: 'background 0.3s' }}>
-                          {c.text}
-                        </span>
-                      </div>
-                    ))}
+          {latestMessagesByOther.map(msg => {
+            const other = getOtherParticipant(msg);
+            return (
+              <li
+                key={other}
+                className={`transition-all duration-300 bg-white rounded-lg shadow border cursor-pointer overflow-hidden ${expanded === other ? 'ring-2 ring-blue-400 scale-105' : 'hover:ring-1 hover:ring-blue-200'}`}
+                style={{ minHeight: expanded === other ? 320 : 64, maxHeight: expanded === other ? 600 : 64 }}
+                onMouseEnter={() => handleExpand(other)}
+                onMouseLeave={() => setExpanded(null)}
+              >
+                <div className="flex items-center justify-between px-6 py-4">
+                  <div>
+                    <div className="font-semibold text-lg">{usernames[other] || 'Unknown User'}</div>
+                    <div className="inline-block px-4 py-2 rounded-2xl text-sm shadow bg-gray-200 text-gray-900 max-w-xs truncate mt-1">{msg.text}</div>
                   </div>
-                  <div className="flex items-center space-x-2 mt-2 pt-2 border-t border-gray-200">
-                    <input
-                      type="text"
-                      className="flex-1 border rounded p-2"
-                      placeholder="Type your message..."
-                      value={reply}
-                      onChange={e => setReply(e.target.value)}
-                      onKeyDown={e => { if (e.key === 'Enter') handleReply(); }}
-                      disabled={sending}
-                    />
-                    <button
-                      className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
-                      onClick={handleReply}
-                      disabled={sending}
-                    >
-                      Send
-                    </button>
-                  </div>
+                  <div className="text-xs text-gray-400 ml-4">{msg.createdAt ? new Date(msg.createdAt).toLocaleString() : ''}</div>
                 </div>
-              )}
-            </li>
-          ))}
+                {expanded === other && (
+                  <div className="px-6 pb-6 animate-fade-in flex flex-col h-80">
+                    <div className="flex-1 max-h-64 overflow-y-auto space-y-2 mb-2 flex flex-col">
+                      {conversation.map((c, i) => (
+                        <div key={c.id || i} className={`flex ${c.from === user.uid ? 'justify-end' : 'justify-start'}`}> 
+                          <span className={`inline-block px-4 py-2 rounded-2xl text-sm shadow ${c.from === user.uid ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-900'}`}
+                            style={{ transition: 'background 0.3s' }}>
+                            {c.text}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex items-center space-x-2 mt-2 pt-2 border-t border-gray-200">
+                      <input
+                        type="text"
+                        className="flex-1 border rounded p-2"
+                        placeholder="Type your message..."
+                        value={reply}
+                        onChange={e => setReply(e.target.value)}
+                        onKeyDown={e => { if (e.key === 'Enter') handleReply(); }}
+                        disabled={sending}
+                      />
+                      <button
+                        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
+                        onClick={handleReply}
+                        disabled={sending}
+                      >
+                        Send
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>
