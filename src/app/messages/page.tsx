@@ -6,6 +6,7 @@ import { collection, query, where, orderBy, onSnapshot, doc, getDoc, updateDoc, 
 
 export default function MessagesPage() {
   const { user } = useAuth();
+  if (!user) return <div>Loading...</div>;
   const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [usernames, setUsernames] = useState<{ [uid: string]: string }>({});
@@ -15,7 +16,6 @@ export default function MessagesPage() {
   const [sending, setSending] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
     const q = query(
       collection(db, 'messages'),
       where('to', '==', user.uid),
