@@ -49,14 +49,12 @@ export default function SearchResultsPage() {
       <div className="grid md:grid-cols-3 gap-6">
         {coaches.map((coach) => {
           const mappedCoach = {
-            id: coach.id,
-            name: coach.name,
+            ...coach,
             profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
             rating: coach.rating || 0,
             testimonialCount: coach.testimonialCount || 0,
             specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
             bio: coach.bio || '',
-            ...coach,
           };
           return (
             <div
