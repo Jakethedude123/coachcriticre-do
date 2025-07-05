@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FaDumbbell, FaStar, FaUserCircle, FaTrophy, FaUserCheck, FaSearch } from 'react-icons/fa';
 import CoachCard from '@/app/components/CoachCard';
 import { useAuth } from '@/lib/hooks/useAuth';
+import SearchBar from '@/components/SearchBar';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -35,22 +36,7 @@ export default function Home() {
               Connect with experienced coaches who can help you achieve your physique, health, and fitness goals—whether you're aiming for the stage or just want to get in shape.
             </p>
             {/* Search Bar */}
-            <div className="relative max-w-2xl mx-auto">
-              <input
-                type="text"
-                placeholder="Search coaches by name, specialty, or location..."
-                className="w-full p-4 pr-12 text-lg rounded-lg border-2 border-blue-400 shadow-lg focus:border-blue-500 focus:ring-blue-500 text-gray-900"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-              />
-              <button
-                onClick={handleSearch}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-600 hover:text-blue-700 text-xl"
-              >
-                <FaSearch />
-              </button>
-            </div>
+            <SearchBar />
           </div>
         </div>
       </section>
