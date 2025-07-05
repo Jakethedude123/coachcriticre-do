@@ -56,18 +56,26 @@ export default function SearchResultsPage() {
             specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
             bio: coach.bio || '',
           };
+          const isExpanded = hoveredCoachId === coach.id;
           return (
             <div
               key={coach.id}
               onMouseEnter={() => setHoveredCoachId(coach.id)}
               onMouseLeave={() => setHoveredCoachId(null)}
-              className="transition-all duration-200"
+              className={`transition-all duration-300 overflow-hidden bg-white rounded-lg ${isExpanded ? 'shadow-2xl' : 'shadow'} p-0`}
+              style={{
+                maxHeight: isExpanded ? 420 : 120,
+                minHeight: isExpanded ? 420 : 120,
+                boxShadow: isExpanded ? '0 8px 32px rgba(0,0,0,0.18)' : '0 1px 4px rgba(0,0,0,0.08)',
+                marginBottom: '8px',
+              }}
             >
-              {hoveredCoachId === coach.id ? (
-                <CoachCard coach={mappedCoach} />
-              ) : (
-                <CondensedCoachCard coach={mappedCoach} />
-              )}
+              <div className="transition-opacity duration-200" style={{ opacity: isExpanded ? 1 : 0, position: isExpanded ? 'static' : 'absolute', width: '100%' }}>
+                {isExpanded && <CoachCard coach={mappedCoach} />}
+              </div>
+              <div className="transition-opacity duration-200" style={{ opacity: isExpanded ? 0 : 1, position: isExpanded ? 'absolute' : 'static', width: '100%' }}>
+                {!isExpanded && <CondensedCoachCard coach={mappedCoach} />}
+              </div>
             </div>
           );
         })}
