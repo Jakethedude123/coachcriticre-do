@@ -5,7 +5,12 @@ interface Coach {
   id: string;
   name: string;
   specialty?: string;
-  location?: string;
+  location?: {
+    city?: string;
+    state?: string;
+    country?: string;
+    [key: string]: any;
+  };
   [key: string]: any;
 }
 
