@@ -57,7 +57,7 @@ export default function Navbar() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
               <Image
-                src="/images/optimized/logo.webp"
+                src="/hilogo.png"
                 alt="CoachCritic Logo"
                 width={150}
                 height={40}
