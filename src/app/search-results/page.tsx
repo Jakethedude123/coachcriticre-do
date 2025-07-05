@@ -43,7 +43,11 @@ export default function SearchResultsPage() {
           <div key={coach.id} className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-xl font-semibold mb-2">{coach.name}</h2>
             {coach.specialty && <p className="text-gray-600">Specialty: {coach.specialty}</p>}
-            {coach.location && <p className="text-gray-600">Location: {coach.location}</p>}
+            {coach.location && typeof coach.location === 'object' && (
+              <p className="text-gray-600">
+                Location: {coach.location.city || ''}{coach.location.city && coach.location.state ? ', ' : ''}{coach.location.state || ''}{coach.location.state && coach.location.country ? ', ' : ''}{coach.location.country || ''}
+              </p>
+            )}
             {/* Add more coach details as needed */}
           </div>
         ))}
