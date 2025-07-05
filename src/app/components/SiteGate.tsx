@@ -47,7 +47,7 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
       <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg text-center relative">
         <div className="mb-6 flex justify-center">
           <Image
-            src="/images/logo_transparent.png"
+            src="/hilogo.png"
             alt="CoachCritic Logo"
             width={200}
             height={200}
