@@ -37,7 +37,7 @@ export default function AllCoachesPage() {
       ) : (
         <ul className="space-y-6">
           {filtered.map((coach) => (
-            <li key={coach.id}>
+            <li key={coach.userId}>
               <CoachCard coach={coach} />
             </li>
           ))}
