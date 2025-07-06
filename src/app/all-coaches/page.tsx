@@ -21,7 +21,9 @@ export default function AllCoachesPage() {
     ? coaches.filter((coach: Coach) =>
         coach.name?.toLowerCase().includes(query) ||
         coach.specialties?.some((s) => s.toLowerCase().includes(query)) ||
-        coach.location?.address?.toLowerCase().includes(query)
+        coach.location?.city?.toLowerCase().includes(query) ||
+        coach.location?.state?.toLowerCase().includes(query) ||
+        coach.location?.country?.toLowerCase().includes(query)
       )
     : coaches;
 
