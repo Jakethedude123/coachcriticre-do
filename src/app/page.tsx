@@ -43,7 +43,7 @@ function CoachSpotlight() {
       <div className="relative max-w-xl mx-auto flex items-center justify-center">
         {coaches.map((coach, idx) => (
           <div
-            key={coach.userId || coach.id || idx}
+            key={coach.userId || idx}
             className={`absolute left-0 right-0 transition-all duration-700 ${idx === current ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-95 z-0'} pointer-events-none`}
             style={{ minHeight: 320 }}
           >
