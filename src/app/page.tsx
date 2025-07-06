@@ -6,9 +6,10 @@ import { FaDumbbell, FaStar, FaUserCircle, FaTrophy, FaUserCheck, FaSearch } fro
 import CoachCard from '@/app/components/CoachCard';
 import { useAuth } from '@/lib/hooks/useAuth';
 import SearchBar from '@/components/SearchBar';
+import type { Coach } from '@/lib/firebase/models/coach';
 
 function CoachSpotlight() {
-  const [coaches, setCoaches] = useState([]);
+  const [coaches, setCoaches] = useState<Coach[]>([]);
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -16,7 +17,7 @@ function CoachSpotlight() {
       .then(res => res.json())
       .then(data => {
         // Filter for Pro coaches, fallback to first 5
-        const proCoaches = (data.coaches || []).filter(c => c.subscription?.plan === 'pro');
+        const proCoaches = (data.coaches || []).filter((c: Coach) => c.subscription?.plan === 'pro');
         setCoaches(proCoaches.length > 0 ? proCoaches : (data.coaches || []).slice(0, 5));
       });
   }, []);
