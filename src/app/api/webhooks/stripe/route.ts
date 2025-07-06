@@ -79,7 +79,7 @@ export async function POST(req: Request) {
         if (coach) {
           await updateCoach(coach.userId, {
             subscription: {
-              plan: 'free',
+              plan: 'basic',
               status: 'cancelled',
               stripeCustomerId: '',
               stripeSubscriptionId: ''
