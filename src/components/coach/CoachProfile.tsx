@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { Coach, TIER_BENEFITS } from '@/lib/firebase/models/coach';
+import { Coach, PLAN_BENEFITS } from '@/lib/firebase/models/coach';
 import VerifiedBadge from './VerifiedBadge';
 import { useAuth } from '@/lib/hooks/useAuth';
 
