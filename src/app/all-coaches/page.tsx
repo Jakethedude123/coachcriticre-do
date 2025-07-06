@@ -2,11 +2,12 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import CoachCard from "@/app/components/CoachCard";
+import type { Coach } from "@/lib/firebase/models/coach";
 
 export default function AllCoachesPage() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query")?.toLowerCase() || "";
-  const [coaches, setCoaches] = useState([]);
+  const [coaches, setCoaches] = useState<Coach[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,7 +18,7 @@ export default function AllCoachesPage() {
   }, []);
 
   const filtered = query
-    ? coaches.filter((coach) =>
+    ? coaches.filter((coach: Coach) =>
         coach.name?.toLowerCase().includes(query) ||
         coach.specialties?.some((s) => s.toLowerCase().includes(query)) ||
         coach.location?.address?.toLowerCase().includes(query)
