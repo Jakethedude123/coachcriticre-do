@@ -99,6 +99,9 @@ export interface SearchFilters {
   timeZones?: string[];
   proximityMiles?: number;
   proximityLocation?: string;
+
+  // New: first time competitor filter
+  firstTimeCompetitor?: boolean;
 }
 
 const COACHES_PER_PAGE = 10;
