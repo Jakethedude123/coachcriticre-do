@@ -18,7 +18,7 @@ export default function UpgradePage() {
             <li>❌ Download videos with no watermark</li>
             <li>❌ Commercial use</li>
           </ul>
-          <button className="w-full bg-gray-800 text-white py-2 rounded-lg font-semibold cursor-default opacity-60">Current Plan</button>
+          <button className="button-primary w-full bg-gray-800 text-white py-2 rounded-lg font-semibold cursor-default opacity-60">Current Plan</button>
         </div>
         {/* Pro Plan */}
         <div className="bg-yellow-50 border-4 border-yellow-300 rounded-2xl p-8 w-80 flex flex-col items-center shadow-2xl">
@@ -33,7 +33,7 @@ export default function UpgradePage() {
             <li>✔️ Download videos with no watermark</li>
             <li>✔️ Commercial use</li>
           </ul>
-          <button className="w-full bg-yellow-400 text-gray-900 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition">Upgrade to Pro</button>
+          <button className="button-primary w-full bg-yellow-400 text-gray-900 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition">Upgrade to Pro</button>
         </div>
       </div>
     </div>

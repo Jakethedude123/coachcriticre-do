@@ -24,7 +24,7 @@ export default function SearchBar() {
       />
       <button
         onClick={handleSearch}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-blue-600 hover:text-blue-700 text-xl"
+        className="button-primary absolute right-4 top-1/2 transform -translate-y-1/2 text-xl"
       >
         <FaSearch />
       </button>

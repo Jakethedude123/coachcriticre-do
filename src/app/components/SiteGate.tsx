@@ -72,7 +72,7 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
             {error && <div className="text-red-600 text-sm">{error}</div>}
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded font-semibold hover:bg-blue-700 transition-colors disabled:opacity-60"
+              className="button-primary w-full"
               disabled={loading}
             >
               {loading ? 'Submitting...' : 'Notify Me'}
@@ -92,7 +92,7 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
             />
             <button
               type="submit"
-              className="w-full bg-gray-600 text-white py-2 rounded font-semibold hover:bg-gray-700 transition-colors"
+              className="button-primary w-full bg-gray-600 hover:bg-gray-700"
             >
               Enter Site
             </button>

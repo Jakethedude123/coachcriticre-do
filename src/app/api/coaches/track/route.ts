@@ -1,18 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { adminDb } from '@/lib/firebase/firebaseAdmin';
+import { getCoach } from '@/lib/firebase/firebaseUtils';
 import { NotificationService } from '@/lib/services/NotificationService';
 import { RateLimiter } from '@/lib/services/RateLimiter';
 
-const allowedEventTypes = ["profileViews", "searchAppearances", "profileClicks"] as const;
-type AllowedEventType = typeof allowedEventTypes[number];
-
 export async function POST(req: NextRequest) {
-  let coachId: string | undefined;
-  let eventType: string | undefined;
   try {
-    const body = await req.json();
-    coachId = body.coachId;
-    eventType = body.eventType;
+    const { coachId, eventType } = await req.json();
 
     if (!coachId || !eventType) {
       return NextResponse.json(
@@ -21,16 +14,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!allowedEventTypes.includes(eventType as AllowedEventType)) {
-      return NextResponse.json(
-        { error: 'Invalid event type' },
-        { status: 400 }
-      );
-    }
-
-    // Get coach data using Admin SDK
-    const doc = await adminDb.collection('coaches').doc(coachId).get();
-    const coach = doc.exists ? (doc.data() as import('@/lib/firebase/models/coach').Coach) : null;
+    // Get coach data
+    const coach = await getCoach(coachId);
     if (!coach) {
       return NextResponse.json(
         { error: 'Coach not found' },
@@ -39,24 +24,24 @@ export async function POST(req: NextRequest) {
     }
 
     // Check rate limit before proceeding
-    const isWithinLimit = await RateLimiter.checkRateLimit(coachId, eventType as AllowedEventType);
+    const isWithinLimit = await RateLimiter.checkRateLimit(coachId, eventType);
     if (!isWithinLimit) {
       // Still update analytics but skip notifications
-      await NotificationService.updateAnalytics(coachId, eventType as AllowedEventType);
+      await NotificationService.updateAnalytics(coachId, eventType);
       return NextResponse.json({ success: true, rateLimit: true });
     }
 
     // Update analytics and send notifications based on event type
     switch (eventType) {
-      case 'profileViews':
+      case 'profileView':
         await NotificationService.notifyProfileView(coach);
         await NotificationService.updateAnalytics(coachId, 'profileViews');
         break;
-      case 'searchAppearances':
+      case 'searchAppearance':
         await NotificationService.notifySearchAppearance(coach);
         await NotificationService.updateAnalytics(coachId, 'searchAppearances');
         break;
-      case 'profileClicks':
+      case 'profileClick':
         await NotificationService.notifyProfileClick(coach);
         await NotificationService.updateAnalytics(coachId, 'profileClicks');
         break;
@@ -69,12 +54,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error tracking event:', {
-      message: error instanceof Error ? error.message : error,
-      stack: error instanceof Error ? error.stack : undefined,
-      coachId: typeof coachId !== 'undefined' ? coachId : null,
-      eventType: typeof eventType !== 'undefined' ? eventType : null,
-    });
+    console.error('Error tracking event:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
