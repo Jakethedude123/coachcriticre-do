@@ -99,9 +99,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Coach Spotlight Section */}
-      <CoachSpotlight />
-
       {/* Features Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
@@ -141,6 +138,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Coach Spotlight Section (moved below features) */}
+      <CoachSpotlight />
     </main>
   );
 }
