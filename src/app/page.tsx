@@ -8,6 +8,7 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import SearchBar from '@/components/SearchBar';
 import type { Coach } from '@/lib/firebase/models/coach';
 
+// CoachSpotlight carousel key fix - force redeploy
 function CoachSpotlight() {
   const [coaches, setCoaches] = useState<Coach[]>([]);
   const [current, setCurrent] = useState(0);
