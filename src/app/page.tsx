@@ -1,11 +1,67 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
 import { FaDumbbell, FaStar, FaUserCircle, FaTrophy, FaUserCheck, FaSearch } from 'react-icons/fa';
 import CoachCard from '@/app/components/CoachCard';
 import { useAuth } from '@/lib/hooks/useAuth';
 import SearchBar from '@/components/SearchBar';
+
+function CoachSpotlight() {
+  const [coaches, setCoaches] = useState([]);
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    fetch('/api/coaches/all')
+      .then(res => res.json())
+      .then(data => {
+        // Filter for Pro coaches, fallback to first 5
+        const proCoaches = (data.coaches || []).filter(c => c.subscription?.plan === 'pro');
+        setCoaches(proCoaches.length > 0 ? proCoaches : (data.coaches || []).slice(0, 5));
+      });
+  }, []);
+
+  // Auto-advance carousel
+  useEffect(() => {
+    if (coaches.length < 2) return;
+    const interval = setInterval(() => {
+      setCurrent(c => (c + 1) % coaches.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [coaches]);
+
+  if (!coaches.length) return null;
+
+  return (
+    <section className="w-full bg-white py-12">
+      <div className="max-w-3xl mx-auto text-center mb-8">
+        <h2 className="text-3xl font-bold mb-2 text-blue-900">Coach Spotlight</h2>
+        <p className="text-gray-500">Meet our top coaches—handpicked for their expertise and results.</p>
+      </div>
+      <div className="relative max-w-xl mx-auto flex items-center justify-center">
+        {coaches.map((coach, idx) => (
+          <div
+            key={coach.userId || coach.id || idx}
+            className={`absolute left-0 right-0 transition-all duration-700 ${idx === current ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-95 z-0'} pointer-events-none`}
+            style={{ minHeight: 320 }}
+          >
+            <CoachCard coach={coach} />
+          </div>
+        ))}
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+          {coaches.map((_, idx) => (
+            <button
+              key={idx}
+              className={`w-3 h-3 rounded-full ${idx === current ? 'bg-blue-600' : 'bg-gray-300'}`}
+              onClick={() => setCurrent(idx)}
+              aria-label={`Show coach ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,6 +96,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Coach Spotlight Section */}
+      <CoachSpotlight />
 
       {/* Features Section */}
       <section className="py-20">
