@@ -48,7 +48,7 @@ export default function VoiceRecorder() {
               repeat: Infinity,
               ease: "easeInOut",
             }}
-            className="w-8 h-8 bg-blue-500 rounded-full mx-auto mb-4"
+            className="button-primary w-8 h-8 bg-blue-500 rounded-full mx-auto mb-4"
           />
           <p className="text-sm text-gray-600">{realtimeTranscript}</p>
         </div>

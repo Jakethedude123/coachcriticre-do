@@ -189,7 +189,7 @@ export default function MessagesPage() {
                         disabled={sending}
                       />
                       <button
-                        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
+                        className="button-primary bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
                         onClick={handleReply}
                         disabled={sending}
                       >

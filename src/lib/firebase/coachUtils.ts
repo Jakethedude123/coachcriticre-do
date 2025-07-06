@@ -260,29 +260,29 @@ export async function searchCoaches(filters: SearchFilters, lastDoc?: any) {
     addArrayFilter('specialties', 'specialties', filters.specialties, 'array-contains-any');
 
     // Competition experience filters
-    addArrayFilter('federations', 'competitionHistory.federations', filters.federations, 'array-contains-any');
+    addArrayFilter('federations', 'federations', filters.federations, 'array-contains-any');
 
     // Technical expertise filters
     if (filters.requiresFormCorrection) {
-      constraints.push(where('technicalExpertise.formCorrection', '==', true));
+      constraints.push(where('requiresFormCorrection', '==', true));
     }
     if (filters.requiresPosingCoaching) {
-      constraints.push(where('technicalExpertise.posingCoaching', '==', true));
+      constraints.push(where('requiresPosingCoaching', '==', true));
     }
     if (filters.requiresInjuryPrevention) {
-      constraints.push(where('technicalExpertise.injuryPrevention', '==', true));
+      constraints.push(where('requiresInjuryPrevention', '==', true));
     }
     if (filters.requiresInjuryRecovery) {
-      constraints.push(where('technicalExpertise.injuryRecovery', '==', true));
+      constraints.push(where('requiresInjuryRecovery', '==', true));
     }
     if (filters.requiresNutrition) {
-      constraints.push(where('technicalExpertise.nutrition', '==', true));
+      constraints.push(where('requiresNutrition', '==', true));
     }
     if (filters.requiresLifestyleCoaching) {
-      constraints.push(where('technicalExpertise.lifestyleCoaching', '==', true));
+      constraints.push(where('requiresLifestyleCoaching', '==', true));
     }
     if (filters.requiresBodybuilding) {
-      constraints.push(where('technicalExpertise.bodybuilding', '==', true));
+      constraints.push(where('requiresBodybuilding', '==', true));
     }
     addArrayFilter('specialtyLifts', 'technicalExpertise.specialtyLifts', filters.specialtyLifts, 'array-contains-any');
 

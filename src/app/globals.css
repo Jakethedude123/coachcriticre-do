@@ -1,13 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-dark-blue: #0A3557;
+  --color-light-blue: #4FC3F7;
+}
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #fff;
+  color: #222;
+  @apply bg-gray-50;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body {
-  @apply bg-gray-50;
-}
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.button-primary {
+  font-family: 'Inter', Arial, sans-serif;
+  background: var(--color-dark-blue);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(10, 53, 87, 0.08);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  cursor: pointer;
+}
+.button-primary:hover, .button-primary:focus {
+  background: var(--color-light-blue);
+  color: var(--color-dark-blue);
+  box-shadow: 0 4px 16px rgba(10, 53, 87, 0.16);
+  transform: translateY(-2px) scale(1.03);
+  outline: none;
+}
+.button-primary:active {
+  background: var(--color-dark-blue);
+  color: #fff;
+  transform: scale(0.98);
 }

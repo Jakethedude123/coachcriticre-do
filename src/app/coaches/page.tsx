@@ -53,7 +53,7 @@ export default function CoachesPage() {
             },
             body: JSON.stringify({
               coachId: coach.id,
-              eventType: 'searchAppearances',
+              eventType: 'searchAppearance',
             }),
           })
         )
@@ -85,7 +85,7 @@ export default function CoachesPage() {
             },
             body: JSON.stringify({
               coachId: coach.id,
-              eventType: 'searchAppearances',
+              eventType: 'searchAppearance',
             }),
           })
         )
@@ -106,8 +106,8 @@ export default function CoachesPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          coachId: coachId,
-          eventType: 'profileClicks',
+          coachId,
+          eventType: 'profileClick',
         }),
       });
     } catch (error) {
