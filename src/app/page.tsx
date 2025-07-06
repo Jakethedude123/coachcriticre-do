@@ -104,34 +104,34 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
             {/* Expert Coaches */}
-            <div className="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-shadow">
+            <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow max-w-xs mx-auto">
               <div className="text-blue-600 mb-4">
-                <FaDumbbell size={40} />
+                <FaDumbbell size={32} />
               </div>
-              <h2 className="text-2xl font-bold mb-4">Expert Coaches</h2>
-              <p className="text-gray-600 text-lg">
+              <h2 className="text-xl font-bold mb-3">Expert Coaches</h2>
+              <p className="text-gray-600 text-base">
                 Find certified coaches with proven track records in bodybuilding and lifestyle transformation.
               </p>
             </div>
 
             {/* Competition Prep */}
-            <div className="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-shadow">
+            <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow max-w-xs mx-auto">
               <div className="text-blue-600 mb-4">
-                <FaTrophy size={40} />
+                <FaTrophy size={32} />
               </div>
-              <h2 className="text-2xl font-bold mb-4">Competition & Lifestyle Prep</h2>
-              <p className="text-gray-600 text-lg">
+              <h2 className="text-xl font-bold mb-3">Competition & Lifestyle Prep</h2>
+              <p className="text-gray-600 text-base">
                 Get specialized guidance for your next bodybuilding show—or expert help to get lean, healthy, and confident for everyday life.
               </p>
             </div>
 
             {/* Verified Reviews */}
-            <div className="bg-white rounded-xl p-8 shadow-md hover:shadow-lg transition-shadow">
+            <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow max-w-xs mx-auto">
               <div className="text-blue-600 mb-4">
-                <FaUserCheck size={40} />
+                <FaUserCheck size={32} />
               </div>
-              <h2 className="text-2xl font-bold mb-4">Verified Reviews</h2>
-              <p className="text-gray-600 text-lg">
+              <h2 className="text-xl font-bold mb-3">Verified Reviews</h2>
+              <p className="text-gray-600 text-base">
                 Read authentic reviews from real clients to find your perfect bodybuilding or lifestyle coaching match.
               </p>
             </div>
