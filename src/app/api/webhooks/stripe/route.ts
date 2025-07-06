@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 import { adminDb as db } from '@/lib/firebase/firebaseAdmin';
 import { getCoachByStripeAccount, updateCoach } from '@/lib/firebase/firebaseUtils';
 import { NotificationService } from '@/lib/services/NotificationService';
-import { type CoachTier } from '@/lib/firebase/models/coach';
+import { type CoachPlan } from '@/lib/firebase/models/coach';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-02-24.acacia',
@@ -62,7 +62,7 @@ export async function POST(req: Request) {
         if (coach) {
           await updateCoach(coach.userId, {
             subscription: {
-              plan: (session.metadata?.tier || 'free') as 'free' | 'pro' | 'premium',
+              plan: (session.metadata?.tier || 'basic') as CoachPlan,
               status: 'active',
               stripeCustomerId: session.customer as string,
               stripeSubscriptionId: session.subscription as string
