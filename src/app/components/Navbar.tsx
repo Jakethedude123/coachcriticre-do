@@ -61,9 +61,10 @@ export default function Navbar() {
                 alt="CoachCritic Logo"
                 width={150}
                 height={40}
-                className="h-8 w-auto"
+                className="h-10 w-auto bg-white border border-gray-200 rounded shadow-sm p-1"
                 priority
                 quality={80}
+                onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-coach.png'; }}
               />
               <span className="ml-2 text-xl font-bold text-gray-900">CoachCritic</span>
             </Link>
@@ -73,12 +74,6 @@ export default function Navbar() {
                 className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md"
               >
                 Find Coaches
-              </Link>
-              <Link
-                href="/coaches/spotlight"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md"
-              >
-                Coach Spotlight
               </Link>
               <Link
                 href="/recent-activity"

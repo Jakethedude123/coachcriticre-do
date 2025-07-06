@@ -13,6 +13,36 @@ const TIME_ZONES = [
   'EST', 'CST', 'MST', 'PST', 'GMT', 'CET', 'EET', 'IST', 'AEST', 'JST'
 ];
 
+// Federations array for filter
+const FEDERATIONS = [
+  'IFBB', 'NPC', 'OCB', 'USAPL', 'WRPF', 'IPF', 'USPS', 'RPS', 'APF', 'SPF', 'GPA'
+];
+
+// Divisions array for filter (with break between BB and PL)
+const BB_DIVISIONS = [
+  'Mens Physique',
+  'Mens Classic Physique',
+  'Mens Bodybuilding',
+  "Women's Bodybuilding",
+  "Women's Physique",
+  'Figure',
+  'Wellness',
+  'Bikini'
+];
+
+const PL_DIVISIONS = [
+  'Sub-Junior', 'Collegiate', 'Amateur', 'Elite', 'Equipped', 'Masters (40+)', 'World-Level'
+];
+
+// Powerlifting specializations
+const PL_SPECIALIZATIONS = [
+  'Meet Day Handling',
+  'RPE-Based Training',
+  'Cutting Weight',
+  'Technical Feedback (SBD)',
+  'Conjugate Method'
+];
+
 export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
   const [expandedSections, setExpandedSections] = useState({
     pricing: true,
@@ -31,7 +61,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
     trainingStyle: [],
     coachingModality: [],
     federations: [],
-        hasCompetitionExperience: false,
+    hasCompetitionExperience: false,
     requiresFormCorrection: false,
     requiresPosingCoaching: false,
     requiresInjuryPrevention: false,
@@ -54,7 +84,8 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
     labworkInterpretation: false,
     timeZones: [],
     proximityMiles: 0,
-    proximityLocation: ''
+    proximityLocation: '',
+    firstTimeCompetitor: false
   });
 
   const toggleSection = (section: keyof typeof expandedSections) => {
@@ -98,7 +129,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <div>
               <label className="block text-sm font-medium text-gray-700">Select Your Federation</label>
               <div className="mt-2 space-y-2">
-                {['IFBB', 'NPC','OCB'].map(federation => (
+                {FEDERATIONS.map(federation => (
                   <label key={federation} className="inline-flex items-center mr-4">
                     <input
                       type="checkbox"
@@ -115,16 +146,19 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <div>
               <label className="block text-sm font-medium text-gray-700">Select Your Division</label>
               <div className="mt-2 space-y-2">
-                {[
-                  'Mens Physique',
-                  'Mens Classic Physique',
-                  'Mens Bodybuilding',
-                  "Women's Bodybuilding",
-                  "Women's Physique",
-                  'Figure',
-                  'Wellness',
-                  'Bikini'
-                ].map(division => (
+                {BB_DIVISIONS.map(division => (
+                  <label key={division} className="inline-flex items-center mr-4">
+                    <input
+                      type="checkbox"
+                      checked={filters.divisions?.includes(division)}
+                      onChange={() => handleArrayFilterChange('divisions', division)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span className="ml-2">{division}</span>
+                  </label>
+                ))}
+                <div className="my-2 border-t border-gray-200"></div>
+                {PL_DIVISIONS.map(division => (
                   <label key={division} className="inline-flex items-center mr-4">
                     <input
                       type="checkbox"
@@ -221,6 +255,19 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                 />
                 <span className="ml-2">Labwork Interpretation</span>
               </label>
+            </div>
+            <div className="space-y-2">
+              {PL_SPECIALIZATIONS.map((spec) => (
+                <label key={spec} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={filters.specialties?.includes(spec)}
+                    onChange={() => handleArrayFilterChange('specialties', spec)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2">{spec}</span>
+                </label>
+              ))}
             </div>
           </div>
         )}
@@ -341,6 +388,17 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                     <span className="ml-1 text-blue-500 cursor-help">&#9432;</span>
                   </Tooltip>
                 </span>
+              </label>
+            </div>
+            <div className="space-y-2">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.firstTimeCompetitor}
+                  onChange={e => handleFilterChange('firstTimeCompetitor', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">First time competitor</span>
               </label>
             </div>
           </div>

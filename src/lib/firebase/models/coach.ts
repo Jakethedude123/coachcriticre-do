@@ -91,59 +91,65 @@ export interface CoachListing {
   updatedAt: number;
 }
 
-export type CoachTier = 'free' | 'tier1' | 'tier2';
+export type CoachPlan = 'basic' | 'pro';
 
-export interface TierBenefits {
-  analytics: boolean;
-  spotlight: boolean;
-  verifiedBadge: boolean;
-  prioritySearch: boolean;
+export interface PlanBenefits {
+  listedInPublicSearch: boolean;
+  reviewCodes: number | 'unlimited';
+  oneReviewPerClient: boolean;
   customBranding: boolean;
-  premiumBadge: boolean;
-  realTimeViews: boolean;
-  advancedAnalytics: boolean;
-  marketInsights: boolean;
+  videoIntro: boolean;
+  verifiedBadge: boolean;
+  insightDashboard: boolean;
+  appearInStandardSearch: boolean;
+  visibleReviews: boolean;
+  eligibleForSpotlight: boolean;
+  earlyBetaAccess: boolean;
+  listedInSpotlightPage: boolean;
+  eligibleForHomepageSpotlight: boolean;
+  referralRewards: boolean;
+  priorityAccess: boolean;
 }
 
-export const TIER_BENEFITS: Record<CoachTier, TierBenefits> = {
-  free: {
-    analytics: false,
-    spotlight: false,
+export const PLAN_BENEFITS: Record<CoachPlan, PlanBenefits> = {
+  basic: {
+    listedInPublicSearch: true,
+    reviewCodes: 3,
+    oneReviewPerClient: true,
+    customBranding: false,
+    videoIntro: false,
     verifiedBadge: false,
-    prioritySearch: false,
-    customBranding: false,
-    premiumBadge: false,
-    realTimeViews: false,
-    advancedAnalytics: false,
-    marketInsights: false,
+    insightDashboard: false,
+    appearInStandardSearch: true,
+    visibleReviews: true,
+    eligibleForSpotlight: false,
+    earlyBetaAccess: false,
+    listedInSpotlightPage: false,
+    eligibleForHomepageSpotlight: false,
+    referralRewards: false,
+    priorityAccess: false,
   },
-  tier1: {
-    analytics: true,
-    spotlight: true,
-    verifiedBadge: true,
-    prioritySearch: false,
-    customBranding: false,
-    premiumBadge: false,
-    realTimeViews: false,
-    advancedAnalytics: false,
-    marketInsights: false,
-  },
-  tier2: {
-    analytics: true,
-    spotlight: true,
-    verifiedBadge: true,
-    prioritySearch: true,
+  pro: {
+    listedInPublicSearch: true,
+    reviewCodes: 'unlimited',
+    oneReviewPerClient: true,
     customBranding: true,
-    premiumBadge: true,
-    realTimeViews: true,
-    advancedAnalytics: true,
-    marketInsights: true,
+    videoIntro: true,
+    verifiedBadge: true,
+    insightDashboard: true,
+    appearInStandardSearch: true,
+    visibleReviews: true,
+    eligibleForSpotlight: true,
+    earlyBetaAccess: true,
+    listedInSpotlightPage: true,
+    eligibleForHomepageSpotlight: true,
+    referralRewards: true,
+    priorityAccess: true,
   },
 };
 
-export const TIER_PRICES = {
-  tier1: 10.00,
-  tier2: 15.00,
+export const PLAN_PRICES = {
+  pro: 20.00,
 };
 
 export interface Coach {
@@ -178,7 +184,7 @@ export interface Coach {
   stripeAccountId: string;
   stripeSubscriptionId: string;
   subscription: {
-    plan: 'free' | 'pro' | 'premium';
+    plan: CoachPlan;
     status: 'active' | 'cancelled' | 'past_due';
     stripeCustomerId: string;
     stripeSubscriptionId: string;
@@ -266,7 +272,7 @@ export const DEFAULT_COACH_VALUES: Coach = {
   stripeAccountId: '',
   stripeSubscriptionId: '',
   subscription: {
-    plan: 'free',
+    plan: 'basic',
     status: 'active',
     stripeCustomerId: '',
     stripeSubscriptionId: ''
@@ -332,7 +338,7 @@ export const defaultCoach: Coach = {
   stripeAccountId: '',
   stripeSubscriptionId: '',
   subscription: {
-    plan: 'free',
+    plan: 'basic',
     status: 'active',
     stripeCustomerId: '',
     stripeSubscriptionId: ''

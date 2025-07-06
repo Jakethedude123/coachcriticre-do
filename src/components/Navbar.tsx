@@ -94,12 +94,6 @@ export default function Navbar() {
               Find Coaches
             </Link>
             <Link 
-              href="/coaches/spotlight" 
-              className="text-gray-600 hover:text-blue-600 transition-colors"
-            >
-              Coach Spotlight
-            </Link>
-            <Link 
               href="/recent-activity" 
               className="text-gray-600 hover:text-blue-600 transition-colors"
             >
