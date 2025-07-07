@@ -51,19 +51,27 @@ export default function Navbar() {
     return () => unsubscribe();
   }, [user]);
 
+  // On mount, set theme from localStorage or default to light
   useEffect(() => {
-    // Always start in light mode
-    document.documentElement.classList.remove('dark');
-    setTheme('light');
+    const stored = typeof window !== 'undefined' ? localStorage.getItem('theme') : null;
+    if (stored === 'dark') {
+      document.documentElement.classList.add('dark');
+      setTheme('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      setTheme('light');
+    }
   }, []);
 
   const toggleTheme = () => {
     if (theme === 'light') {
       document.documentElement.classList.add('dark');
       setTheme('dark');
+      if (typeof window !== 'undefined') localStorage.setItem('theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
       setTheme('light');
+      if (typeof window !== 'undefined') localStorage.setItem('theme', 'light');
     }
   };
 
@@ -174,9 +182,8 @@ export default function Navbar() {
               className="ml-4 p-2 flex items-center gap-2 rounded-full border-2 border-blue-400 dark:border-yellow-300 bg-white dark:bg-gray-800 text-yellow-500 dark:text-blue-300 shadow-lg hover:scale-110 transition z-50"
               aria-label="Toggle dark mode"
               type="button"
-              style={{ minWidth: 60 }}
+              style={{ minWidth: 40 }}
             >
-              <span className="font-bold text-xs text-blue-700 dark:text-yellow-200">Theme</span>
               {theme === 'light' ? <FaMoon size={20} /> : <FaSun size={20} />}
             </button>
           </div>
