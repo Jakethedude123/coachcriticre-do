@@ -119,15 +119,16 @@ export default function Navbar() {
                 {isDropdownOpen && (
                   <div
                     ref={dropdownRef}
-                    className="absolute left-0 min-w-[8rem] w-40 mt-2 py-1 bg-white rounded-md shadow-lg z-50 border border-gray-200"
+                    className="absolute left-0 min-w-[8rem] w-44 mt-2 py-1 navbar-glass-dropdown z-50"
                     style={{ top: '100%' }}
                   >
                     <Link
                       href={isCoach && coachId ? `/coaches/profile/${coachId}` : "/profile"}
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                      className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-all rounded-md"
                       onClick={() => setIsDropdownOpen(false)}
                     >
-                      View Profile
+                      <FaUser className="w-4 h-4" />
+                      <span>View Profile</span>
                     </Link>
                     <button
                       onClick={async () => {
@@ -135,9 +136,10 @@ export default function Navbar() {
                         await signOut();
                         router.push('/');
                       }}
-                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600"
+                      className="w-full text-left flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all rounded-md"
                     >
-                      Sign Out
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" /></svg>
+                      <span>Sign Out</span>
                     </button>
                   </div>
                 )}
@@ -155,4 +157,18 @@ export default function Navbar() {
       </div>
     </nav>
   );
-} 
+}
+
+/*
+Glassmorphism dropdown styles for profile menu
+*/
+<style jsx global>{`
+  .navbar-glass-dropdown {
+    background: rgba(255,255,255,0.7);
+    border: 1px solid #dbeafe;
+    box-shadow: 0 4px 24px 0 rgba(37,99,235,0.10);
+    backdrop-filter: blur(12px);
+    border-radius: 0.75rem;
+    transition: box-shadow 0.2s, background 0.2s;
+  }
+`}</style> 
