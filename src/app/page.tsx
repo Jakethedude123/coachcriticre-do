@@ -105,7 +105,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-10">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-2">
@@ -121,13 +121,13 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20">
+      <section className="py-12">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-4">
             {FEATURES.map((feature, idx) => (
               <div
                 key={idx}
-                className={`bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow max-w-xs mx-auto flex flex-col items-center text-center border-t-4 ${feature.accent}`}
+                className={`bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow h-full flex-1 flex flex-col items-center text-center border-t-4 ${feature.accent}`}
               >
                 <div className="mb-4 text-blue-600">{feature.icon}</div>
                 <h2 className="text-xl font-bold mb-3">{feature.title}</h2>
