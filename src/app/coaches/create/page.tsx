@@ -14,7 +14,7 @@ interface CoachFormData {
   responseTime: '1-12hrs' | '12-24hrs' | '24-36hrs' | '36-48hrs' | '48+hrs';
   credentials: ('CSCS' | 'NASM' | 'ISSA' | 'NCSF' | 'ACE' | 'MS' | 'BS' | 'J3U' | 'VizualFX' | 'N1' | 'HCU')[];
   yearsExperience: '1-3' | '3-5' | '5-7' | '7-10' | '10+';
-  specialties: ('rehab' | 'injury recovery' | 'nutrition' | 'posing' | 'contest prep' | 'lifestyle' | 'raw' | 'equipped')[];
+  specialties: ('rehab' | 'injury recovery' | 'nutrition' | 'posing' | 'contest prep' | 'lifestyle' | 'raw' | 'equipped' | 'Form Correction' | 'Posing Coaching' | 'Experienced in Female PED Use' | 'ED Recovery' | 'Labwork Interpretation' | 'Meet Day Handling' | 'RPE-Based Training' | 'Cutting Weight' | 'Technical Feedback (SBD)' | 'Conjugate Method')[];
   coachingModality: 'online' | 'in-person' | 'both';
   location: {
     address: string;
@@ -41,6 +41,9 @@ interface CoachFormData {
     | 'female specific'
     | 'Contest Prep'
     | 'Lifestyle'
+    | 'Natural Athletes Only'
+    | 'Enhanced Athletes'
+    | 'First time competitor'
   )[];
   federations: ('OCB' | 'NPC' | 'IFBB' | 'IPF' | 'USAPL' | 'WRPF' | 'RPS' | 'APF')[];
   bio: string;
@@ -341,7 +344,7 @@ export default function CreateCoachProfile() {
 
             {/* Specialties */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Specialties</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Specialties & Specializations</label>
               <div className="flex flex-wrap gap-2">
                 {[
                   'rehab',
@@ -351,7 +354,17 @@ export default function CreateCoachProfile() {
                   'contest prep',
                   'lifestyle',
                   'raw',
-                  'equipped'
+                  'equipped',
+                  'Form Correction',
+                  'Posing Coaching',
+                  'Experienced in Female PED Use',
+                  'ED Recovery',
+                  'Labwork Interpretation',
+                  'Meet Day Handling',
+                  'RPE-Based Training',
+                  'Cutting Weight',
+                  'Technical Feedback (SBD)',
+                  'Conjugate Method'
                 ].map((specialty) => (
                   <label key={specialty} className="inline-flex items-center">
                     <input
@@ -480,7 +493,10 @@ export default function CreateCoachProfile() {
                   'masters',
                   'female specific',
                   'Contest Prep',
-                  'Lifestyle'
+                  'Lifestyle',
+                  'Natural Athletes Only',
+                  'Enhanced Athletes',
+                  'First time competitor'
                 ].map((type) => (
                   <label key={type} className="inline-flex items-center">
                     <input
@@ -494,20 +510,7 @@ export default function CreateCoachProfile() {
                       }}
                       className="form-checkbox h-4 w-4 text-blue-600"
                     />
-                    <span className="ml-2 capitalize flex items-center">
-                      {type}
-                      {type === 'Lifestyle' && (
-                        <Tooltip
-                          content={
-                            <span>
-                              Lifestyle coaching is focused on helping clients stay healthy, fit, and in good shape year-round, without the demands of contest preparation.
-                            </span>
-                          }
-                        >
-                          <span className="ml-1 text-blue-500 cursor-help">&#9432;</span>
-                        </Tooltip>
-                      )}
-                    </span>
+                    <span className="ml-2 capitalize">{type}</span>
                   </label>
                 ))}
               </div>
