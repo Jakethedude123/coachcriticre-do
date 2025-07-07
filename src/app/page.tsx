@@ -88,7 +88,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Find the Perfect Bodybuilding or Lifestyle Coach for You
+              Discover Trusted Bodybuilding and Powerlifting Coaches -- Filtered by What Actually Matters
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-blue-100">
               Connect with experienced coaches who can help you achieve your physique, health, and fitness goals—whether you're aiming for the stage or just want to get in shape.
