@@ -108,7 +108,7 @@ export default function TierSubscription({ currentTier, onSubscribe }: TierSubsc
         `}>
           <div className="text-center mb-6">
             <h3 className="text-xl font-semibold">Growth</h3>
-            <p className="text-2xl font-bold mt-2">${PLAN_PRICES.basic}</p>
+            <p className="text-2xl font-bold mt-2">$0</p>
             <p className="text-gray-500 text-sm">per month</p>
           </div>
 
