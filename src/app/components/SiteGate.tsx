@@ -46,13 +46,12 @@ export default function SiteGate({ children }: { children: React.ReactNode }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40" style={{backdropFilter: 'blur(2px)'}}>
       <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg text-center relative">
         <div className="mb-6 flex justify-center">
-          <Image
-            src="/hilogo.png"
+          <img
+            src="/images/optimized/hilogo.png"
             alt="CoachCritic Logo"
             width={200}
             height={200}
             className="object-contain"
-            priority
           />
         </div>
         <h1 className="text-3xl font-bold mb-4 text-gray-900">CoachCritic</h1>
