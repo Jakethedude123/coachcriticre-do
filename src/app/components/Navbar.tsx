@@ -56,14 +56,12 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <Image
-                src="/hilogo.png"
+              <img
+                src="/images/optimized/hilogo.png"
                 alt="CoachCritic Logo"
                 width={150}
                 height={40}
                 className="h-10 w-auto bg-white border border-gray-200 rounded shadow-sm p-1"
-                priority
-                quality={80}
                 onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-coach.png'; }}
               />
               <span className="ml-2 text-xl font-bold text-gray-900">CoachCritic</span>
