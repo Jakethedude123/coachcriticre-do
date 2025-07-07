@@ -46,6 +46,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
           <h2 className="text-lg font-semibold mb-2">About</h2>
           <p className="text-gray-700 whitespace-pre-line">{coach.bio}</p>
         </div>
+        {/* Specialties Box with edit icon and all options as checkboxes */}
         <div className="bg-white rounded-lg shadow p-6 relative">
           <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
             <span>Specialties</span>
@@ -57,9 +58,9 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
               <FaEdit size={18} />
             </button>
           </h2>
-          <div className="flex flex-wrap gap-2">
-            {coach.specialties.map((specialty) => (
-              <span key={specialty} className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm">
+          <div className="flex flex-wrap gap-2 min-h-6">
+            {coach.specialties.length > 0 && coach.specialties.map((specialty) => (
+              <span key={specialty} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
                 {specialty}
               </span>
             ))}
@@ -67,7 +68,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
           <div
             className={`transition-all duration-300 overflow-hidden ${editBox === 'specialties' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
           >
-            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {SPECIALTIES.map((option) => (
                 <label key={option} className="flex items-center gap-2 text-blue-800">
                   <input
@@ -81,6 +82,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             </div>
           </div>
         </div>
+        {/* Credentials Box with edit icon and all options as checkboxes */}
         <div className="bg-white rounded-lg shadow p-6 relative">
           <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
             <span>Credentials</span>
@@ -92,15 +94,17 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
               <FaEdit size={18} />
             </button>
           </h2>
-          <ul className="list-disc list-inside text-gray-700">
-            {coach.credentials.map((credential) => (
-              <li key={credential}>{credential}</li>
+          <div className="flex flex-wrap gap-2 min-h-6">
+            {coach.credentials.length > 0 && coach.credentials.map((credential) => (
+              <span key={credential} className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
+                {credential}
+              </span>
             ))}
-          </ul>
+          </div>
           <div
             className={`transition-all duration-300 overflow-hidden ${editBox === 'credentials' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
           >
-            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {CREDENTIALS.map((option) => (
                 <label key={option} className="flex items-center gap-2 text-blue-800">
                   <input
@@ -114,6 +118,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             </div>
           </div>
         </div>
+        {/* Divisions Box with edit icon and all options as checkboxes */}
         <div className="bg-white rounded-lg shadow p-6 relative">
           <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
             <span>Divisions</span>
@@ -125,15 +130,17 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
               <FaEdit size={18} />
             </button>
           </h2>
-          <ul className="list-disc list-inside text-gray-700">
-            {coach.divisions.map((division) => (
-              <li key={division}>{division}</li>
+          <div className="flex flex-wrap gap-2 min-h-6">
+            {coach.divisions.length > 0 && coach.divisions.map((division) => (
+              <span key={division} className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">
+                {division}
+              </span>
             ))}
-          </ul>
+          </div>
           <div
             className={`transition-all duration-300 overflow-hidden ${editBox === 'divisions' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
           >
-            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {DIVISIONS.map((option) => (
                 <label key={option} className="flex items-center gap-2 text-blue-800">
                   <input
@@ -147,6 +154,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             </div>
           </div>
         </div>
+        {/* Client Types Box with edit icon and all options as checkboxes */}
         <div className="bg-white rounded-lg shadow p-6 relative">
           <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
             <span>Client Types</span>
@@ -158,15 +166,17 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
               <FaEdit size={18} />
             </button>
           </h2>
-          <ul className="list-disc list-inside text-gray-700">
-            {coach.clientTypes.map((type) => (
-              <li key={type}>{type}</li>
+          <div className="flex flex-wrap gap-2 min-h-6">
+            {coach.clientTypes.length > 0 && coach.clientTypes.map((type) => (
+              <span key={type} className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">
+                {type}
+              </span>
             ))}
-          </ul>
+          </div>
           <div
             className={`transition-all duration-300 overflow-hidden ${editBox === 'clientTypes' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
           >
-            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {CLIENT_TYPES.map((option) => (
                 <label key={option} className="flex items-center gap-2 text-blue-800">
                   <input
@@ -180,6 +190,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             </div>
           </div>
         </div>
+        {/* Federations Box with edit icon and all options as checkboxes */}
         <div className="bg-white rounded-lg shadow p-6 relative">
           <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
             <span>Federations</span>
@@ -191,15 +202,17 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
               <FaEdit size={18} />
             </button>
           </h2>
-          <ul className="list-disc list-inside text-gray-700">
-            {coach.federations.map((federation) => (
-              <li key={federation}>{federation}</li>
+          <div className="flex flex-wrap gap-2 min-h-6">
+            {coach.federations.length > 0 && coach.federations.map((federation) => (
+              <span key={federation} className="bg-pink-100 text-pink-800 px-2 py-1 rounded text-sm">
+                {federation}
+              </span>
             ))}
-          </ul>
+          </div>
           <div
             className={`transition-all duration-300 overflow-hidden ${editBox === 'federations' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
           >
-            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {FEDERATIONS.map((option) => (
                 <label key={option} className="flex items-center gap-2 text-blue-800">
                   <input
