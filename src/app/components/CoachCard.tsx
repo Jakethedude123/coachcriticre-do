@@ -18,18 +18,9 @@ export default function CoachCard({ coach }: CoachCardProps) {
       href={`/coaches/profile/${coach.userId}`}
       className="block rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 max-w-md mx-auto border border-blue-100 bg-white overflow-hidden flex h-56 dark:bg-gray-800 dark:border-gray-700"
     >
-      {/* Left: Full photo, half width */}
-      <div className="w-1/2 h-full relative">
-        <Image
-          src={coach.avatar || '/placeholder-coach.jpg'}
-          alt={coach.name}
-          fill
-          className="object-cover w-full h-full"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            if (target.src !== '/placeholder-coach.jpg') target.src = '/placeholder-coach.jpg';
-          }}
-        />
+      {/* Left: Blank area, half width (was image) */}
+      <div className="w-1/2 h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+        {/* Image removed, but space preserved */}
       </div>
       {/* Right: Name and bio, half width, solid bg */}
       <div className="w-1/2 flex flex-col justify-center px-4 py-6 bg-white dark:bg-gray-800">
