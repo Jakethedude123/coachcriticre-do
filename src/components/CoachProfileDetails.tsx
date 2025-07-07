@@ -42,7 +42,16 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach, isOwne
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
         <div className={boxBase}>
           <h2 className={headingBase}>About</h2>
-          <p className="text-gray-700 whitespace-pre-line">{coach.bio}</p>
+          <div className="flex flex-wrap gap-2">
+            {coach.bio && coach.bio.split(/,|\n|\r|\r\n|\s{2,}/).filter(Boolean).map((item, i) => (
+              <span
+                key={item + i}
+                className={`px-2 py-1 rounded text-sm font-medium shadow-sm transition-all duration-200 bg-blue-100 text-blue-700 hover:scale-110 hover:shadow-md`}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
         <div className={boxBase}>
           <h2 className={headingBase}>Specialties</h2>
@@ -59,35 +68,55 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach, isOwne
         </div>
         <div className={boxBase}>
           <h2 className={headingBase}>Credentials</h2>
-          <ul className="list-disc list-inside">
-            {coach.credentials.map((credential) => (
-              <li key={credential} className="text-blue-700 hover:underline hover:font-semibold transition-colors duration-150">{credential}</li>
+          <div className="flex flex-wrap gap-2">
+            {coach.credentials.map((credential, i) => (
+              <span
+                key={credential}
+                className={`px-2 py-1 rounded text-sm font-medium shadow-sm transition-all duration-200 bg-blue-100 text-blue-700 hover:scale-110 hover:shadow-md`}
+              >
+                {credential}
+              </span>
             ))}
-          </ul>
+          </div>
         </div>
         <div className={boxBase}>
           <h2 className={headingBase}>Divisions</h2>
-          <ul className="list-disc list-inside">
-            {coach.divisions.map((division) => (
-              <li key={division} className="text-blue-700 hover:underline hover:font-semibold transition-colors duration-150">{division}</li>
+          <div className="flex flex-wrap gap-2">
+            {coach.divisions.map((division, i) => (
+              <span
+                key={division}
+                className={`px-2 py-1 rounded text-sm font-medium shadow-sm transition-all duration-200 bg-blue-100 text-blue-700 hover:scale-110 hover:shadow-md`}
+              >
+                {division}
+              </span>
             ))}
-          </ul>
+          </div>
         </div>
         <div className={boxBase}>
           <h2 className={headingBase}>Client Types</h2>
-          <ul className="list-disc list-inside">
-            {coach.clientTypes.map((type) => (
-              <li key={type} className="text-blue-700 hover:underline hover:font-semibold transition-colors duration-150">{type}</li>
+          <div className="flex flex-wrap gap-2">
+            {coach.clientTypes.map((type, i) => (
+              <span
+                key={type}
+                className={`px-2 py-1 rounded text-sm font-medium shadow-sm transition-all duration-200 bg-blue-100 text-blue-700 hover:scale-110 hover:shadow-md`}
+              >
+                {type}
+              </span>
             ))}
-          </ul>
+          </div>
         </div>
         <div className={boxBase}>
           <h2 className={headingBase}>Federations</h2>
-          <ul className="list-disc list-inside">
-            {coach.federations.map((federation) => (
-              <li key={federation} className="text-blue-700 hover:underline hover:font-semibold transition-colors duration-150">{federation}</li>
+          <div className="flex flex-wrap gap-2">
+            {coach.federations.filter(f => f !== 'WRPF').map((federation, i) => (
+              <span
+                key={federation}
+                className={`px-2 py-1 rounded text-sm font-medium shadow-sm transition-all duration-200 bg-blue-100 text-blue-700 hover:scale-110 hover:shadow-md`}
+              >
+                {federation}
+              </span>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
       <style jsx global>{`
