@@ -32,7 +32,9 @@ export default function CoachCard({ coach }: CoachCardProps) {
       {/* Right: Info */}
       <div className="flex-1 min-w-0">
         <h2 className="text-2xl font-extrabold text-blue-900 mb-1 tracking-tight">{coach.name}</h2>
-        <div className="text-base text-blue-700 font-semibold mb-2">{coach.headline || coach.specialties?.[0]}</div>
+        {coach.specialties && coach.specialties.length > 0 && (
+          <div className="text-base text-blue-700 font-semibold mb-2">{coach.specialties[0]}</div>
+        )}
         <div className="text-gray-600 mb-2 font-medium">
           <span className="font-semibold">{coach.location.city}, {coach.location.state}</span>
         </div>
