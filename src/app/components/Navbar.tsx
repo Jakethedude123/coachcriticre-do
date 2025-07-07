@@ -104,10 +104,10 @@ export default function Navbar() {
                 <button
                   type="button"
                   ref={buttonRef}
-                  className="navbar-glass-tab flex items-center justify-center space-x-2 px-4 py-2 text-base"
+                  className="navbar-glass-tab flex items-center justify-center gap-2 px-4 py-2 text-base"
                   onClick={handleDropdownToggle}
                 >
-                  <FaUser className="w-4 h-4" />
+                  <FaUser className="w-5 h-5" />
                   <span className="font-medium">Profile</span>
                 </button>
                 <Link href="/messages" className="navbar-glass-tab relative flex items-center justify-center ml-1 px-2 py-1 text-base">
