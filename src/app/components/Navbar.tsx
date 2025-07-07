@@ -155,32 +155,4 @@ export default function Navbar() {
       </div>
     </nav>
   );
-}
-
-/*
-Add glassmorphism styles for navbar tabs. Uses Tailwind's arbitrary values and custom CSS for backdrop blur, border, and animated hover.
-*/
-<style jsx global>{`
-  .navbar-glass-tab {
-    @apply relative px-5 py-2 rounded-xl font-medium text-blue-700 transition-all duration-200 border border-blue-100 bg-white/30 shadow-sm backdrop-blur-md hover:text-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 hover:shadow-lg hover:scale-105;
-    box-shadow: 0 2px 8px 0 rgba(37,99,235,0.08);
-    overflow: hidden;
-  }
-  .navbar-glass-tab::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 0.75rem;
-    background: linear-gradient(120deg, rgba(37,99,235,0.12) 0%, rgba(29,78,216,0.10) 100%);
-    opacity: 0;
-    transition: opacity 0.3s;
-    z-index: 0;
-  }
-  .navbar-glass-tab:hover::before {
-    opacity: 1;
-  }
-  .navbar-glass-tab > * {
-    position: relative;
-    z-index: 1;
-  }
-`}</style> 
+} 
