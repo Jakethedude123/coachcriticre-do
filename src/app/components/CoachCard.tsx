@@ -16,7 +16,7 @@ export default function CoachCard({ coach }: CoachCardProps) {
   return (
     <Link
       href={`/coaches/profile/${coach.userId}`}
-      className="block rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 max-w-xl mx-auto border border-blue-100 bg-white overflow-hidden flex h-56 dark:bg-gray-800 dark:border-gray-700"
+      className="block rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 max-w-lg mx-auto border border-blue-100 bg-white overflow-hidden flex h-56 dark:bg-gray-800 dark:border-gray-700"
     >
       {/* Left: Full photo, half width */}
       <div className="w-1/2 h-full relative">
