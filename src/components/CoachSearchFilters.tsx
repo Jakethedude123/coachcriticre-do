@@ -85,7 +85,8 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
     timeZones: [],
     proximityMiles: 0,
     proximityLocation: '',
-    firstTimeCompetitor: false
+    firstTimeCompetitor: false,
+    anythingElse: ''
   });
 
   const toggleSection = (section: keyof typeof expandedSections) => {
@@ -110,7 +111,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 w-96 max-w-lg">
+    <div className="bg-white rounded-lg shadow-sm p-4">
       <div className="space-y-4">
         {/* Competition Experience Section */}
         <div className="border-b pb-4">
@@ -489,8 +490,9 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           <input
             type="text"
             placeholder="anything else?"
+            value={filters.anythingElse || ''}
+            onChange={e => handleFilterChange('anythingElse', e.target.value)}
             className="mt-2 w-full rounded-md border-gray-200 bg-gray-50 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            disabled
           />
         </div>
       </div>
