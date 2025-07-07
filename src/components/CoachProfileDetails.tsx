@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CoachCard from './CoachCard';
 import Link from 'next/link';
 import { FaEdit } from 'react-icons/fa';
@@ -10,134 +10,170 @@ interface CoachProfileDetailsProps {
   onEdit?: () => void;
 }
 
-// Add custom styles for glassmorphism, gradient, and fade-in
-const boxBase = "profile-fade-in bg-white/70 rounded-lg shadow p-6 backdrop-blur-md border border-blue-100 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:bg-gradient-to-br hover:from-blue-50 hover:to-blue-100 hover:border-blue-300 hover:bg-opacity-90";
-const headingBase = "text-lg font-semibold mb-2 text-blue-700";
-const badgeColors = [
-  "bg-blue-100 text-blue-700",
-  "bg-green-100 text-green-700",
-  "bg-yellow-100 text-yellow-700",
-  "bg-purple-100 text-purple-700",
-  "bg-pink-100 text-pink-700",
-  "bg-indigo-100 text-indigo-700",
-  "bg-teal-100 text-teal-700",
-];
-
 const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach, isOwner, onEdit }) => {
+  const [editBox, setEditBox] = useState<string | null>(null);
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-gray-800">Coach Profile</h1>
-        {isOwner && (
-          <Link
-            href={`/coaches/profile/${coach.id}/edit`}
-            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 animate-fade-in hover:scale-105 hover:shadow-lg"
-          >
-            <FaEdit size={16} color="white" />
-            <span>Edit Profile</span>
-          </Link>
-        )}
       </div>
       <CoachCard coach={coach} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-        <div className={boxBase}>
-          <h2 className={headingBase}>About</h2>
-          <div className="flex flex-wrap gap-2">
-            {coach.bio && coach.bio.split(/,|\n|\r|\r\n|\s{2,}/).filter(Boolean).map((item, i) => (
-              <span
-                key={item + i}
-                className={`px-2 py-1 rounded text-sm font-medium shadow-sm transition-all duration-200 bg-blue-100 text-blue-700 hover:scale-110 hover:shadow-md`}
-              >
-                {item}
-              </span>
-            ))}
+        <div className="bg-white rounded-lg shadow p-6 relative">
+          <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+            <span>About</span>
+            <button
+              className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+              onClick={() => setEditBox(editBox === 'about' ? null : 'about')}
+              aria-label="Edit About"
+            >
+              <FaEdit size={18} />
+            </button>
+          </h2>
+          <p className="text-gray-700 whitespace-pre-line">{coach.bio}</p>
+          <div
+            className={`transition-all duration-300 overflow-hidden ${editBox === 'about' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+          >
+            <ul className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+              <li className="text-blue-800">Edit item 1</li>
+              <li className="text-blue-800">Edit item 2</li>
+              <li className="text-blue-800">Edit item 3</li>
+            </ul>
           </div>
         </div>
-        <div className={boxBase}>
-          <h2 className={headingBase}>Specialties</h2>
+        <div className="bg-white rounded-lg shadow p-6 relative">
+          <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+            <span>Specialties</span>
+            <button
+              className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+              onClick={() => setEditBox(editBox === 'specialties' ? null : 'specialties')}
+              aria-label="Edit Specialties"
+            >
+              <FaEdit size={18} />
+            </button>
+          </h2>
           <div className="flex flex-wrap gap-2">
-            {coach.specialties.map((specialty, i) => (
-              <span
-                key={specialty}
-                className={`px-2 py-1 rounded text-sm font-medium shadow-sm transition-all duration-200 ${badgeColors[i % badgeColors.length]} hover:scale-110 hover:shadow-md`}
-              >
+            {coach.specialties.map((specialty) => (
+              <span key={specialty} className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm">
                 {specialty}
               </span>
             ))}
           </div>
-        </div>
-        <div className={boxBase}>
-          <h2 className={headingBase}>Credentials</h2>
-          <div className="flex flex-wrap gap-2">
-            {coach.credentials.map((credential, i) => (
-              <span
-                key={credential}
-                className={`px-2 py-1 rounded text-sm font-medium shadow-sm transition-all duration-200 bg-blue-100 text-blue-700 hover:scale-110 hover:shadow-md`}
-              >
-                {credential}
-              </span>
-            ))}
+          <div
+            className={`transition-all duration-300 overflow-hidden ${editBox === 'specialties' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+          >
+            <ul className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+              <li className="text-blue-800">Edit specialty 1</li>
+              <li className="text-blue-800">Edit specialty 2</li>
+              <li className="text-blue-800">Edit specialty 3</li>
+            </ul>
           </div>
         </div>
-        <div className={boxBase}>
-          <h2 className={headingBase}>Divisions</h2>
-          <div className="flex flex-wrap gap-2">
-            {coach.divisions.map((division, i) => (
-              <span
-                key={division}
-                className={`px-2 py-1 rounded text-sm font-medium shadow-sm transition-all duration-200 bg-blue-100 text-blue-700 hover:scale-110 hover:shadow-md`}
-              >
-                {division}
-              </span>
+        <div className="bg-white rounded-lg shadow p-6 relative">
+          <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+            <span>Credentials</span>
+            <button
+              className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+              onClick={() => setEditBox(editBox === 'credentials' ? null : 'credentials')}
+              aria-label="Edit Credentials"
+            >
+              <FaEdit size={18} />
+            </button>
+          </h2>
+          <ul className="list-disc list-inside text-gray-700">
+            {coach.credentials.map((credential) => (
+              <li key={credential}>{credential}</li>
             ))}
+          </ul>
+          <div
+            className={`transition-all duration-300 overflow-hidden ${editBox === 'credentials' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+          >
+            <ul className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+              <li className="text-blue-800">Edit credential 1</li>
+              <li className="text-blue-800">Edit credential 2</li>
+              <li className="text-blue-800">Edit credential 3</li>
+            </ul>
           </div>
         </div>
-        <div className={boxBase}>
-          <h2 className={headingBase}>Client Types</h2>
-          <div className="flex flex-wrap gap-2">
-            {coach.clientTypes.map((type, i) => (
-              <span
-                key={type}
-                className={`px-2 py-1 rounded text-sm font-medium shadow-sm transition-all duration-200 bg-blue-100 text-blue-700 hover:scale-110 hover:shadow-md`}
-              >
-                {type}
-              </span>
+        <div className="bg-white rounded-lg shadow p-6 relative">
+          <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+            <span>Divisions</span>
+            <button
+              className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+              onClick={() => setEditBox(editBox === 'divisions' ? null : 'divisions')}
+              aria-label="Edit Divisions"
+            >
+              <FaEdit size={18} />
+            </button>
+          </h2>
+          <ul className="list-disc list-inside text-gray-700">
+            {coach.divisions.map((division) => (
+              <li key={division}>{division}</li>
             ))}
+          </ul>
+          <div
+            className={`transition-all duration-300 overflow-hidden ${editBox === 'divisions' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+          >
+            <ul className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+              <li className="text-blue-800">Edit division 1</li>
+              <li className="text-blue-800">Edit division 2</li>
+              <li className="text-blue-800">Edit division 3</li>
+            </ul>
           </div>
         </div>
-        <div className={boxBase}>
-          <h2 className={headingBase}>Federations</h2>
-          <div className="flex flex-wrap gap-2">
-            {coach.federations.filter(f => f !== 'WRPF').map((federation, i) => (
-              <span
-                key={federation}
-                className={`px-2 py-1 rounded text-sm font-medium shadow-sm transition-all duration-200 bg-blue-100 text-blue-700 hover:scale-110 hover:shadow-md`}
-              >
-                {federation}
-              </span>
+        <div className="bg-white rounded-lg shadow p-6 relative">
+          <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+            <span>Client Types</span>
+            <button
+              className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+              onClick={() => setEditBox(editBox === 'clientTypes' ? null : 'clientTypes')}
+              aria-label="Edit Client Types"
+            >
+              <FaEdit size={18} />
+            </button>
+          </h2>
+          <ul className="list-disc list-inside text-gray-700">
+            {coach.clientTypes.map((type) => (
+              <li key={type}>{type}</li>
             ))}
+          </ul>
+          <div
+            className={`transition-all duration-300 overflow-hidden ${editBox === 'clientTypes' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+          >
+            <ul className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+              <li className="text-blue-800">Edit client type 1</li>
+              <li className="text-blue-800">Edit client type 2</li>
+              <li className="text-blue-800">Edit client type 3</li>
+            </ul>
+          </div>
+        </div>
+        <div className="bg-white rounded-lg shadow p-6 relative">
+          <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+            <span>Federations</span>
+            <button
+              className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+              onClick={() => setEditBox(editBox === 'federations' ? null : 'federations')}
+              aria-label="Edit Federations"
+            >
+              <FaEdit size={18} />
+            </button>
+          </h2>
+          <ul className="list-disc list-inside text-gray-700">
+            {coach.federations.map((federation) => (
+              <li key={federation}>{federation}</li>
+            ))}
+          </ul>
+          <div
+            className={`transition-all duration-300 overflow-hidden ${editBox === 'federations' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+          >
+            <ul className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+              <li className="text-blue-800">Edit federation 1</li>
+              <li className="text-blue-800">Edit federation 2</li>
+              <li className="text-blue-800">Edit federation 3</li>
+            </ul>
           </div>
         </div>
       </div>
-      <style jsx global>{`
-        .profile-fade-in {
-          opacity: 0;
-          transform: translateY(24px);
-          animation: fadeInUp 0.7s cubic-bezier(.4,0,.2,1) forwards;
-        }
-        .profile-fade-in:nth-child(1) { animation-delay: 0.05s; }
-        .profile-fade-in:nth-child(2) { animation-delay: 0.12s; }
-        .profile-fade-in:nth-child(3) { animation-delay: 0.19s; }
-        .profile-fade-in:nth-child(4) { animation-delay: 0.26s; }
-        .profile-fade-in:nth-child(5) { animation-delay: 0.33s; }
-        .profile-fade-in:nth-child(6) { animation-delay: 0.40s; }
-        @keyframes fadeInUp {
-          to {
-            opacity: 1;
-            transform: none;
-          }
-        }
-      `}</style>
     </div>
   );
 };
