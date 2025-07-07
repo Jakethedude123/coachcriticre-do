@@ -16,43 +16,22 @@ export default function CoachCard({ coach }: CoachCardProps) {
   return (
     <Link
       href={`/coaches/profile/${coach.userId}`}
-      className="block bg-gradient-to-br from-white via-blue-50 to-blue-100 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 flex items-center gap-8 max-w-2xl mx-auto border border-blue-100 hover:scale-[1.025]"
+      className="block rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 max-w-2xl mx-auto border border-blue-100 bg-white overflow-hidden flex h-56 dark:bg-gray-900 dark:border-gray-700"
     >
-      {/* Left: Circular Image with border */}
-      <div className="flex-shrink-0">
-        <div className="relative h-32 w-32 rounded-full overflow-hidden border-4 border-blue-200 shadow-md bg-white">
-          <Image
-            src={coach.avatar || '/placeholder-coach.jpg'}
-            alt={coach.name}
-            fill
-            className="object-cover"
-          />
-        </div>
+      {/* Left: Full photo, half width */}
+      <div className="w-1/2 h-full relative">
+        <Image
+          src={coach.avatar || '/placeholder-coach.jpg'}
+          alt={coach.name}
+          fill
+          className="object-cover w-full h-full"
+        />
       </div>
-      {/* Right: Info */}
-      <div className="flex-1 min-w-0">
-        <h2 className="text-2xl font-extrabold text-blue-900 mb-1 tracking-tight">{coach.name}</h2>
-        {coach.specialties && coach.specialties.length > 0 && (
-          <div className="text-base text-blue-700 font-semibold mb-2">{coach.specialties[0]}</div>
-        )}
-        <div className="text-gray-600 mb-2 font-medium">
-          <span className="font-semibold">{coach.location.city}, {coach.location.state}</span>
-        </div>
-        <div className="text-gray-500 mb-2 text-sm">
-          {coach.experience} experience
-        </div>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {coach.specialties.map((specialty, index) => (
-            <span
-              key={index}
-              className="px-3 py-1 bg-blue-200 text-blue-900 text-xs rounded-full font-semibold shadow-sm"
-            >
-              {specialty}
-            </span>
-          ))}
-        </div>
+      {/* Right: Name and bio, half width */}
+      <div className="w-1/2 flex flex-col justify-center px-8 py-6 bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-800">
+        <h2 className="text-2xl font-extrabold text-blue-900 mb-2 truncate dark:text-blue-200">{coach.name}</h2>
         {coach.bio && (
-          <div className="mt-3 text-gray-700 text-sm leading-relaxed line-clamp-2">{coach.bio}</div>
+          <div className="text-gray-700 text-base leading-relaxed line-clamp-4 dark:text-gray-200">{coach.bio}</div>
         )}
       </div>
     </Link>
