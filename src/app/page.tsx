@@ -87,11 +87,11 @@ export default function Home() {
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Discover Trusted Bodybuilding and Powerlifting Coaches -- Filtered by What Actually Matters
+            <h1 className="text-4xl md:text-6xl font-bold mb-2">
+              Discover Trusted Bodybuilding and Powerlifting Coaches
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
-              Connect with experienced coaches who can help you achieve your physique, health, and fitness goals—whether you're aiming for the stage or just want to get in shape.
+            <p className="text-2xl md:text-3xl mb-8 text-blue-100 font-semibold">
+              Filtered by What Actually Matters
             </p>
             {/* Search Bar */}
             <SearchBar />
