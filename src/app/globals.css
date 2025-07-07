@@ -20,9 +20,6 @@ body {
   .text-balance {
     text-wrap: balance;
   }
-  .neon-glow {
-    box-shadow: 0 0 8px 2px #22d3ee, 0 0 16px 4px #0ff, 0 0 2px 1px #67e8f9;
-  }
 }
 
 .button-primary {
