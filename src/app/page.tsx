@@ -65,6 +65,27 @@ function CoachSpotlight() {
   );
 }
 
+const FEATURES = [
+  {
+    icon: <FaDumbbell size={32} />,
+    title: "Expert Coaches",
+    description: "Find certified bodybuilding and powerlifting coaches with proven track records in transformation.",
+    accent: "border-blue-600"
+  },
+  {
+    icon: <FaTrophy size={32} />,
+    title: "Competition & Meet Prep",
+    description: "Get specialized guidance for your next bodybuilding show or powerlifting meet—from prep to peak performance.",
+    accent: "border-yellow-500"
+  },
+  {
+    icon: <FaUserCheck size={32} />,
+    title: "Verified Reviews",
+    description: "Read authentic reviews from real clients to find your perfect bodybuilding or powerlifting coach.",
+    accent: "border-green-600"
+  },
+];
+
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
@@ -103,38 +124,16 @@ export default function Home() {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Expert Coaches */}
-            <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow max-w-xs mx-auto">
-              <div className="text-blue-600 mb-4">
-                <FaDumbbell size={32} />
+            {FEATURES.map((feature, idx) => (
+              <div
+                key={idx}
+                className={`bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow max-w-xs mx-auto flex flex-col items-center text-center border-t-4 ${feature.accent}`}
+              >
+                <div className="mb-4 text-blue-600">{feature.icon}</div>
+                <h2 className="text-xl font-bold mb-3">{feature.title}</h2>
+                <p className="text-gray-600 text-base">{feature.description}</p>
               </div>
-              <h2 className="text-xl font-bold mb-3">Expert Coaches</h2>
-              <p className="text-gray-600 text-base">
-                Find certified coaches with proven track records in bodybuilding and lifestyle transformation.
-              </p>
-            </div>
-
-            {/* Competition Prep */}
-            <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow max-w-xs mx-auto">
-              <div className="text-blue-600 mb-4">
-                <FaTrophy size={32} />
-              </div>
-              <h2 className="text-xl font-bold mb-3">Competition & Lifestyle Prep</h2>
-              <p className="text-gray-600 text-base">
-                Get specialized guidance for your next bodybuilding show—or expert help to get lean, healthy, and confident for everyday life.
-              </p>
-            </div>
-
-            {/* Verified Reviews */}
-            <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow max-w-xs mx-auto">
-              <div className="text-blue-600 mb-4">
-                <FaUserCheck size={32} />
-              </div>
-              <h2 className="text-xl font-bold mb-3">Verified Reviews</h2>
-              <p className="text-gray-600 text-base">
-                Read authentic reviews from real clients to find your perfect bodybuilding or lifestyle coaching match.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
