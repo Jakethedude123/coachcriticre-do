@@ -1,8 +1,17 @@
+'use client';
 import React, { useState } from 'react';
 import CoachCard from './CoachCard';
 import Link from 'next/link';
 import { FaEdit } from 'react-icons/fa';
 import type { CoachData } from '@/lib/firebase/coachUtils';
+import {
+  SPECIALTIES,
+  CREDENTIALS,
+  DIVISIONS,
+  CLIENT_TYPES,
+  FEDERATIONS,
+} from '../lib/utils/coachProfileOptions';
+import { updateCoachProfile } from '@/lib/firebase/coachUtils';
 
 interface CoachProfileDetailsProps {
   coach: CoachData;
@@ -10,8 +19,22 @@ interface CoachProfileDetailsProps {
   onEdit?: () => void;
 }
 
-const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach, isOwner, onEdit }) => {
+const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initialCoach, isOwner, onEdit }) => {
   const [editBox, setEditBox] = useState<string | null>(null);
+  const [coach, setCoach] = useState<CoachData>(initialCoach);
+
+  // Helper to update coach profile and local state
+  const handleArrayChange = async (
+    field: keyof Pick<CoachData, 'specialties' | 'credentials' | 'divisions' | 'clientTypes' | 'federations'>,
+    value: string,
+    checked: boolean
+  ) => {
+    const prev = coach[field] as string[];
+    const updated = checked ? [...prev, value] : prev.filter((v) => v !== value);
+    setCoach((c) => ({ ...c, [field]: updated }));
+    await updateCoachProfile(coach.id, { [field]: updated });
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-4">
@@ -20,26 +43,8 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach, isOwne
       <CoachCard coach={coach} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
         <div className="bg-white rounded-lg shadow p-6 relative">
-          <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
-            <span>About</span>
-            <button
-              className="text-gray-400 hover:text-blue-600 transition-colors p-1"
-              onClick={() => setEditBox(editBox === 'about' ? null : 'about')}
-              aria-label="Edit About"
-            >
-              <FaEdit size={18} />
-            </button>
-          </h2>
+          <h2 className="text-lg font-semibold mb-2">About</h2>
           <p className="text-gray-700 whitespace-pre-line">{coach.bio}</p>
-          <div
-            className={`transition-all duration-300 overflow-hidden ${editBox === 'about' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
-          >
-            <ul className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
-              <li className="text-blue-800">Edit item 1</li>
-              <li className="text-blue-800">Edit item 2</li>
-              <li className="text-blue-800">Edit item 3</li>
-            </ul>
-          </div>
         </div>
         <div className="bg-white rounded-lg shadow p-6 relative">
           <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
@@ -60,13 +65,20 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach, isOwne
             ))}
           </div>
           <div
-            className={`transition-all duration-300 overflow-hidden ${editBox === 'specialties' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+            className={`transition-all duration-300 overflow-hidden ${editBox === 'specialties' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
           >
-            <ul className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
-              <li className="text-blue-800">Edit specialty 1</li>
-              <li className="text-blue-800">Edit specialty 2</li>
-              <li className="text-blue-800">Edit specialty 3</li>
-            </ul>
+            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+              {SPECIALTIES.map((option) => (
+                <label key={option} className="flex items-center gap-2 text-blue-800">
+                  <input
+                    type="checkbox"
+                    checked={coach.specialties.includes(option)}
+                    onChange={e => handleArrayChange('specialties', option, e.target.checked)}
+                  />
+                  {option}
+                </label>
+              ))}
+            </div>
           </div>
         </div>
         <div className="bg-white rounded-lg shadow p-6 relative">
@@ -86,13 +98,20 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach, isOwne
             ))}
           </ul>
           <div
-            className={`transition-all duration-300 overflow-hidden ${editBox === 'credentials' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+            className={`transition-all duration-300 overflow-hidden ${editBox === 'credentials' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
           >
-            <ul className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
-              <li className="text-blue-800">Edit credential 1</li>
-              <li className="text-blue-800">Edit credential 2</li>
-              <li className="text-blue-800">Edit credential 3</li>
-            </ul>
+            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+              {CREDENTIALS.map((option) => (
+                <label key={option} className="flex items-center gap-2 text-blue-800">
+                  <input
+                    type="checkbox"
+                    checked={coach.credentials.includes(option)}
+                    onChange={e => handleArrayChange('credentials', option, e.target.checked)}
+                  />
+                  {option}
+                </label>
+              ))}
+            </div>
           </div>
         </div>
         <div className="bg-white rounded-lg shadow p-6 relative">
@@ -112,13 +131,20 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach, isOwne
             ))}
           </ul>
           <div
-            className={`transition-all duration-300 overflow-hidden ${editBox === 'divisions' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+            className={`transition-all duration-300 overflow-hidden ${editBox === 'divisions' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
           >
-            <ul className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
-              <li className="text-blue-800">Edit division 1</li>
-              <li className="text-blue-800">Edit division 2</li>
-              <li className="text-blue-800">Edit division 3</li>
-            </ul>
+            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+              {DIVISIONS.map((option) => (
+                <label key={option} className="flex items-center gap-2 text-blue-800">
+                  <input
+                    type="checkbox"
+                    checked={coach.divisions.includes(option)}
+                    onChange={e => handleArrayChange('divisions', option, e.target.checked)}
+                  />
+                  {option}
+                </label>
+              ))}
+            </div>
           </div>
         </div>
         <div className="bg-white rounded-lg shadow p-6 relative">
@@ -138,13 +164,20 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach, isOwne
             ))}
           </ul>
           <div
-            className={`transition-all duration-300 overflow-hidden ${editBox === 'clientTypes' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+            className={`transition-all duration-300 overflow-hidden ${editBox === 'clientTypes' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
           >
-            <ul className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
-              <li className="text-blue-800">Edit client type 1</li>
-              <li className="text-blue-800">Edit client type 2</li>
-              <li className="text-blue-800">Edit client type 3</li>
-            </ul>
+            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+              {CLIENT_TYPES.map((option) => (
+                <label key={option} className="flex items-center gap-2 text-blue-800">
+                  <input
+                    type="checkbox"
+                    checked={coach.clientTypes.includes(option)}
+                    onChange={e => handleArrayChange('clientTypes', option, e.target.checked)}
+                  />
+                  {option}
+                </label>
+              ))}
+            </div>
           </div>
         </div>
         <div className="bg-white rounded-lg shadow p-6 relative">
@@ -164,13 +197,20 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach, isOwne
             ))}
           </ul>
           <div
-            className={`transition-all duration-300 overflow-hidden ${editBox === 'federations' ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+            className={`transition-all duration-300 overflow-hidden ${editBox === 'federations' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
           >
-            <ul className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
-              <li className="text-blue-800">Edit federation 1</li>
-              <li className="text-blue-800">Edit federation 2</li>
-              <li className="text-blue-800">Edit federation 3</li>
-            </ul>
+            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner">
+              {FEDERATIONS.map((option) => (
+                <label key={option} className="flex items-center gap-2 text-blue-800">
+                  <input
+                    type="checkbox"
+                    checked={coach.federations.includes(option)}
+                    onChange={e => handleArrayChange('federations', option, e.target.checked)}
+                  />
+                  {option}
+                </label>
+              ))}
+            </div>
           </div>
         </div>
       </div>
