@@ -12,7 +12,7 @@ interface CoachProfileProps {
 }
 
 export default function CoachProfile({ coach, showActions = true }: CoachProfileProps) {
-  const isVerified = coach.subscription?.plan === 'pro' || coach.subscription?.plan === 'premium';
+  const isVerified = coach.subscription?.plan === 'pro';
   const [showMessageBox, setShowMessageBox] = useState(false);
   const [message, setMessage] = useState('');
   const [sendStatus, setSendStatus] = useState<'idle' | 'success' | 'error'>('idle');
