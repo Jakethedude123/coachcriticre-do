@@ -47,3 +47,46 @@ body {
   color: #fff;
   transform: scale(0.98);
 }
+
+/* Glassmorphism effect for navbar tabs */
+.navbar-glass-tab {
+  position: relative;
+  padding-left: 1.25rem; /* px-5 */
+  padding-right: 1.25rem;
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem;
+  border-radius: 0.75rem; /* rounded-xl */
+  font-weight: 500; /* font-medium */
+  color: #1d4ed8; /* text-blue-700 */
+  transition: all 0.2s;
+  border: 1px solid #dbeafe; /* border-blue-100 */
+  background: rgba(255,255,255,0.3);
+  box-shadow: 0 2px 8px 0 rgba(37,99,235,0.08);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+  z-index: 1;
+  display: inline-block;
+}
+.navbar-glass-tab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem;
+  background: linear-gradient(120deg, rgba(37,99,235,0.12) 0%, rgba(29,78,216,0.10) 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 0;
+}
+.navbar-glass-tab:hover::before {
+  opacity: 1;
+}
+.navbar-glass-tab:hover {
+  color: #fff !important;
+  background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+  box-shadow: 0 4px 16px 0 rgba(37,99,235,0.16);
+  transform: scale(1.05);
+}
+.navbar-glass-tab > * {
+  position: relative;
+  z-index: 1;
+}
