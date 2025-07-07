@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { FaUser, FaEnvelope } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaSun, FaMoon } from 'react-icons/fa';
 import { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { db } from '@/lib/firebase/firebase';
@@ -17,6 +17,7 @@ export default function Navbar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [hasNewMessages, setHasNewMessages] = useState(false);
+  const [theme, setTheme] = useState('light');
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -49,6 +50,22 @@ export default function Navbar() {
     });
     return () => unsubscribe();
   }, [user]);
+
+  useEffect(() => {
+    // Always start in light mode
+    document.documentElement.classList.remove('dark');
+    setTheme('light');
+  }, []);
+
+  const toggleTheme = () => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('dark');
+      setTheme('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      setTheme('light');
+    }
+  };
 
   return (
     <nav className="bg-white shadow-md">
@@ -152,6 +169,16 @@ export default function Navbar() {
                 Login
               </Link>
             )}
+            <button
+              onClick={toggleTheme}
+              className="ml-4 p-2 flex items-center gap-2 rounded-full border-2 border-blue-400 dark:border-yellow-300 bg-white dark:bg-gray-800 text-yellow-500 dark:text-blue-300 shadow-lg hover:scale-110 transition z-50"
+              aria-label="Toggle dark mode"
+              type="button"
+              style={{ minWidth: 60 }}
+            >
+              <span className="font-bold text-xs text-blue-700 dark:text-yellow-200">Theme</span>
+              {theme === 'light' ? <FaMoon size={20} /> : <FaSun size={20} />}
+            </button>
           </div>
         </div>
       </div>
