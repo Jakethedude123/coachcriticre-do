@@ -31,7 +31,7 @@ export default function UpgradePage() {
         <div className="bg-black border border-gray-700 rounded-2xl p-8 w-80 flex flex-col items-center shadow-xl">
           <div className="text-4xl font-bold text-white mb-1">$0 <span className="text-base font-normal text-gray-400">Free</span></div>
           <div className="uppercase text-lg font-bold text-white mb-2">Basic</div>
-          <div className="text-gray-400 mb-6 text-center">A perfect taste for the creatively curious</div>
+          <div className="text-gray-400 mb-6 text-center">Unlock more exposure and growth—don't miss out on new clients by staying basic.</div>
           <ul className="text-gray-200 space-y-2 mb-8 w-full">
             <li>✔️ Listed in public search</li>
             <li>✔️ Up to 3 review codes
@@ -55,7 +55,7 @@ export default function UpgradePage() {
         <div className="bg-yellow-50 border-4 border-yellow-300 rounded-2xl p-8 w-80 flex flex-col items-center shadow-2xl">
           <div className="text-4xl font-bold text-gray-900 mb-1">$20 <span className="text-base font-normal text-gray-500">/ month</span></div>
           <div className="uppercase text-lg font-bold text-gray-900 mb-2">Pro</div>
-          <div className="text-gray-700 mb-6 text-center">More speed, more features, more fun</div>
+          <div className="text-gray-700 mb-6 text-center">Take action with insights and tools to generate more leads and grow your coaching business.</div>
           <ul className="text-gray-800 space-y-2 mb-8 w-full">
             <li>✔️ Listed in coach spotlight page</li>
             <li>✔️ Unlimited codes for client verification
