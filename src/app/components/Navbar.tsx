@@ -55,13 +55,13 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
+            <Link href="/" className="flex items-center space-x-2 group">
               <img
                 src="/images/optimized/hilogo.png"
                 alt="CoachCritic Logo"
                 width={200}
                 height={60}
-                className="h-16 w-auto"
+                className="h-16 w-auto transition-transform duration-300 group-hover:scale-110"
                 onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-coach.png'; }}
               />
             </Link>
@@ -104,11 +104,11 @@ export default function Navbar() {
                 <button
                   type="button"
                   ref={buttonRef}
-                  className="navbar-glass-tab flex items-center justify-center gap-2 px-4 py-2 text-base"
+                  className="navbar-glass-tab flex items-center justify-center gap-1 px-4 py-2 text-base"
                   onClick={handleDropdownToggle}
                 >
-                  <FaUser className="w-5 h-5" />
-                  <span className="font-medium">Profile</span>
+                  <FaUser className="w-4 h-4" />
+                  <span className="font-medium ml-1">Profile</span>
                 </button>
                 <Link href="/messages" className="navbar-glass-tab relative flex items-center justify-center ml-1 px-2 py-1 text-base">
                   <FaEnvelope className="h-4 w-4" />
