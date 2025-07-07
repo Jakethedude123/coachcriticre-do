@@ -65,22 +65,22 @@ export default function Navbar() {
                 onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-coach.png'; }}
               />
             </Link>
-            <div className="hidden md:flex md:ml-10 space-x-8">
+            <div className="hidden md:flex md:ml-10 space-x-4">
               <Link
                 href={user ? "/coaches/search" : "/login"}
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md"
+                className="navbar-glass-tab"
               >
                 Find Coaches
               </Link>
               <Link
                 href="/recent-activity"
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md"
+                className="navbar-glass-tab"
               >
                 Recent Activity
               </Link>
               <Link
                 href="/upgrade"
-                className="text-gray-700 hover:text-yellow-600 px-3 py-2 rounded-md font-semibold"
+                className="navbar-glass-tab font-semibold"
               >
                 Upgrade
               </Link>
@@ -155,4 +155,32 @@ export default function Navbar() {
       </div>
     </nav>
   );
-} 
+}
+
+/*
+Add glassmorphism styles for navbar tabs. Uses Tailwind's arbitrary values and custom CSS for backdrop blur, border, and animated hover.
+*/
+<style jsx global>{`
+  .navbar-glass-tab {
+    @apply relative px-5 py-2 rounded-xl font-medium text-blue-700 transition-all duration-200 border border-blue-100 bg-white/30 shadow-sm backdrop-blur-md hover:text-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 hover:shadow-lg hover:scale-105;
+    box-shadow: 0 2px 8px 0 rgba(37,99,235,0.08);
+    overflow: hidden;
+  }
+  .navbar-glass-tab::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 0.75rem;
+    background: linear-gradient(120deg, rgba(37,99,235,0.12) 0%, rgba(29,78,216,0.10) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 0;
+  }
+  .navbar-glass-tab:hover::before {
+    opacity: 1;
+  }
+  .navbar-glass-tab > * {
+    position: relative;
+    z-index: 1;
+  }
+`}</style> 
