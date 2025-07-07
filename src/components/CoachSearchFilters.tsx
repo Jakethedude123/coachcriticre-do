@@ -45,8 +45,8 @@ const PL_SPECIALIZATIONS = [
 
 export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
   const [expandedSections, setExpandedSections] = useState({
-    pricing: true,
-    competition: true,
+    pricing: false,
+    competition: false,
     specializations: false,
     timeZone: false,
     proximity: false,
