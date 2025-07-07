@@ -2,19 +2,19 @@
 
 import { useState } from 'react';
 import { FaCheckCircle, FaTimesCircle, FaSpinner } from 'react-icons/fa';
-import { CoachTier, TIER_BENEFITS, TIER_PRICES } from '@/lib/firebase/models/coach';
+import { CoachPlan, PLAN_BENEFITS, PLAN_PRICES } from '@/lib/firebase/models/coach';
 
 interface TierSubscriptionProps {
-  currentTier: CoachTier;
-  onSubscribe: (tier: Exclude<CoachTier, 'free'>) => Promise<void>;
+  currentTier: CoachPlan;
+  onSubscribe: (tier: CoachPlan) => Promise<void>;
 }
 
 export default function TierSubscription({ currentTier, onSubscribe }: TierSubscriptionProps) {
-  const [selectedTier, setSelectedTier] = useState<CoachTier>(currentTier);
+  const [selectedTier, setSelectedTier] = useState<CoachPlan>(currentTier);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubscribe = async (tier: Exclude<CoachTier, 'free'>) => {
+  const handleSubscribe = async (tier: CoachPlan) => {
     setIsLoading(true);
     setError(null);
 
@@ -50,7 +50,7 @@ export default function TierSubscription({ currentTier, onSubscribe }: TierSubsc
         {/* Free Tier */}
         <div className={`
           p-6 rounded-lg border-2 
-          ${selectedTier === 'free' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}
+          ${selectedTier === 'basic' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}
         `}>
           <div className="text-center mb-6">
             <h3 className="text-xl font-semibold">Free</h3>
@@ -60,23 +60,23 @@ export default function TierSubscription({ currentTier, onSubscribe }: TierSubsc
 
           <ul className="space-y-4">
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.free.analytics)}
+              {renderBenefitStatus(PLAN_BENEFITS.basic.analytics)}
               <span>Basic Analytics</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.free.spotlight)}
+              {renderBenefitStatus(PLAN_BENEFITS.basic.spotlight)}
               <span>Coach Spotlight</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.free.verifiedBadge)}
+              {renderBenefitStatus(PLAN_BENEFITS.basic.verifiedBadge)}
               <span>Verified Badge</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.free.prioritySearch)}
+              {renderBenefitStatus(PLAN_BENEFITS.basic.priorityAccess)}
               <span>Priority Search</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.free.customBranding)}
+              {renderBenefitStatus(PLAN_BENEFITS.basic.customBranding)}
               <span>Custom Branding</span>
             </li>
           </ul>
@@ -92,43 +92,41 @@ export default function TierSubscription({ currentTier, onSubscribe }: TierSubsc
         {/* Tier 1 */}
         <div className={`
           p-6 rounded-lg border-2 
-          ${selectedTier === 'tier1' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}
+          ${selectedTier === 'basic' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}
         `}>
           <div className="text-center mb-6">
             <h3 className="text-xl font-semibold">Growth</h3>
-            <p className="text-2xl font-bold mt-2">${TIER_PRICES.tier1}</p>
+            <p className="text-2xl font-bold mt-2">${PLAN_PRICES.basic}</p>
             <p className="text-gray-500 text-sm">per month</p>
           </div>
 
           <ul className="space-y-4">
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.tier1.analytics)}
+              {renderBenefitStatus(PLAN_BENEFITS.basic.analytics)}
               <span>Basic Analytics</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.tier1.spotlight)}
+              {renderBenefitStatus(PLAN_BENEFITS.basic.spotlight)}
               <span>Coach Spotlight</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.tier1.verifiedBadge)}
+              {renderBenefitStatus(PLAN_BENEFITS.basic.verifiedBadge)}
               <span>Verified Badge</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.tier1.realTimeViews)}
-              <span>Real-time Profile Views</span>
+              {/* No realTimeViews in PLAN_BENEFITS.basic, so skip or add if needed */}
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.tier1.advancedAnalytics)}
-              <span>Advanced Analytics</span>
+              {/* No advancedAnalytics in PLAN_BENEFITS.basic, so skip or add if needed */}
             </li>
           </ul>
 
           <button
-            onClick={() => handleSubscribe('tier1')}
-            disabled={isLoading || currentTier === 'tier1'}
+            onClick={() => handleSubscribe('basic')}
+            disabled={isLoading || currentTier === 'basic'}
             className={`
               w-full mt-6 px-4 py-2 rounded-lg
-              ${currentTier === 'tier1'
+              ${currentTier === 'basic'
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-blue-600 text-white hover:bg-blue-700'
               }
@@ -136,7 +134,7 @@ export default function TierSubscription({ currentTier, onSubscribe }: TierSubsc
           >
             {isLoading ? (
               <FaSpinner className="animate-spin mx-auto" />
-            ) : currentTier === 'tier1' ? (
+            ) : currentTier === 'basic' ? (
               'Current Plan'
             ) : (
               'Subscribe'
@@ -147,7 +145,7 @@ export default function TierSubscription({ currentTier, onSubscribe }: TierSubsc
         {/* Tier 2 */}
         <div className={`
           p-6 rounded-lg border-2 
-          ${selectedTier === 'tier2' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}
+          ${selectedTier === 'pro' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}
           relative overflow-hidden
         `}>
           {/* Popular Badge */}
@@ -159,43 +157,39 @@ export default function TierSubscription({ currentTier, onSubscribe }: TierSubsc
 
           <div className="text-center mb-6">
             <h3 className="text-xl font-semibold">Pro</h3>
-            <p className="text-2xl font-bold mt-2">${TIER_PRICES.tier2}</p>
+            <p className="text-2xl font-bold mt-2">${PLAN_PRICES.pro}</p>
             <p className="text-gray-500 text-sm">per month</p>
           </div>
 
           <ul className="space-y-4">
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.tier2.analytics)}
+              {renderBenefitStatus(PLAN_BENEFITS.pro.analytics)}
               <span>Premium Analytics</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.tier2.spotlight)}
+              {renderBenefitStatus(PLAN_BENEFITS.pro.spotlight)}
               <span>Featured Spotlight</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.tier2.premiumBadge)}
-              <span>Premium Verified Badge</span>
+              {/* No premiumBadge in PLAN_BENEFITS.pro, so skip or add if needed */}
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.tier2.realTimeViews)}
-              <span>Real-time Profile Views</span>
+              {/* No realTimeViews in PLAN_BENEFITS.pro, so skip or add if needed */}
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.tier2.advancedAnalytics)}
-              <span>Advanced Analytics Dashboard</span>
+              {/* No advancedAnalytics in PLAN_BENEFITS.pro, so skip or add if needed */}
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(TIER_BENEFITS.tier2.marketInsights)}
-              <span>Market Insights Access</span>
+              {/* No marketInsights in PLAN_BENEFITS.pro, so skip or add if needed */}
             </li>
           </ul>
 
           <button
-            onClick={() => handleSubscribe('tier2')}
-            disabled={isLoading || currentTier === 'tier2'}
+            onClick={() => handleSubscribe('pro')}
+            disabled={isLoading || currentTier === 'pro'}
             className={`
               w-full mt-6 px-4 py-2 rounded-lg
-              ${currentTier === 'tier2'
+              ${currentTier === 'pro'
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-blue-600 text-white hover:bg-blue-700'
               }
@@ -203,7 +197,7 @@ export default function TierSubscription({ currentTier, onSubscribe }: TierSubsc
           >
             {isLoading ? (
               <FaSpinner className="animate-spin mx-auto" />
-            ) : currentTier === 'tier2' ? (
+            ) : currentTier === 'pro' ? (
               'Current Plan'
             ) : (
               'Subscribe'
