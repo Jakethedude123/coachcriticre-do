@@ -59,12 +59,11 @@ export default function Navbar() {
               <img
                 src="/images/optimized/hilogo.png"
                 alt="CoachCritic Logo"
-                width={150}
-                height={40}
-                className="h-10 w-auto bg-white border border-gray-200 rounded shadow-sm p-1"
+                width={200}
+                height={60}
+                className="h-16 w-auto"
                 onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-coach.png'; }}
               />
-              <span className="ml-2 text-xl font-bold text-gray-900">CoachCritic</span>
             </Link>
             <div className="hidden md:flex md:ml-10 space-x-8">
               <Link
