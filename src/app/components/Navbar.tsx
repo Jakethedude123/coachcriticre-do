@@ -76,7 +76,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white shadow-md dark:bg-black">
+    <nav className="bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -179,7 +179,7 @@ export default function Navbar() {
             )}
             <button
               onClick={toggleTheme}
-              className="ml-4 p-2 flex items-center gap-2 rounded-full border-2 border-blue-400 dark:border-cyan-400 bg-white dark:bg-black text-yellow-500 dark:text-cyan-300 shadow-lg hover:scale-110 transition z-50 neon-glow"
+              className="ml-4 p-2 flex items-center gap-2 rounded-full border-2 border-blue-400 dark:border-yellow-300 bg-white dark:bg-gray-800 text-yellow-500 dark:text-blue-300 shadow-lg hover:scale-110 transition z-50"
               aria-label="Toggle dark mode"
               type="button"
               style={{ minWidth: 40 }}
