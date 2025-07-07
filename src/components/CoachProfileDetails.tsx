@@ -59,33 +59,33 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach, isOwne
         </div>
         <div className={boxBase}>
           <h2 className={headingBase}>Credentials</h2>
-          <ul className="list-disc list-inside text-gray-700">
+          <ul className="list-disc list-inside">
             {coach.credentials.map((credential) => (
-              <li key={credential}>{credential}</li>
+              <li key={credential} className="text-blue-700 hover:underline hover:font-semibold transition-colors duration-150">{credential}</li>
             ))}
           </ul>
         </div>
         <div className={boxBase}>
           <h2 className={headingBase}>Divisions</h2>
-          <ul className="list-disc list-inside text-gray-700">
+          <ul className="list-disc list-inside">
             {coach.divisions.map((division) => (
-              <li key={division}>{division}</li>
+              <li key={division} className="text-blue-700 hover:underline hover:font-semibold transition-colors duration-150">{division}</li>
             ))}
           </ul>
         </div>
         <div className={boxBase}>
           <h2 className={headingBase}>Client Types</h2>
-          <ul className="list-disc list-inside text-gray-700">
+          <ul className="list-disc list-inside">
             {coach.clientTypes.map((type) => (
-              <li key={type}>{type}</li>
+              <li key={type} className="text-blue-700 hover:underline hover:font-semibold transition-colors duration-150">{type}</li>
             ))}
           </ul>
         </div>
         <div className={boxBase}>
           <h2 className={headingBase}>Federations</h2>
-          <ul className="list-disc list-inside text-gray-700">
+          <ul className="list-disc list-inside">
             {coach.federations.map((federation) => (
-              <li key={federation}>{federation}</li>
+              <li key={federation} className="text-blue-700 hover:underline hover:font-semibold transition-colors duration-150">{federation}</li>
             ))}
           </ul>
         </div>
