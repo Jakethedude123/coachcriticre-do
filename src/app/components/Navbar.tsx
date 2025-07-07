@@ -104,13 +104,13 @@ export default function Navbar() {
                 <button
                   type="button"
                   ref={buttonRef}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-blue-600"
+                  className="navbar-glass-tab flex items-center space-x-2"
                   onClick={handleDropdownToggle}
                 >
                   <FaUser />
                   <span>Profile</span>
                 </button>
-                <Link href="/messages" className="relative text-gray-600 hover:text-blue-600 transition-colors flex items-center ml-2">
+                <Link href="/messages" className="navbar-glass-tab relative flex items-center ml-2">
                   <FaEnvelope className="h-5 w-5" />
                   {hasNewMessages && (
                     <span className="absolute -top-1 -right-1 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>
