@@ -157,18 +157,4 @@ export default function Navbar() {
       </div>
     </nav>
   );
-}
-
-/*
-Glassmorphism dropdown styles for profile menu
-*/
-<style jsx global>{`
-  .navbar-glass-dropdown {
-    background: rgba(255,255,255,0.7);
-    border: 1px solid #dbeafe;
-    box-shadow: 0 4px 24px 0 rgba(37,99,235,0.10);
-    backdrop-filter: blur(12px);
-    border-radius: 0.75rem;
-    transition: box-shadow 0.2s, background 0.2s;
-  }
-`}</style> 
+} 
