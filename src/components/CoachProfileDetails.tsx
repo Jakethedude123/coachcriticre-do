@@ -10,7 +10,7 @@ import {
   DIVISIONS,
   CLIENT_TYPES,
   FEDERATIONS,
-} from '../lib/utils/coachProfileOptions';
+} from '@/lib/utils/coachProfileOptions';
 import { updateCoachProfile } from '@/lib/firebase/coachUtils';
 
 interface CoachProfileDetailsProps {
