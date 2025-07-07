@@ -60,24 +60,36 @@ export default function TierSubscription({ currentTier, onSubscribe }: TierSubsc
 
           <ul className="space-y-4">
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(PLAN_BENEFITS.basic.analytics)}
-              <span>Basic Analytics</span>
+              {renderBenefitStatus(PLAN_BENEFITS.basic.listedInPublicSearch)}
+              <span>Listed in Public Search</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(PLAN_BENEFITS.basic.spotlight)}
-              <span>Coach Spotlight</span>
+              {renderBenefitStatus(PLAN_BENEFITS.basic.reviewCodes !== 0)}
+              <span>Review Codes</span>
+            </li>
+            <li className="flex items-center space-x-3">
+              {renderBenefitStatus(PLAN_BENEFITS.basic.oneReviewPerClient)}
+              <span>One Review Per Client</span>
+            </li>
+            <li className="flex items-center space-x-3">
+              {renderBenefitStatus(PLAN_BENEFITS.basic.customBranding)}
+              <span>Custom Branding</span>
             </li>
             <li className="flex items-center space-x-3">
               {renderBenefitStatus(PLAN_BENEFITS.basic.verifiedBadge)}
               <span>Verified Badge</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(PLAN_BENEFITS.basic.priorityAccess)}
-              <span>Priority Search</span>
+              {renderBenefitStatus(PLAN_BENEFITS.basic.insightDashboard)}
+              <span>Insight Dashboard</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(PLAN_BENEFITS.basic.customBranding)}
-              <span>Custom Branding</span>
+              {renderBenefitStatus(PLAN_BENEFITS.basic.eligibleForSpotlight)}
+              <span>Eligible for Spotlight</span>
+            </li>
+            <li className="flex items-center space-x-3">
+              {renderBenefitStatus(PLAN_BENEFITS.basic.priorityAccess)}
+              <span>Priority Access</span>
             </li>
           </ul>
 
@@ -102,22 +114,36 @@ export default function TierSubscription({ currentTier, onSubscribe }: TierSubsc
 
           <ul className="space-y-4">
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(PLAN_BENEFITS.basic.analytics)}
-              <span>Basic Analytics</span>
+              {renderBenefitStatus(PLAN_BENEFITS.basic.listedInPublicSearch)}
+              <span>Listed in Public Search</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(PLAN_BENEFITS.basic.spotlight)}
-              <span>Coach Spotlight</span>
+              {renderBenefitStatus(PLAN_BENEFITS.basic.reviewCodes !== 0)}
+              <span>Review Codes</span>
+            </li>
+            <li className="flex items-center space-x-3">
+              {renderBenefitStatus(PLAN_BENEFITS.basic.oneReviewPerClient)}
+              <span>One Review Per Client</span>
+            </li>
+            <li className="flex items-center space-x-3">
+              {renderBenefitStatus(PLAN_BENEFITS.basic.customBranding)}
+              <span>Custom Branding</span>
             </li>
             <li className="flex items-center space-x-3">
               {renderBenefitStatus(PLAN_BENEFITS.basic.verifiedBadge)}
               <span>Verified Badge</span>
             </li>
             <li className="flex items-center space-x-3">
-              {/* No realTimeViews in PLAN_BENEFITS.basic, so skip or add if needed */}
+              {renderBenefitStatus(PLAN_BENEFITS.basic.insightDashboard)}
+              <span>Insight Dashboard</span>
             </li>
             <li className="flex items-center space-x-3">
-              {/* No advancedAnalytics in PLAN_BENEFITS.basic, so skip or add if needed */}
+              {renderBenefitStatus(PLAN_BENEFITS.basic.eligibleForSpotlight)}
+              <span>Eligible for Spotlight</span>
+            </li>
+            <li className="flex items-center space-x-3">
+              {renderBenefitStatus(PLAN_BENEFITS.basic.priorityAccess)}
+              <span>Priority Access</span>
             </li>
           </ul>
 
@@ -163,24 +189,36 @@ export default function TierSubscription({ currentTier, onSubscribe }: TierSubsc
 
           <ul className="space-y-4">
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(PLAN_BENEFITS.pro.analytics)}
-              <span>Premium Analytics</span>
+              {renderBenefitStatus(PLAN_BENEFITS.pro.listedInPublicSearch)}
+              <span>Listed in Public Search</span>
             </li>
             <li className="flex items-center space-x-3">
-              {renderBenefitStatus(PLAN_BENEFITS.pro.spotlight)}
-              <span>Featured Spotlight</span>
+              {renderBenefitStatus(PLAN_BENEFITS.pro.reviewCodes === 'unlimited')}
+              <span>Unlimited Review Codes</span>
             </li>
             <li className="flex items-center space-x-3">
-              {/* No premiumBadge in PLAN_BENEFITS.pro, so skip or add if needed */}
+              {renderBenefitStatus(PLAN_BENEFITS.pro.oneReviewPerClient)}
+              <span>One Review Per Client</span>
             </li>
             <li className="flex items-center space-x-3">
-              {/* No realTimeViews in PLAN_BENEFITS.pro, so skip or add if needed */}
+              {renderBenefitStatus(PLAN_BENEFITS.pro.customBranding)}
+              <span>Custom Branding</span>
             </li>
             <li className="flex items-center space-x-3">
-              {/* No advancedAnalytics in PLAN_BENEFITS.pro, so skip or add if needed */}
+              {renderBenefitStatus(PLAN_BENEFITS.pro.verifiedBadge)}
+              <span>Verified Badge</span>
             </li>
             <li className="flex items-center space-x-3">
-              {/* No marketInsights in PLAN_BENEFITS.pro, so skip or add if needed */}
+              {renderBenefitStatus(PLAN_BENEFITS.pro.insightDashboard)}
+              <span>Insight Dashboard</span>
+            </li>
+            <li className="flex items-center space-x-3">
+              {renderBenefitStatus(PLAN_BENEFITS.pro.eligibleForSpotlight)}
+              <span>Eligible for Spotlight</span>
+            </li>
+            <li className="flex items-center space-x-3">
+              {renderBenefitStatus(PLAN_BENEFITS.pro.priorityAccess)}
+              <span>Priority Access</span>
             </li>
           </ul>
 
