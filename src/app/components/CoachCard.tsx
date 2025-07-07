@@ -16,49 +16,42 @@ export default function CoachCard({ coach }: CoachCardProps) {
   return (
     <Link
       href={`/coaches/profile/${coach.userId}`}
-      className="block bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+      className="block bg-gradient-to-br from-white via-blue-50 to-blue-100 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 flex items-center gap-8 max-w-2xl mx-auto border border-blue-100 hover:scale-[1.025]"
     >
-      <div className="p-6">
-        <div className="flex items-start space-x-4">
-          <div className="relative h-24 w-24 flex-shrink-0">
-            <Image
-              src={coach.avatar || '/placeholder-coach.jpg'}
-              alt={coach.name}
-              fill
-              className="object-cover rounded-lg"
-            />
-          </div>
-          <div className="flex-grow">
-            <div className="flex justify-between items-start">
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900">{coach.name}</h2>
-                <div className="mt-1 flex items-center text-gray-600">
-                  <FaMapMarkerAlt className="mr-2" />
-                  {coach.location.city}, {coach.location.state}
-                </div>
-                <div className="mt-1 flex items-center text-gray-600">
-                  <FaClock className="mr-2" />
-                  {coach.experience} experience
-                </div>
-              </div>
-              <div className="flex flex-col items-end">
-                <span className="text-sm text-gray-500">{coach.experience}</span>
-              </div>
-            </div>
-            <div className="mt-4">
-              <div className="flex flex-wrap gap-2">
-                {coach.specialties.map((specialty, index) => (
-                  <span
-                    key={index}
-                    className="px-2 py-1 bg-blue-100 text-blue-800 text-sm rounded-full"
-                  >
-                    {specialty}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+      {/* Left: Circular Image with border */}
+      <div className="flex-shrink-0">
+        <div className="relative h-32 w-32 rounded-full overflow-hidden border-4 border-blue-200 shadow-md bg-white">
+          <Image
+            src={coach.avatar || '/placeholder-coach.jpg'}
+            alt={coach.name}
+            fill
+            className="object-cover"
+          />
         </div>
+      </div>
+      {/* Right: Info */}
+      <div className="flex-1 min-w-0">
+        <h2 className="text-2xl font-extrabold text-blue-900 mb-1 tracking-tight">{coach.name}</h2>
+        <div className="text-base text-blue-700 font-semibold mb-2">{coach.headline || coach.specialties?.[0]}</div>
+        <div className="text-gray-600 mb-2 font-medium">
+          <span className="font-semibold">{coach.location.city}, {coach.location.state}</span>
+        </div>
+        <div className="text-gray-500 mb-2 text-sm">
+          {coach.experience} experience
+        </div>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {coach.specialties.map((specialty, index) => (
+            <span
+              key={index}
+              className="px-3 py-1 bg-blue-200 text-blue-900 text-xs rounded-full font-semibold shadow-sm"
+            >
+              {specialty}
+            </span>
+          ))}
+        </div>
+        {coach.bio && (
+          <div className="mt-3 text-gray-700 text-sm leading-relaxed line-clamp-2">{coach.bio}</div>
+        )}
       </div>
     </Link>
   );
