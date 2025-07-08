@@ -124,7 +124,7 @@ export default function CoachesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-5 gap-8">
           {/* Filters Sidebar */}
-          <div className="col-span-1 max-w-xs">
+          <div className="col-span-2 max-w-md">
             <div className="sticky top-4">
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-3">Find Your Coach</h2>
@@ -178,9 +178,11 @@ export default function CoachesPage() {
                   </span>
                 </div>
               </div>
+              <div className="overflow-y-auto max-h-[70vh] pr-2">
               <AuthRequiredSearch>
                 <CoachSearchFilters onFiltersChange={handleFiltersChange} />
               </AuthRequiredSearch>
+              </div>
             </div>
           </div>
 
@@ -218,7 +220,14 @@ export default function CoachesPage() {
                         coach={{
                           ...coach,
                           rating: coach.rating || 0,
-                          testimonialCount: coach.testimonialCount || 0
+                          testimonialCount: coach.testimonialCount || 0,
+                          clientTypes: Array.isArray(coach.clientTypes)
+                            ? coach.clientTypes
+                            : coach.clientTypes
+                              ? Object.entries(coach.clientTypes)
+                                  .filter(([_, v]) => v)
+                                  .map(([k]) => k)
+                              : [],
                         }} 
                       />
                     </Link>
