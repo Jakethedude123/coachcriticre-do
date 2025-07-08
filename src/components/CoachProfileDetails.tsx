@@ -42,190 +42,241 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
       </div>
       <CoachCard coach={coach} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-        <div className="bg-white rounded-lg shadow p-6 relative">
+        {/* About Box */}
+        <div className={`bg-white rounded-lg shadow p-6 relative${editBox === 'about' ? ' col-span-2' : ''}`}>
           <h2 className="text-lg font-semibold mb-2">About</h2>
           <p className="text-gray-700 whitespace-pre-line">{coach.bio}</p>
         </div>
         {/* Specialties Box with edit icon and all options as checkboxes */}
-        <div className="bg-white rounded-lg shadow p-6 relative">
-          <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
-            <span>Specialties</span>
-            <button
-              className="text-gray-400 hover:text-blue-600 transition-colors p-1"
-              onClick={() => setEditBox(editBox === 'specialties' ? null : 'specialties')}
-              aria-label="Edit Specialties"
-            >
-              <FaEdit size={18} />
-            </button>
-          </h2>
-          <div className="flex flex-wrap gap-2 min-h-6">
-            {coach.specialties.length > 0 && coach.specialties.map((specialty) => (
-              <span key={specialty} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
-                {specialty}
-              </span>
-            ))}
-          </div>
-          <div
-            className={`transition-all duration-300 ${editBox === 'specialties' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
-          >
-            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-              {SPECIALTIES.map((option) => (
-                <label key={option} className="flex items-center gap-2 text-blue-800">
-                  <input
-                    type="checkbox"
-                    checked={coach.specialties.includes(option)}
-                    onChange={e => handleArrayChange('specialties', option, e.target.checked)}
-                  />
-                  {option}
-                </label>
+        {editBox === 'specialties' ? (
+          <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>Specialties</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'specialties' ? null : 'specialties')}
+                aria-label="Edit Specialties"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <div className="flex flex-wrap gap-2 min-h-6">
+              {coach.specialties.length > 0 && coach.specialties.map((specialty) => (
+                <span key={specialty} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
+                  {specialty}
+                </span>
               ))}
             </div>
-          </div>
-        </div>
-        {/* Credentials Box with edit icon and all options as checkboxes */}
-        <div className="bg-white rounded-lg shadow p-6 relative">
-          <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
-            <span>Credentials</span>
-            <button
-              className="text-gray-400 hover:text-blue-600 transition-colors p-1"
-              onClick={() => setEditBox(editBox === 'credentials' ? null : 'credentials')}
-              aria-label="Edit Credentials"
+            <div
+              className={`transition-all duration-300 ${editBox === 'specialties' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
             >
-              <FaEdit size={18} />
-            </button>
-          </h2>
-          <div className="flex flex-wrap gap-2 min-h-6">
-            {coach.credentials.length > 0 && coach.credentials.map((credential) => (
-              <span key={credential} className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
-                {credential}
-              </span>
-            ))}
-          </div>
-          <div
-            className={`transition-all duration-300 ${editBox === 'credentials' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
-          >
-            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-              {CREDENTIALS.map((option) => (
-                <label key={option} className="flex items-center gap-2 text-blue-800">
-                  <input
-                    type="checkbox"
-                    checked={coach.credentials.includes(option)}
-                    onChange={e => handleArrayChange('credentials', option, e.target.checked)}
-                  />
-                  {option}
-                </label>
-              ))}
+              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {SPECIALTIES.map((option) => (
+                  <label key={option} className="flex items-center gap-2 text-blue-800">
+                    <input
+                      type="checkbox"
+                      checked={coach.specialties.includes(option)}
+                      onChange={e => handleArrayChange('specialties', option, e.target.checked)}
+                    />
+                    {option}
+                  </label>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-        {/* Divisions Box with edit icon and all options as checkboxes */}
-        <div className="bg-white rounded-lg shadow p-6 relative">
-          <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
-            <span>Divisions</span>
-            <button
-              className="text-gray-400 hover:text-blue-600 transition-colors p-1"
-              onClick={() => setEditBox(editBox === 'divisions' ? null : 'divisions')}
-              aria-label="Edit Divisions"
-            >
-              <FaEdit size={18} />
-            </button>
-          </h2>
-          <div className="flex flex-wrap gap-2 min-h-6">
-            {coach.divisions.length > 0 && coach.divisions.map((division) => (
-              <span key={division} className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">
-                {division}
-              </span>
-            ))}
-          </div>
-          <div
-            className={`transition-all duration-300 ${editBox === 'divisions' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
-          >
-            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-              {DIVISIONS.map((option) => (
-                <label key={option} className="flex items-center gap-2 text-blue-800">
-                  <input
-                    type="checkbox"
-                    checked={coach.divisions.includes(option)}
-                    onChange={e => handleArrayChange('divisions', option, e.target.checked)}
-                  />
-                  {option}
-                </label>
+        ) : (
+          <div className="bg-white rounded-lg shadow p-6 relative">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>Specialties</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'specialties' ? null : 'specialties')}
+                aria-label="Edit Specialties"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <div className="flex flex-wrap gap-2 min-h-6">
+              {coach.specialties.length > 0 && coach.specialties.map((specialty) => (
+                <span key={specialty} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
+                  {specialty}
+                </span>
               ))}
             </div>
-          </div>
-        </div>
-        {/* Client Types Box with edit icon and all options as checkboxes */}
-        <div className="bg-white rounded-lg shadow p-6 relative">
-          <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
-            <span>Client Types</span>
-            <button
-              className="text-gray-400 hover:text-blue-600 transition-colors p-1"
-              onClick={() => setEditBox(editBox === 'clientTypes' ? null : 'clientTypes')}
-              aria-label="Edit Client Types"
+            <div
+              className={`transition-all duration-300 ${editBox === 'specialties' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
             >
-              <FaEdit size={18} />
-            </button>
-          </h2>
-          <div className="flex flex-wrap gap-2 min-h-6">
-            {coach.clientTypes.length > 0 && coach.clientTypes.map((type) => (
-              <span key={type} className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">
-                {type}
-              </span>
-            ))}
-          </div>
-          <div
-            className={`transition-all duration-300 ${editBox === 'clientTypes' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
-          >
-            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-              {CLIENT_TYPES.map((option) => (
-                <label key={option} className="flex items-center gap-2 text-blue-800">
-                  <input
-                    type="checkbox"
-                    checked={coach.clientTypes.includes(option)}
-                    onChange={e => handleArrayChange('clientTypes', option, e.target.checked)}
-                  />
-                  {option}
-                </label>
-              ))}
+              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {SPECIALTIES.map((option) => (
+                  <label key={option} className="flex items-center gap-2 text-blue-800">
+                    <input
+                      type="checkbox"
+                      checked={coach.specialties.includes(option)}
+                      onChange={e => handleArrayChange('specialties', option, e.target.checked)}
+                    />
+                    {option}
+                  </label>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-        {/* Federations Box with edit icon and all options as checkboxes */}
-        <div className="bg-white rounded-lg shadow p-6 relative">
-          <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
-            <span>Federations</span>
-            <button
-              className="text-gray-400 hover:text-blue-600 transition-colors p-1"
-              onClick={() => setEditBox(editBox === 'federations' ? null : 'federations')}
-              aria-label="Edit Federations"
-            >
-              <FaEdit size={18} />
-            </button>
-          </h2>
-          <div className="flex flex-wrap gap-2 min-h-6">
-            {coach.federations.length > 0 && coach.federations.map((federation) => (
-              <span key={federation} className="bg-pink-100 text-pink-800 px-2 py-1 rounded text-sm">
-                {federation}
-              </span>
-            ))}
-          </div>
-          <div
-            className={`transition-all duration-300 ${editBox === 'federations' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
-          >
-            <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-              {FEDERATIONS.map((option) => (
-                <label key={option} className="flex items-center gap-2 text-blue-800">
-                  <input
-                    type="checkbox"
-                    checked={coach.federations.includes(option)}
-                    onChange={e => handleArrayChange('federations', option, e.target.checked)}
-                  />
-                  {option}
-                </label>
+        )}
+        {/* Hide the neighbor if Specialties is open */}
+        {editBox === 'specialties' ? null : (
+          // Credentials Box with edit icon and all options as checkboxes
+          <div className="bg-white rounded-lg shadow p-6 relative">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>Credentials</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'credentials' ? null : 'credentials')}
+                aria-label="Edit Credentials"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <div className="flex flex-wrap gap-2 min-h-6">
+              {coach.credentials.length > 0 && coach.credentials.map((credential) => (
+                <span key={credential} className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
+                  {credential}
+                </span>
               ))}
             </div>
+            <div
+              className={`transition-all duration-300 ${editBox === 'credentials' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
+            >
+              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {CREDENTIALS.map((option) => (
+                  <label key={option} className="flex items-center gap-2 text-blue-800">
+                    <input
+                      type="checkbox"
+                      checked={coach.credentials.includes(option)}
+                      onChange={e => handleArrayChange('credentials', option, e.target.checked)}
+                    />
+                    {option}
+                  </label>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
+        )}
+        {/* Hide the neighbor if Specialties is open */}
+        {editBox === 'specialties' ? null : (
+          // Divisions Box with edit icon and all options as checkboxes
+          <div className="bg-white rounded-lg shadow p-6 relative">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>Divisions</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'divisions' ? null : 'divisions')}
+                aria-label="Edit Divisions"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <div className="flex flex-wrap gap-2 min-h-6">
+              {coach.divisions.length > 0 && coach.divisions.map((division) => (
+                <span key={division} className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">
+                  {division}
+                </span>
+              ))}
+            </div>
+            <div
+              className={`transition-all duration-300 ${editBox === 'divisions' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
+            >
+              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {DIVISIONS.map((option) => (
+                  <label key={option} className="flex items-center gap-2 text-blue-800">
+                    <input
+                      type="checkbox"
+                      checked={coach.divisions.includes(option)}
+                      onChange={e => handleArrayChange('divisions', option, e.target.checked)}
+                    />
+                    {option}
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Hide the neighbor if Specialties is open */}
+        {editBox === 'specialties' ? null : (
+          // Client Types Box with edit icon and all options as checkboxes
+          <div className="bg-white rounded-lg shadow p-6 relative">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>Client Types</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'clientTypes' ? null : 'clientTypes')}
+                aria-label="Edit Client Types"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <div className="flex flex-wrap gap-2 min-h-6">
+              {coach.clientTypes.length > 0 && coach.clientTypes.map((type) => (
+                <span key={type} className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">
+                  {type}
+                </span>
+              ))}
+            </div>
+            <div
+              className={`transition-all duration-300 ${editBox === 'clientTypes' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
+            >
+              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {CLIENT_TYPES.map((option) => (
+                  <label key={option} className="flex items-center gap-2 text-blue-800">
+                    <input
+                      type="checkbox"
+                      checked={coach.clientTypes.includes(option)}
+                      onChange={e => handleArrayChange('clientTypes', option, e.target.checked)}
+                    />
+                    {option}
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Hide the neighbor if Specialties is open */}
+        {editBox === 'specialties' ? null : (
+          // Federations Box with edit icon and all options as checkboxes
+          <div className="bg-white rounded-lg shadow p-6 relative">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>Federations</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'federations' ? null : 'federations')}
+                aria-label="Edit Federations"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <div className="flex flex-wrap gap-2 min-h-6">
+              {coach.federations.length > 0 && coach.federations.map((federation) => (
+                <span key={federation} className="bg-pink-100 text-pink-800 px-2 py-1 rounded text-sm">
+                  {federation}
+                </span>
+              ))}
+            </div>
+            <div
+              className={`transition-all duration-300 ${editBox === 'federations' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
+            >
+              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {FEDERATIONS.map((option) => (
+                  <label key={option} className="flex items-center gap-2 text-blue-800">
+                    <input
+                      type="checkbox"
+                      checked={coach.federations.includes(option)}
+                      onChange={e => handleArrayChange('federations', option, e.target.checked)}
+                    />
+                    {option}
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
