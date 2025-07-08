@@ -66,7 +66,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             ))}
           </div>
           <div
-            className={`transition-all duration-300 overflow-hidden ${editBox === 'specialties' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+            className={`transition-all duration-300 ${editBox === 'specialties' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
           >
             <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {SPECIALTIES.map((option) => (
@@ -102,7 +102,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             ))}
           </div>
           <div
-            className={`transition-all duration-300 overflow-hidden ${editBox === 'credentials' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+            className={`transition-all duration-300 ${editBox === 'credentials' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
           >
             <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {CREDENTIALS.map((option) => (
@@ -138,7 +138,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             ))}
           </div>
           <div
-            className={`transition-all duration-300 overflow-hidden ${editBox === 'divisions' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+            className={`transition-all duration-300 ${editBox === 'divisions' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
           >
             <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {DIVISIONS.map((option) => (
@@ -174,7 +174,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             ))}
           </div>
           <div
-            className={`transition-all duration-300 overflow-hidden ${editBox === 'clientTypes' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+            className={`transition-all duration-300 ${editBox === 'clientTypes' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
           >
             <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {CLIENT_TYPES.map((option) => (
@@ -210,7 +210,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             ))}
           </div>
           <div
-            className={`transition-all duration-300 overflow-hidden ${editBox === 'federations' ? 'max-h-60 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
+            className={`transition-all duration-300 ${editBox === 'federations' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
           >
             <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
               {FEDERATIONS.map((option) => (
