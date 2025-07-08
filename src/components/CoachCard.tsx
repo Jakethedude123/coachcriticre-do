@@ -20,6 +20,10 @@ interface CoachCardProps {
       successRatio: number;
       retention: number;
     };
+    credentials?: string[];
+    divisions?: string[];
+    clientTypes?: string[];
+    federations?: string[];
   };
 }
 
@@ -28,106 +32,31 @@ export default function CoachCard({ coach }: CoachCardProps) {
     return null;
   }
 
+  // Helper to render tags with color
+  const renderTags = (items: string[], color: string, text: string) =>
+    items.map((item, idx) => (
+      <span
+        key={item + idx}
+        className={`inline-block px-2 py-1 mr-1 mb-1 rounded text-xs font-medium ${color}`}
+      >
+        {item}
+      </span>
+    ));
+
   return (
-    <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6">
-      <div className="flex items-start space-x-4">
-        {/* Profile Image */}
-        <div className="relative w-24 h-24 flex-shrink-0">
-          <Image
-            src={coach.profileImageUrl || '/placeholder-coach.jpg'}
-            alt={coach.name || 'Coach'}
-            width={96}
-            height={96}
-            className="rounded-full object-cover"
-          />
-        </div>
-
-        {/* Coach Info */}
-        <div className="flex-1">
-          <div className="flex justify-between items-start">
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900">{coach.name}</h3>
-              <div className="flex items-center mt-1 space-x-2">
-                <div className="flex items-center">
-                  <StarRating rating={coach.rating || 0} />
-                  <span className="ml-1 text-sm text-gray-500">
-                    ({coach.testimonialCount || 0} reviews)
-                  </span>
-                </div>
-                {coach.score && (
-                  <div className="flex items-center">
-                    <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded flex items-center gap-1">
-                      Score: {coach.score}
-                      <Tooltip
-                        content={
-                          <div className="w-[600px] grid grid-cols-5 gap-4">
-                            <div className="col-span-5 mb-1">
-                              <p className="font-medium text-center">Score Breakdown</p>
-                            </div>
-                            <div className="text-center">
-                              <p className="font-medium text-blue-300">Satisfaction</p>
-                              <p className="text-lg font-medium">{coach.scoreDetails?.satisfaction}</p>
-                              <p className="text-xs mt-1 text-blue-200">20% Weight</p>
-                            </div>
-                            <div className="text-center">
-                              <p className="font-medium text-blue-300">Consistency</p>
-                              <p className="text-lg font-medium">{coach.scoreDetails?.consistency}</p>
-                              <p className="text-xs mt-1 text-blue-200">25% Weight</p>
-                            </div>
-                            <div className="text-center">
-                              <p className="font-medium text-blue-300">Experience</p>
-                              <p className="text-lg font-medium">{coach.scoreDetails?.experience}</p>
-                              <p className="text-xs mt-1 text-blue-200">15% Weight</p>
-                            </div>
-                            <div className="text-center">
-                              <p className="font-medium text-blue-300">Success</p>
-                              <p className="text-lg font-medium">{coach.scoreDetails?.successRatio}</p>
-                              <p className="text-xs mt-1 text-blue-200">25% Weight</p>
-                            </div>
-                            <div className="text-center">
-                              <p className="font-medium text-blue-300">Retention</p>
-                              <p className="text-lg font-medium">{coach.scoreDetails?.retention}</p>
-                              <p className="text-xs mt-1 text-blue-200">15% Weight</p>
-                            </div>
-                          </div>
-                        }
-                      >
-                        <FaInfoCircle className="text-blue-600 hover:text-blue-700 cursor-help ml-1 w-4 h-4" />
-                      </Tooltip>
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Specialties */}
-          <div className="mt-2">
-            <div className="flex flex-wrap gap-2">
-              {coach.specialties.map((specialty, index) => (
-                <span
-                  key={index}
-                  className="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded"
-                >
-                  {specialty}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Bio */}
-          <p className="mt-2 text-gray-600 text-sm line-clamp-2">{coach.bio}</p>
-
-          {/* Score Details */}
-          {coach.scoreDetails && (
-            <div className="mt-3 grid grid-cols-2 md:grid-cols-5 gap-2">
-              <ScoreDetail label="Satisfaction" value={coach.scoreDetails.satisfaction} />
-              <ScoreDetail label="Consistency" value={coach.scoreDetails.consistency} />
-              <ScoreDetail label="Experience" value={coach.scoreDetails.experience} />
-              <ScoreDetail label="Success" value={coach.scoreDetails.successRatio} />
-              <ScoreDetail label="Retention" value={coach.scoreDetails.retention} />
-            </div>
-          )}
+    <div className="flex w-full max-w-xl rounded-2xl overflow-hidden shadow-lg" style={{ minHeight: 180 }}>
+      {/* Left: Two-tone dark */}
+      <div className="w-2/5 bg-[#374151]" />
+      {/* Right: Main info */}
+      <div className="w-3/5 bg-[#232b36] p-6 flex flex-col justify-center">
+        <h3 className="text-2xl font-bold text-white mb-1">{coach.name}</h3>
+        <p className="text-white text-sm mb-3">{coach.bio}</p>
+        <div className="flex flex-wrap gap-1 items-center">
+          {renderTags(coach.specialties || [], 'bg-blue-100 text-blue-800', 'Specialty')}
+          {renderTags(coach.credentials || [], 'bg-green-100 text-green-800', 'Credential')}
+          {renderTags(coach.divisions || [], 'bg-purple-100 text-purple-800', 'Division')}
+          {renderTags(coach.clientTypes || [], 'bg-yellow-100 text-yellow-800', 'Client Type')}
+          {renderTags(coach.federations || [], 'bg-pink-100 text-pink-800', 'Federation')}
         </div>
       </div>
     </div>
