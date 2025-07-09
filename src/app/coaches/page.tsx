@@ -186,10 +186,10 @@ export default function CoachesPage() {
             </div>
           </div>
 
-          {/* Coaches Grid */}
-          <div className="col-span-4">
+          {/* Coaches Grid - right side, limit to 6, smaller cards */}
+          <div className="col-span-3 flex flex-col gap-6 items-start">
             {loading && coaches.length === 0 ? (
-              <div className="space-y-4">
+              <div className="space-y-4 w-full">
                 {[...Array(6)].map((_, i) => (
                   <div key={i} className="bg-white p-6 rounded-lg shadow-sm animate-pulse">
                     <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
@@ -198,53 +198,30 @@ export default function CoachesPage() {
                 ))}
               </div>
             ) : coaches.length === 0 ? (
-              <div className="bg-white p-6 rounded-lg shadow-sm text-center">
-                <p className="text-gray-500">
-                  {!user 
-                    ? "Sign in to use search filters and find your perfect coach"
-                    : "No coaches found matching your criteria"
-                  }
-                </p>
-              </div>
+              <p>No coaches found.</p>
             ) : (
-              <>
-                <div className="grid grid-cols-1 gap-6">
-                  {coaches.map((coach) => (
-                    <Link
-                      key={coach.id}
-                      href={`/coaches/${coach.id}`}
-                      onClick={() => handleCoachClick(coach.id)}
-                      className="text-blue-600 hover:text-blue-700"
-                    >
-                      <CoachCard 
-                        coach={{
-                          ...coach,
-                          rating: coach.rating || 0,
-                          testimonialCount: coach.testimonialCount || 0,
-                          clientTypes: Array.isArray(coach.clientTypes)
-                            ? coach.clientTypes
-                            : coach.clientTypes
-                              ? Object.entries(coach.clientTypes)
-                                  .filter(([_, v]) => v)
-                                  .map(([k]) => k)
-                              : [],
-                        }} 
-                      />
-                    </Link>
-                  ))}
-                </div>
-                {hasMore && (
-                  <div className="mt-8 text-center">
-                    <button
-                      onClick={loadMore}
-                      disabled={loading}
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300"
-                    >
-                      {loading ? 'Loading...' : 'Load More'}
-                    </button>
-                  </div>
-                )}
-              </>
+              <ul className="space-y-6 w-full">
+                {coaches.slice(0, 6).map((coach) => (
+                  <li key={coach.id || coach.userId}>
+                    <CoachCard 
+                      coach={{
+                        id: coach.id || coach.userId,
+                        name: coach.name,
+                        specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
+                        bio: coach.bio || '',
+                        profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
+                        rating: coach.rating || 0,
+                        testimonialCount: coach.testimonialCount || 0,
+                        credentials: coach.credentials || [],
+                        divisions: coach.divisions || [],
+                        clientTypes: coach.clientTypes || [],
+                        federations: coach.federations || [],
+                      }}
+                      small
+                    />
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
         </div>

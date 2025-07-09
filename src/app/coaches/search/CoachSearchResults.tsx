@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import CoachCard from '@/app/components/CoachCard';
+import CoachCard from '@/components/CoachCard';
 
 export default function CoachSearchResults() {
   const searchParams = useSearchParams();
@@ -31,7 +31,19 @@ export default function CoachSearchResults() {
         <ul className="space-y-6">
           {coaches.map((coach: any) => (
             <li key={coach.id}>
-              <CoachCard coach={coach} />
+              <CoachCard coach={{
+                id: coach.id || coach.userId,
+                name: coach.name,
+                specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
+                bio: coach.bio || '',
+                profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
+                rating: coach.rating || 0,
+                testimonialCount: coach.testimonialCount || 0,
+                credentials: coach.credentials || [],
+                divisions: coach.divisions || [],
+                clientTypes: coach.clientTypes || [],
+                federations: coach.federations || [],
+              }} />
             </li>
           ))}
         </ul>

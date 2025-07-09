@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import CoachCard from "@/app/components/CoachCard";
+import CoachCard from '@/components/CoachCard';
 import type { Coach } from "@/lib/firebase/models/coach";
 
 export default function AllCoachesClient() {
@@ -37,8 +37,20 @@ export default function AllCoachesClient() {
       ) : (
         <ul className="space-y-6">
           {filtered.map((coach) => (
-            <li key={coach.userId}>
-              <CoachCard coach={coach} />
+            <li key={coach.userId || coach.id}>
+              <CoachCard coach={{
+                id: coach.id || coach.userId,
+                name: coach.name,
+                specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
+                bio: coach.bio || '',
+                profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
+                rating: coach.rating || 0,
+                testimonialCount: coach.testimonialCount || 0,
+                credentials: coach.credentials || [],
+                divisions: coach.divisions || [],
+                clientTypes: coach.clientTypes || [],
+                federations: coach.federations || [],
+              }} />
             </li>
           ))}
         </ul>

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
 import { FaDumbbell, FaStar, FaUserCircle, FaTrophy, FaUserCheck, FaSearch } from 'react-icons/fa';
-import CoachCard from '@/app/components/CoachCard';
+import CoachCard from '@/components/CoachCard';
 import { useAuth } from '@/lib/hooks/useAuth';
 import SearchBar from '@/components/SearchBar';
 import type { Coach } from '@/lib/firebase/models/coach';
@@ -47,7 +47,19 @@ function CoachSpotlight() {
             className={`absolute left-0 right-0 transition-all duration-700 ${idx === current ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-95 z-0'} pointer-events-none`}
             style={{ minHeight: 320 }}
           >
-            <CoachCard coach={coach} />
+            <CoachCard coach={{
+              id: coach.id || coach.userId,
+              name: coach.name,
+              specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
+              bio: coach.bio || '',
+              profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
+              rating: coach.rating || 0,
+              testimonialCount: coach.testimonialCount || 0,
+              credentials: coach.credentials || [],
+              divisions: coach.divisions || [],
+              clientTypes: coach.clientTypes || [],
+              federations: coach.federations || [],
+            }} />
           </div>
         ))}
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
