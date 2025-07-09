@@ -104,6 +104,16 @@ const FEATURES = [
   },
 ];
 
+// Add this style for 3D text effect
+const headline3DStyle = {
+  color: '#4FC3F7',
+  fontWeight: 900,
+  textShadow: '0 2px 8px rgba(79,195,247,0.25), 0 1px 0 #fff',
+  background: 'linear-gradient(90deg, #4FC3F7 0%, #2196F3 100%)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+};
+
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
@@ -125,10 +135,16 @@ export default function Home() {
       {/* Hero Section */}
       <div className="container mx-auto px-4 pt-10 pb-8">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-2 text-blue-900 dark:text-white">
+          <h1
+            className="text-4xl md:text-6xl font-extrabold mb-2 tracking-tight drop-shadow-lg"
+            style={headline3DStyle}
+          >
             Discover Trusted Bodybuilding and Powerlifting Coaches
           </h1>
-          <p className="text-2xl md:text-3xl mb-8 text-blue-700 dark:text-blue-100 font-semibold">
+          <p
+            className="text-2xl md:text-3xl mb-8 font-bold tracking-tight drop-shadow"
+            style={{ color: '#4FC3F7', textShadow: '0 1px 4px rgba(79,195,247,0.18), 0 1px 0 #fff' }}
+          >
             Train Smarter, Choose Better
           </p>
           {/* Search Bar */}
