@@ -35,7 +35,7 @@ function CoachSpotlight() {
   if (!coaches.length) return null;
 
   return (
-    <section className="w-full bg-white py-12">
+    <section className="w-full bg-white dark:bg-transparent py-12">
       <div className="max-w-3xl mx-auto text-center mb-8">
         <h2 className="text-3xl font-bold mb-2 text-blue-900">Coach Spotlight</h2>
         <p className="text-gray-500">Meet our top coaches—handpicked for their expertise and results.</p>
@@ -158,7 +158,7 @@ export default function Home() {
               <div
                 key={idx}
                 className={
-                  `rounded-xl p-6 shadow-md flex-1 flex flex-col items-center text-center bg-white dark:bg-[#232b36]/80 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-blue-50 dark:hover:bg-[#2a3140] cursor-pointer`
+                  `rounded-xl p-6 shadow-md flex-1 flex flex-col items-center text-center bg-white dark:bg-[#181d23]/80 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-blue-50 dark:hover:bg-[#232b36] cursor-pointer`
                 }
                 style={{ minHeight: 220 }}
               >
