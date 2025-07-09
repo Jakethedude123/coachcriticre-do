@@ -14,7 +14,7 @@ interface CoachFormData {
   responseTime: '1-12hrs' | '12-24hrs' | '24-36hrs' | '36-48hrs' | '48+hrs';
   credentials: ('CSCS' | 'NASM' | 'ISSA' | 'NCSF' | 'ACE' | 'MS' | 'BS' | 'J3U' | 'VizualFX' | 'N1' | 'HCU')[];
   yearsExperience: '1-3' | '3-5' | '5-7' | '7-10' | '10+';
-  specialties: ('rehab' | 'injury recovery' | 'nutrition' | 'posing' | 'contest prep' | 'lifestyle' | 'raw' | 'equipped' | 'Form Correction' | 'Posing Coaching' | 'Experienced in Female PED Use' | 'ED Recovery' | 'Labwork Interpretation' | 'Meet Day Handling' | 'RPE-Based Training' | 'Cutting Weight' | 'Technical Feedback (SBD)' | 'Conjugate Method')[];
+  specialties: ('rehab' | 'injury recovery' | 'nutrition' | 'posing' | 'contest prep' | 'lifestyle' | 'raw' | 'equipped' | 'Form Correction' | 'Posing Coaching' | 'Female PED Use' | 'ED Recovery' | 'Labwork Interpretation' | 'Meet Day Handling' | 'RPE-Based Training' | 'Cutting Weight' | 'Technical Feedback (SBD)' | 'Conjugate Method')[];
   coachingModality: 'online' | 'in-person' | 'both';
   location: {
     address: string;
@@ -357,7 +357,7 @@ export default function CreateCoachProfile() {
                   'equipped',
                   'Form Correction',
                   'Posing Coaching',
-                  'Experienced in Female PED Use',
+                  'Female PED Use',
                   'ED Recovery',
                   'Labwork Interpretation',
                   'Meet Day Handling',
