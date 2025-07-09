@@ -179,7 +179,10 @@ export async function getCoach(coachId: string): Promise<Coach | null> {
           status: 'active',
           stripeCustomerId: '',
           stripeSubscriptionId: ''
-        }
+        },
+        divisions: data.divisions || [],
+        clientTypes: data.clientTypes || [],
+        federations: data.federations || [],
       };
     }
     
@@ -342,7 +345,10 @@ export async function searchCoaches(filters: {
           status: 'active',
           stripeCustomerId: '',
           stripeSubscriptionId: ''
-        }
+        },
+        divisions: data.divisions || [],
+        clientTypes: data.clientTypes || [],
+        federations: data.federations || [],
       });
     });
 
@@ -580,7 +586,10 @@ export async function getCoachByStripeAccount(stripeAccountId: string) {
         status: 'active',
         stripeCustomerId: '',
         stripeSubscriptionId: ''
-      }
+      },
+      divisions: data.divisions || [],
+      clientTypes: data.clientTypes || [],
+      federations: data.federations || [],
     };
   } catch (error) {
     console.error('Error getting coach by Stripe account:', error);
