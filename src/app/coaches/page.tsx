@@ -219,6 +219,8 @@ export default function CoachesPage() {
                                 .filter(([_, v]) => v)
                                 .map(([k]) => k)
                             : [],
+                        divisions: coach.divisions || [],
+                        federations: coach.federations || [],
                       }}
                       small
                     />

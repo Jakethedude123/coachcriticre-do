@@ -162,6 +162,9 @@ export interface Coach {
   experience: string;
   credentials: string[];
   certifications: string[];
+  divisions: string[];
+  clientTypes: string[];
+  federations: string[];
   availability: {
     timezone: string;
     schedule: WeeklySchedule;
@@ -223,6 +226,9 @@ export const DEFAULT_COACH_VALUES: Coach = {
   experience: '',
   credentials: [],
   certifications: [],
+  divisions: [],
+  clientTypes: [],
+  federations: [],
   availability: {
     timezone: 'UTC',
     schedule: {
@@ -289,6 +295,9 @@ export const defaultCoach: Coach = {
   experience: '',
   credentials: [],
   certifications: [],
+  divisions: [],
+  clientTypes: [],
+  federations: [],
   availability: {
     timezone: '',
     schedule: {
