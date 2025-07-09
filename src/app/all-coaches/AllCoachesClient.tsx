@@ -43,7 +43,7 @@ export default function AllCoachesClient() {
                 name: coach.name,
                 specialties: coach.specialties || [],
                 bio: coach.bio || '',
-                profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
+                profileImageUrl: coach.avatar || '/placeholder-coach.jpg',
                 rating: coach.rating || 0,
                 testimonialCount: coach.testimonialCount || 0,
                 credentials: coach.credentials || [],
