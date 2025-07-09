@@ -123,20 +123,18 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-10">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-2">
-              Discover Trusted Bodybuilding and Powerlifting Coaches
-            </h1>
-            <p className="text-2xl md:text-3xl mb-8 text-blue-100 font-semibold">
-              Filtered by What Actually Matters
-            </p>
-            {/* Search Bar */}
-            <SearchBar />
-          </div>
+      <div className="container mx-auto px-4 pt-10 pb-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-2 text-blue-900 dark:text-white">
+            Discover Trusted Bodybuilding and Powerlifting Coaches
+          </h1>
+          <p className="text-2xl md:text-3xl mb-8 text-blue-700 dark:text-blue-100 font-semibold">
+            Train Smarter, Choose Better
+          </p>
+          {/* Search Bar */}
+          <SearchBar />
         </div>
-      </section>
+      </div>
 
       {/* Features Section */}
       <section className="py-12">
