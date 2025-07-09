@@ -48,7 +48,7 @@ function CoachSpotlight() {
             style={{ minHeight: 320 }}
           >
             <CoachCard coach={{
-              id: coach.id || coach.userId,
+              id: coach.userId,
               name: coach.name,
               specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
               bio: coach.bio || '',
