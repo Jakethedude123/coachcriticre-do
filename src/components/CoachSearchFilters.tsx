@@ -111,7 +111,8 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4">
+    <div className="bg-white dark:bg-[#181d23] rounded-2xl shadow-lg border border-gray-200 dark:border-[#232b36] p-6">
+      <h2 className="text-3xl font-extrabold mb-6 text-black dark:text-[#4FC3F7]">Find Your Coach</h2>
       <div className="space-y-4">
       {/* Competition Experience Section */}
       <div className="border-b pb-4">
@@ -497,7 +498,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           placeholder="anything else?"
           value={filters.anythingElse || ''}
           onChange={e => handleFilterChange('anythingElse', e.target.value)}
-            className="mt-2 w-full rounded-md border-gray-200 bg-gray-50 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-6 w-full p-3 rounded-xl border border-gray-200 dark:border-[#232b36] bg-white dark:bg-[#232b36] text-base focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition"
         />
         </div>
       </div>
