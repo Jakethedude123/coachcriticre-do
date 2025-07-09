@@ -129,7 +129,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   ref={buttonRef}
-                  className="navbar-glass-tab flex items-center justify-center gap-1 px-4 py-2 text-base"
+                  className="navbar-glass-tab flex items-center gap-1 px-4 py-2 text-base"
                   onClick={handleDropdownToggle}
                 >
                   <FaUser className="w-4 h-4" />

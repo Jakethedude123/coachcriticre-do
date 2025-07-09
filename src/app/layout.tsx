@@ -18,7 +18,7 @@ interface RootLayoutProps {
 const RootLayout: FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="en">
-      <body className={inter.className + " bg-white"}>
+      <body className={inter.className + " bg-white dark:bg-gradient-to-b dark:from-black dark:to-gray-900"}>
         <AuthProvider>
           <div className="min-h-screen">
             <Navbar />
