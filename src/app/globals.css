@@ -65,7 +65,8 @@ body {
   backdrop-filter: blur(8px);
   overflow: hidden;
   z-index: 1;
-  display: inline-block;
+  display: flex;
+  align-items: center;
 }
 .navbar-glass-tab::before {
   content: '';
