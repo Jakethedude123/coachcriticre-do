@@ -45,6 +45,7 @@ export default function AllCoachesClient() {
                 bio: coach.bio || '',
                 profileImageUrl: coach.avatar || '/placeholder-coach.jpg',
                 rating: 0,
+                testimonialCount: 0,
                 credentials: coach.credentials || [],
                 divisions: coach.divisions || [],
                 clientTypes: coach.clientTypes || [],
