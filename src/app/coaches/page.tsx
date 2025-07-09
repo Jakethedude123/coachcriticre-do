@@ -212,7 +212,13 @@ export default function CoachesPage() {
                         profileImageUrl: coach.profileImage || '/placeholder-coach.jpg',
                         rating: coach.rating || 0,
                         testimonialCount: coach.testimonialCount || 0,
-                        clientTypes: coach.clientTypes || [],
+                        clientTypes: Array.isArray(coach.clientTypes)
+                          ? coach.clientTypes
+                          : coach.clientTypes
+                            ? Object.entries(coach.clientTypes)
+                                .filter(([_, v]) => v)
+                                .map(([k]) => k)
+                            : [],
                         federations: coach.federations || [],
                       }}
                       small
