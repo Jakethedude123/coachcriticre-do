@@ -207,7 +207,7 @@ export default function CoachesPage() {
                       coach={{
                         id: coach.id || coach.userId,
                         name: coach.name,
-                        specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
+                        specialties: coach.specialties || [],
                         bio: coach.bio || '',
                         profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
                         rating: coach.rating || 0,
