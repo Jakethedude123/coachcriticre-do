@@ -47,7 +47,6 @@ export default function AllCoachesClient() {
                 rating: 0,
                 testimonialCount: 0,
                 credentials: coach.credentials || [],
-                clientTypes: coach.clientTypes || [],
                 federations: coach.federations || [],
               }} small />
             </li>
