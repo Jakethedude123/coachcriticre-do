@@ -139,15 +139,18 @@ export default function Home() {
       {/* Features Section */}
       <section className="py-12">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-3 gap-6">
             {FEATURES.map((feature, idx) => (
               <div
                 key={idx}
-                className={`bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow h-full flex-1 flex flex-col items-center text-center border-t-4 ${feature.accent}`}
+                className={
+                  `rounded-xl p-6 shadow-md flex-1 flex flex-col items-center text-center bg-white dark:bg-[#232b36]/80 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-blue-50 dark:hover:bg-[#2a3140] cursor-pointer`
+                }
+                style={{ minHeight: 220 }}
               >
-                <div className="mb-4 text-blue-600">{feature.icon}</div>
-                <h2 className="text-xl font-bold mb-3">{feature.title}</h2>
-                <p className="text-gray-600 text-base">{feature.description}</p>
+                <div className="mb-4 text-blue-600 text-3xl">{feature.icon}</div>
+                <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{feature.title}</h2>
+                <p className="text-gray-600 dark:text-gray-300 text-base">{feature.description}</p>
               </div>
             ))}
           </div>
