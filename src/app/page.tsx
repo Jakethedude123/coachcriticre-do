@@ -85,19 +85,19 @@ function CoachSpotlight() {
 
 const FEATURES = [
   {
-    icon: <FaDumbbell size={32} />,
+    icon: <FaDumbbell size={32} color="#4FC3F7" />,
     title: "Expert Coaches",
     description: "Find certified bodybuilding and powerlifting coaches with proven track records in transformation.",
     accent: "border-blue-600"
   },
   {
-    icon: <FaTrophy size={32} />,
+    icon: <FaTrophy size={32} color="#4FC3F7" />,
     title: "Competition & Meet Prep",
     description: "Get specialized guidance for your next bodybuilding show or powerlifting meet—from prep to peak performance.",
     accent: "border-yellow-500"
   },
   {
-    icon: <FaUserCheck size={32} />,
+    icon: <FaUserCheck size={32} color="#4FC3F7" />,
     title: "Verified Reviews",
     description: "Read authentic reviews from real clients to find your perfect bodybuilding or powerlifting coach.",
     accent: "border-green-600"
@@ -106,7 +106,7 @@ const FEATURES = [
 
 // Add this style for 3D text effect
 const headline3DStyle = {
-  color: '#1565C0', // solid, deep blue for readability
+  color: '#4FC3F7', // light blue from logo for branding
   fontWeight: 900,
   textShadow: '0 2px 6px rgba(30, 60, 90, 0.10), 0 1px 0 #e3eaf3', // subtle gray shadow for depth
   // No background gradient, just solid color
