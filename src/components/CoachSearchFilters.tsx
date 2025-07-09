@@ -151,20 +151,6 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                 <Tooltip content="Choose all divisions you want to compete in. You can select multiple.">
                   <span className="ml-1 text-blue-500 cursor-pointer">ⓘ</span>
                 </Tooltip>
-                <button
-                  type="button"
-                  className="ml-auto px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold shadow hover:bg-blue-200 transition"
-                  onClick={() => {
-                    const allDivisions = [...BB_DIVISIONS, ...PL_DIVISIONS];
-                    const allSelected = allDivisions.every(d => filters.divisions?.includes(d));
-                    handleFilterChange('divisions', allSelected ? [] : allDivisions);
-                  }}
-                >
-                  {(() => {
-                    const allDivisions = [...BB_DIVISIONS, ...PL_DIVISIONS];
-                    return allDivisions.every(d => filters.divisions?.includes(d)) ? 'Deselect All' : 'Select All';
-                  })()}
-                </button>
               </label>
               <div className="mt-2 flex flex-wrap gap-3 bg-blue-50 rounded-lg p-4 min-w-[340px]">
                 {BB_DIVISIONS.map(division => (
@@ -256,7 +242,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                   onChange={(e) => handleFilterChange('experiencedFemalePED', e.target.checked)}
                   className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
-                <span className="ml-2">Experienced in Female PED Use</span>
+                <span className="ml-2">Female PED Use</span>
               </label>
               <label className="flex items-center">
                 <input

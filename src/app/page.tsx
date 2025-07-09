@@ -106,7 +106,7 @@ const FEATURES = [
 
 // Add this style for 3D text effect
 const headline3DStyle = {
-  color: '#4FC3F7', // light blue from logo for branding
+  color: typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches ? '#4FC3F7' : '#111',
   fontWeight: 900,
   textShadow: '0 2px 6px rgba(30, 60, 90, 0.10), 0 1px 0 #e3eaf3', // subtle gray shadow for depth
   // No background gradient, just solid color
@@ -140,8 +140,8 @@ export default function Home() {
             Discover Trusted Bodybuilding and Powerlifting Coaches
           </h1>
           <p
-            className="text-2xl md:text-3xl mb-8 font-bold tracking-tight drop-shadow"
-            style={{ color: '#4FC3F7', textShadow: '0 1px 4px rgba(79,195,247,0.18), 0 1px 0 #fff' }}
+            className="text-2xl md:text-3xl mb-8 font-bold tracking-tight drop-shadow text-black dark:text-[#4FC3F7]"
+            style={{ textShadow: '0 1px 4px rgba(79,195,247,0.18), 0 1px 0 #fff' }}
           >
             Train Smarter, Choose Better
           </p>

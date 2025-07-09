@@ -2,7 +2,7 @@
 
 export const SPECIALTIES = [
   'rehab', 'injury recovery', 'nutrition', 'posing', 'contest prep', 'lifestyle',
-  'raw', 'equipped', 'Form Correction', 'Posing Coaching', 'Experienced in Female PED Use',
+  'raw', 'equipped', 'Form Correction', 'Posing Coaching', 'Female PED Use',
   'ED Recovery', 'Labwork Interpretation', 'Meet Day Handling', 'RPE-Based Training',
   'Cutting Weight', 'Technical Feedback (SBD)', 'Conjugate Method'
 ];
