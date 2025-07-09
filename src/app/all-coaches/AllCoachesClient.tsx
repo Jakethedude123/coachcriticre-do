@@ -37,9 +37,9 @@ export default function AllCoachesClient() {
       ) : (
         <ul className="space-y-6">
           {filtered.map((coach) => (
-            <li key={coach.userId || coach.id}>
+            <li key={coach.userId}>
               <CoachCard coach={{
-                id: coach.id || coach.userId,
+                id: coach.userId,
                 name: coach.name,
                 specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
                 bio: coach.bio || '',
@@ -50,7 +50,7 @@ export default function AllCoachesClient() {
                 divisions: coach.divisions || [],
                 clientTypes: coach.clientTypes || [],
                 federations: coach.federations || [],
-              }} />
+              }} small />
             </li>
           ))}
         </ul>
