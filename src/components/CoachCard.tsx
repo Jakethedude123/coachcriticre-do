@@ -25,9 +25,10 @@ interface CoachCardProps {
     clientTypes?: string[];
     federations?: string[];
   };
+  small?: boolean;
 }
 
-export default function CoachCard({ coach }: CoachCardProps) {
+export default function CoachCard({ coach, small = false }: CoachCardProps) {
   if (!coach) {
     return null;
   }
@@ -44,13 +45,13 @@ export default function CoachCard({ coach }: CoachCardProps) {
     ));
 
   return (
-    <div className="flex w-full max-w-xl rounded-2xl overflow-hidden shadow-lg" style={{ minHeight: 180 }}>
+    <div className={`flex w-full ${small ? 'max-w-md' : 'max-w-xl'} rounded-2xl overflow-hidden shadow-lg`} style={{ minHeight: small ? 120 : 180 }}>
       {/* Left: Two-tone dark */}
-      <div className="w-2/5 bg-[#374151]" />
+      <div className={`w-2/5 ${small ? 'bg-[#3a4250]' : 'bg-[#374151]'}`} />
       {/* Right: Main info */}
-      <div className="w-3/5 bg-[#232b36] p-6 flex flex-col justify-center">
-        <h3 className="text-2xl font-bold text-white mb-1">{coach.name}</h3>
-        <p className="text-white text-sm mb-3">{coach.bio}</p>
+      <div className={`w-3/5 ${small ? 'bg-[#2a3140] p-4' : 'bg-[#232b36] p-6'} flex flex-col justify-center`}>
+        <h3 className={`font-bold text-white mb-1 ${small ? 'text-lg' : 'text-2xl'}`}>{coach.name}</h3>
+        <p className={`text-white mb-3 ${small ? 'text-xs' : 'text-sm'}`}>{coach.bio}</p>
         <div className="flex flex-wrap gap-1 items-center">
           {renderTags(coach.specialties || [], 'bg-blue-100 text-blue-800', 'Specialty')}
           {renderTags(coach.credentials || [], 'bg-green-100 text-green-800', 'Credential')}

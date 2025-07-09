@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import CondensedCoachCard from './CondensedCoachCard';
 import CoachCard from '@/components/CoachCard';
 
 interface Coach {
@@ -48,13 +47,20 @@ export default function SearchResultsPage() {
       {error && <p className="text-center text-red-500">{error}</p>}
       <div className="grid md:grid-cols-3 gap-6">
         {coaches.map((coach) => {
+          // Map coach data to match unified CoachCard props
           const mappedCoach = {
-            ...coach,
+            id: coach.id || coach.userId,
+            name: coach.name,
+            specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
+            bio: coach.bio || '',
             profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
             rating: coach.rating || 0,
             testimonialCount: coach.testimonialCount || 0,
-            specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
-            bio: coach.bio || '',
+            credentials: coach.credentials || [],
+            divisions: coach.divisions || [],
+            clientTypes: coach.clientTypes || [],
+            federations: coach.federations || [],
+            // Add any other fields as needed
           };
           const isExpanded = hoveredCoachId === coach.id;
           return (
@@ -70,11 +76,8 @@ export default function SearchResultsPage() {
                 marginBottom: '8px',
               }}
             >
-              <div className="transition-opacity duration-200" style={{ opacity: isExpanded ? 1 : 0, position: isExpanded ? 'static' : 'absolute', width: '100%' }}>
-                {isExpanded && <CoachCard coach={mappedCoach} />}
-              </div>
-              <div className="transition-opacity duration-200" style={{ opacity: isExpanded ? 0 : 1, position: isExpanded ? 'absolute' : 'static', width: '100%' }}>
-                {!isExpanded && <CondensedCoachCard coach={mappedCoach} />}
+              <div className="transition-opacity duration-200" style={{ opacity: 1, width: '100%' }}>
+                <CoachCard coach={mappedCoach} />
               </div>
             </div>
           );
