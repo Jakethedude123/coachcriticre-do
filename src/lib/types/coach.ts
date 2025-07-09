@@ -16,6 +16,11 @@ export interface CoachProfile {
   createdAt: Date;
   updatedAt: Date;
   
+  // Tag fields for UI consistency
+  divisions?: string[];
+  clientTypes?: string[];
+  federations?: string[];
+  
   // Certifications
   certifications?: string[];
   
