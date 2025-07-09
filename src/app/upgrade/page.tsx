@@ -24,7 +24,7 @@ async function handleUpgrade(priceId: string) {
 
 export default function UpgradePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 flex flex-col items-center justify-start py-12">
+    <div className="min-h-screen bg-white dark:bg-transparent flex flex-col items-center justify-start py-12">
       <h1 className="text-3xl font-bold text-white mb-8">Select a plan that fits your needs</h1>
       <div className="flex flex-col md:flex-row gap-8">
         {/* Basic Plan */}

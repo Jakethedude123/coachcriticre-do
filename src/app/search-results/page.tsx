@@ -41,7 +41,7 @@ export default function SearchResultsPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gray-50 p-8">
+    <main className="min-h-screen bg-white dark:bg-transparent p-8">
       <h1 className="text-3xl font-bold mb-6 text-center">Coach Directory</h1>
       {loading && <p className="text-center">Loading...</p>}
       {error && <p className="text-center text-red-500">{error}</p>}
