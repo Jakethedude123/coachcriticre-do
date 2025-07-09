@@ -56,6 +56,15 @@ function CoachSpotlight() {
               rating: 0,
               testimonialCount: 0,
               credentials: coach.credentials || [],
+              divisions: coach.divisions || [],
+              clientTypes: Array.isArray(coach.clientTypes)
+                ? coach.clientTypes
+                : coach.clientTypes
+                  ? Object.entries(coach.clientTypes)
+                      .filter(([_, v]) => v)
+                      .map(([k]) => k)
+                  : [],
+              federations: coach.federations || [],
             }} />
           </div>
         ))}
