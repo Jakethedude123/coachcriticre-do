@@ -20,7 +20,7 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => {
     <html lang="en">
       <body className={inter.className + " bg-white dark:bg-gradient-to-b dark:from-black dark:to-gray-900"}>
         <AuthProvider>
-          <div className="min-h-screen">
+          <div className="min-h-screen bg-white dark:bg-transparent">
             <Navbar />
             {children}
           </div>

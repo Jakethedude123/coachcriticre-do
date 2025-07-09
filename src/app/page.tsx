@@ -106,12 +106,10 @@ const FEATURES = [
 
 // Add this style for 3D text effect
 const headline3DStyle = {
-  color: '#4FC3F7',
+  color: '#1565C0', // solid, deep blue for readability
   fontWeight: 900,
-  textShadow: '0 2px 8px rgba(79,195,247,0.25), 0 1px 0 #fff',
-  background: 'linear-gradient(90deg, #4FC3F7 0%, #2196F3 100%)',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
+  textShadow: '0 2px 6px rgba(30, 60, 90, 0.10), 0 1px 0 #e3eaf3', // subtle gray shadow for depth
+  // No background gradient, just solid color
 };
 
 export default function Home() {
@@ -131,7 +129,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-white dark:bg-transparent">
       {/* Hero Section */}
       <div className="container mx-auto px-4 pt-10 pb-8">
         <div className="max-w-4xl mx-auto text-center">
@@ -174,7 +172,9 @@ export default function Home() {
       </section>
 
       {/* Coach Spotlight Section (moved below features) */}
-      <CoachSpotlight />
+      <section className="w-full bg-white dark:bg-transparent py-12">
+        <CoachSpotlight />
+      </section>
     </main>
   );
 }
