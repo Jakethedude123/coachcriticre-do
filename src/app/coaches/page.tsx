@@ -212,7 +212,6 @@ export default function CoachesPage() {
                         profileImageUrl: coach.profileImage || '/placeholder-coach.jpg',
                         rating: coach.rating || 0,
                         testimonialCount: coach.testimonialCount || 0,
-                        credentials: coach.credentials || [],
                         divisions: coach.divisions || [],
                         clientTypes: coach.clientTypes || [],
                         federations: coach.federations || [],
