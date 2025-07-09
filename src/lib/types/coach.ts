@@ -18,7 +18,6 @@ export interface CoachProfile {
   
   // Tag fields for UI consistency
   divisions?: string[];
-  clientTypes?: string[];
   federations?: string[];
   
   // Certifications
