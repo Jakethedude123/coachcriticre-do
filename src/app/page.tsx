@@ -50,15 +50,12 @@ function CoachSpotlight() {
             <CoachCard coach={{
               id: coach.userId,
               name: coach.name,
-              specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
+              specialties: coach.specialties || [],
               bio: coach.bio || '',
-              profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
-              rating: coach.rating || 0,
-              testimonialCount: coach.testimonialCount || 0,
+              profileImageUrl: coach.avatar || '/placeholder-coach.jpg',
+              rating: 0,
+              testimonialCount: 0,
               credentials: coach.credentials || [],
-              divisions: coach.divisions || [],
-              clientTypes: coach.clientTypes || [],
-              federations: coach.federations || [],
             }} />
           </div>
         ))}
