@@ -209,7 +209,7 @@ export default function CoachesPage() {
                         name: coach.name,
                         specialties: coach.specialties || [],
                         bio: coach.bio || '',
-                        profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
+                        profileImageUrl: coach.profileImage || coach.avatar || '/placeholder-coach.jpg',
                         rating: coach.rating || 0,
                         testimonialCount: coach.testimonialCount || 0,
                         credentials: coach.credentials || [],
