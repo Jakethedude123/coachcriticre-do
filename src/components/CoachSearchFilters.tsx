@@ -112,7 +112,20 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
 
   return (
     <div className="bg-white dark:bg-[#181d23] rounded-2xl shadow-lg border border-gray-200 dark:border-[#232b36] p-6">
-      <h2 className="text-3xl font-extrabold mb-6 text-black dark:text-[#4FC3F7]">Find Your Coach</h2>
+      <div className="mb-4">
+        <label className="flex items-center space-x-2 bg-gray-100 dark:bg-[#232b36] rounded-xl px-4 py-3">
+          <input
+            type="checkbox"
+            checked={filters.sortByScore}
+            onChange={e => handleFilterChange('sortByScore', e.target.checked)}
+            className="form-checkbox text-blue-600"
+          />
+          <span className="font-medium">Sort by Score</span>
+          <Tooltip text="...">
+            <span className="ml-1 text-blue-500 cursor-pointer"> 4d8</span>
+          </Tooltip>
+        </label>
+      </div>
       <div className="space-y-4">
       {/* Competition Experience Section */}
       <div className="border-b pb-4">
