@@ -133,63 +133,20 @@ export default function Navbar() {
                     Register as Coach
                   </Link>
                   <div className="h-6 w-px bg-gray-300"></div>
-                  {/* Profile Dropdown */}
-                  <div 
-                    className="relative"
-                    ref={dropdownRef}
-                    onMouseEnter={() => setIsDropdownOpen(true)}
-                    onMouseLeave={() => setIsDropdownOpen(false)}
-                  >
-                    <button
-                      type="button"
-                      ref={buttonRef}
-                      className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors"
-                    >
+                  {/* Profile and Messages Icons */}
+                  <div className="flex items-center space-x-2">
+                    {/* Profile Icon Only (no text) */}
+                    <Link href="/profile" className="flex items-center justify-center h-10 w-10 rounded-full border border-blue-100 hover:border-blue-300 transition-colors text-gray-700 hover:text-blue-600 bg-white">
                       <FaUser className="h-5 w-5" />
-                      <span>My Profile</span>
-                    </button>
-
-                    <div
-                      className={`
-                        absolute right-0 mt-2 w-48
-                        bg-white rounded-lg shadow-lg
-                        z-50 transition-all duration-200 ease-in-out
-                        ${isDropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}
-                      `}
-                    >
-                      <div className="py-2">
-                        <Link
-                          href="/profile"
-                          className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                        >
-                          <FaUserCircle 
-                            className="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-600" 
-                          />
-                          <span className="group-hover:text-blue-600">
-                            View Profile
-                          </span>
-                        </Link>
-                        <button
-                          onClick={handleSignOut}
-                          className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                        >
-                          <FaSignOutAlt 
-                            className="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-600" 
-                          />
-                          <span className="group-hover:text-blue-600">
-                            Sign Out
-                          </span>
-                        </button>
-                      </div>
-                    </div>
+                    </Link>
+                    {/* Messages Icon, same size and style as Profile */}
+                    <Link href="/messages" className="relative flex items-center justify-center h-10 w-10 rounded-full border border-blue-100 hover:border-blue-300 transition-colors text-gray-700 hover:text-blue-600 bg-white">
+                      <FaEnvelope className="h-5 w-5" />
+                      {hasNewMessages && (
+                        <span className="absolute -top-1 -right-1 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>
+                      )}
+                    </Link>
                   </div>
-                  {/* Messages Icon to the right of Profile */}
-                  <Link href="/messages" className="relative text-gray-600 hover:text-blue-600 transition-colors flex items-center ml-2">
-                    <FaEnvelope className="h-5 w-5" />
-                    {hasNewMessages && (
-                      <span className="absolute -top-1 -right-1 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>
-                    )}
-                  </Link>
                 </div>
               ) : (
                 // Show login/signup when logged out
