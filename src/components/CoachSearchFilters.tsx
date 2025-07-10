@@ -300,18 +300,20 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           {expandedSections.timeZone ? <FaChevronUp /> : <FaChevronDown />}
         </button>
         {expandedSections.timeZone && (
-          <div className="space-y-2 mt-4">
-            {TIME_ZONES.map(tz => (
-              <label key={tz} className="inline-flex items-center mr-4">
-                <input
-                  type="checkbox"
-                  checked={filters.timeZones?.includes(tz)}
-                  onChange={() => handleArrayFilterChange('timeZones', tz)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="ml-2">{tz}</span>
-              </label>
-            ))}
+          <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="space-y-2 mt-2">
+              {TIME_ZONES.map(tz => (
+                <label key={tz} className="inline-flex items-center mr-4">
+                  <input
+                    type="checkbox"
+                    checked={filters.timeZones?.includes(tz)}
+                    onChange={() => handleArrayFilterChange('timeZones', tz)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2">{tz}</span>
+                </label>
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -372,30 +374,28 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           </span>
           {expandedSections.clientTypes ? <FaChevronUp /> : <FaChevronDown />}
         </button>
-        
         {expandedSections.clientTypes && (
-          <div className="space-y-4 mt-4">
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
-              <div className="space-y-2">
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={filters.naturalOnly}
-                    onChange={(e) => handleFilterChange('naturalOnly', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  />
-                  <span className="ml-2">Natural Athletes Only</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={filters.enhancedExperience}
-                    onChange={(e) => handleFilterChange('enhancedExperience', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  />
-                  <span className="ml-2">Enhanced Athletes</span>
-                </label>
-                <label className="flex items-center">
+          <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="space-y-2">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.naturalOnly}
+                  onChange={(e) => handleFilterChange('naturalOnly', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">Natural Athletes Only</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.enhancedExperience}
+                  onChange={(e) => handleFilterChange('enhancedExperience', e.target.checked)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="ml-2">Enhanced Athletes</span>
+              </label>
+              <label className="flex items-center">
                   <input
                     type="checkbox"
                     checked={filters.requiresLifestyleCoaching}
