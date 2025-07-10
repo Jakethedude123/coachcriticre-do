@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { FaSearch, FaUser, FaSignOutAlt, FaUserCircle, FaEnvelope } from 'react-icons/fa';
+import { FaSearch, FaUser, FaSignOutAlt, FaUserCircle, FaEnvelope, FaBars, FaTimes } from 'react-icons/fa';
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Logo from '@/components/Logo';
@@ -16,6 +16,7 @@ export default function Navbar() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const hasNewMessages = true; // TODO: Replace with real logic
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Handle clicks outside of dropdown
   useEffect(() => {
@@ -85,7 +86,16 @@ export default function Navbar() {
             <Logo />
           </Link>
 
-          {/* Navigation Links */}
+          {/* Hamburger for mobile */}
+          <button
+            className="md:hidden flex items-center justify-center h-10 w-10 rounded-full border border-blue-100 hover:border-blue-300 transition-colors text-gray-700 hover:text-blue-600 bg-white"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Open menu"
+          >
+            {mobileMenuOpen ? <FaTimes className="h-5 w-5" /> : <FaBars className="h-5 w-5" />}
+          </button>
+
+          {/* Navigation Links (desktop) */}
           <div className="hidden md:flex items-center space-x-8">
             <Link 
               href="/coaches" 
@@ -103,7 +113,7 @@ export default function Navbar() {
 
           {/* Search Bar and Auth Buttons */}
           <div className="flex items-center space-x-4">
-            {/* Search Bar */}
+            {/* Search Bar (desktop only) */}
             <div className="relative hidden md:block">
               <input
                 type="text"
@@ -121,60 +131,59 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Auth Buttons */}
-            <>
-              {user ? (
-                // Show user menu when logged in
-                <div className="flex items-center space-x-4">
-                  <Link
-                    href="/coaches/register"
-                    className="text-blue-600 hover:text-blue-700 transition-colors"
-                  >
-                    Register as Coach
-                  </Link>
-                  <div className="h-6 w-px bg-gray-300"></div>
-                  {/* Profile and Messages Icons */}
-                  <div className="flex items-center space-x-2">
-                    {/* Profile Icon Only (no text) */}
-                    <Link href="/profile" className="flex items-center justify-center h-10 w-10 rounded-full border border-blue-100 hover:border-blue-300 transition-colors text-gray-700 hover:text-blue-600 bg-white">
-                      <FaUser className="h-5 w-5" />
-                    </Link>
-                    {/* Messages Icon, same size and style as Profile */}
-                    <Link href="/messages" className="relative flex items-center justify-center h-10 w-10 rounded-full border border-blue-100 hover:border-blue-300 transition-colors text-gray-700 hover:text-blue-600 bg-white">
-                      <FaEnvelope className="h-5 w-5" />
-                      {hasNewMessages && (
-                        <span className="absolute -top-1 -right-1 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>
-                      )}
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                // Show login/signup when logged out
-                <div className="flex items-center space-x-4">
-                  <Link
-                    href="/login?as=coach"
-                    className="text-blue-600 hover:text-blue-700 transition-colors"
-                  >
-                    Register as Coach
-                  </Link>
-                  <div className="h-6 w-px bg-gray-300"></div>
-                  <Link
-                    href="/login"
-                    className="text-gray-600 hover:text-blue-600 transition-colors"
-                  >
-                    Log In
-                  </Link>
-                  <Link
-                    href="/signup"
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
-              )}
-            </>
+            {/* Profile and Messages Icons (always visible) */}
+            {user && (
+              <div className="flex items-center space-x-2">
+                <Link href="/profile" className="flex items-center justify-center h-10 w-10 rounded-full border border-blue-100 hover:border-blue-300 transition-colors text-gray-700 hover:text-blue-600 bg-white">
+                  <FaUser className="h-5 w-5" />
+                </Link>
+                <Link href="/messages" className="relative flex items-center justify-center h-10 w-10 rounded-full border border-blue-100 hover:border-blue-300 transition-colors text-gray-700 hover:text-blue-600 bg-white">
+                  <FaEnvelope className="h-5 w-5" />
+                  {hasNewMessages && (
+                    <span className="absolute -top-1 -right-1 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>
+                  )}
+                </Link>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden mt-2 bg-white rounded-lg shadow-lg p-4 flex flex-col space-y-4 z-50">
+            <Link href="/coaches" className="text-gray-700 hover:text-blue-600 text-lg" onClick={() => setMobileMenuOpen(false)}>
+              Find Coaches
+            </Link>
+            <Link href="/recent-activity" className="text-gray-700 hover:text-blue-600 text-lg" onClick={() => setMobileMenuOpen(false)}>
+              Recent Activity
+            </Link>
+            {user ? (
+              <>
+                <Link href="/coaches/register" className="text-blue-600 hover:text-blue-700 text-lg" onClick={() => setMobileMenuOpen(false)}>
+                  Register as Coach
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="text-gray-700 hover:text-blue-600 text-lg text-left w-full"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login?as=coach" className="text-blue-600 hover:text-blue-700 text-lg" onClick={() => setMobileMenuOpen(false)}>
+                  Register as Coach
+                </Link>
+                <Link href="/login" className="text-gray-700 hover:text-blue-600 text-lg" onClick={() => setMobileMenuOpen(false)}>
+                  Log In
+                </Link>
+                <Link href="/signup" className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-lg text-center" onClick={() => setMobileMenuOpen(false)}>
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </nav>
   );

@@ -155,19 +155,19 @@ function ProfilePage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-2 sm:p-6">
       {showWelcome && (
-        <div className="fixed top-8 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-6 py-4 rounded-lg shadow-lg z-50 flex items-center space-x-2 animate-fade-in">
+        <div className="fixed top-8 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 sm:px-6 py-3 sm:py-4 rounded-lg shadow-lg z-50 flex items-center space-x-2 animate-fade-in text-sm sm:text-base">
           <span>👋 Hello! Thank you for signing up. Customizing your profile will simplify your experience and help you get the most out of CoachCritic!</span>
           <button onClick={() => setShowWelcome(false)} className="ml-4 text-white hover:text-gray-200 font-bold">&times;</button>
         </div>
       )}
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">My Profile</h1>
+      <div className="bg-white rounded-lg shadow-lg p-3 sm:p-6">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 sm:gap-0">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-800">My Profile</h1>
           <button
             onClick={() => isEditing ? handleSave() : setIsEditing(true)}
-            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            className="flex items-center space-x-2 bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg hover:bg-blue-700 text-sm sm:text-base"
           >
             {isEditing ? (
               <>
@@ -182,11 +182,10 @@ function ProfilePage() {
             )}
           </button>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {/* Profile Image Section */}
           <div className="text-center">
-            <div className="relative w-48 h-48 mx-auto mb-4">
+            <div className="relative w-32 h-32 sm:w-48 sm:h-48 mx-auto mb-4">
               {profile.imageUrl ? (
                 <Image
                   src={profile.imageUrl}
@@ -197,14 +196,15 @@ function ProfilePage() {
                   priority
                 />
               ) : (
-                <div className="w-48 h-48 rounded-full bg-gray-200 flex items-center justify-center">
-                  <FaUser size={96} color="#9CA3AF" />
+                <div className="w-32 h-32 sm:w-48 sm:h-48 rounded-full bg-gray-200 flex items-center justify-center">
+                  <FaUser size={64} className="sm:hidden" color="#9CA3AF" />
+                  <FaUser size={96} className="hidden sm:block" color="#9CA3AF" />
                 </div>
               )}
             </div>
             {isEditing && (
               <div>
-                <label className="bg-blue-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-700">
+                <label className="bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-lg cursor-pointer hover:bg-blue-700 text-sm sm:text-base">
                   Upload Photo
                   <input
                     type="file"
@@ -222,7 +222,6 @@ function ProfilePage() {
               </div>
             )}
           </div>
-
           {/* Profile Details Section */}
           <div className="md:col-span-2">
             <div className="space-y-4">

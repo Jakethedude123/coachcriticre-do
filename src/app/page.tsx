@@ -132,36 +132,38 @@ export default function Home() {
       <div className="container mx-auto px-4 pt-10 pb-8">
         <div className="max-w-4xl mx-auto text-center">
           <h1
-            className="text-4xl md:text-6xl font-extrabold mb-2 tracking-tight drop-shadow-lg text-black dark:text-[#4FC3F7]"
+            className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-2 tracking-tight drop-shadow-lg text-black dark:text-[#4FC3F7]"
           >
             Discover Trusted Bodybuilding and Powerlifting Coaches
           </h1>
           <p
-            className="text-2xl md:text-3xl mb-8 font-bold tracking-tight drop-shadow text-black dark:text-[#4FC3F7]"
+            className="text-lg sm:text-2xl md:text-3xl mb-8 font-bold tracking-tight drop-shadow text-black dark:text-[#4FC3F7]"
             style={{ textShadow: '0 1px 4px rgba(79,195,247,0.18), 0 1px 0 #fff' }}
           >
             Train Smarter, Choose Better
           </p>
           {/* Search Bar */}
-          <SearchBar />
+          <div className="px-2 sm:px-0">
+            <SearchBar />
+          </div>
         </div>
       </div>
 
       {/* Features Section */}
-      <section className="py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-6">
+      <section className="py-8 sm:py-12">
+        <div className="container mx-auto px-2 sm:px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             {FEATURES.map((feature, idx) => (
               <div
                 key={idx}
                 className={
-                  `rounded-xl p-6 shadow-md flex-1 flex flex-col items-center text-center bg-white dark:bg-[#181d23]/80 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-blue-50 dark:hover:bg-[#232b36] cursor-pointer`
+                  `rounded-xl p-4 sm:p-6 shadow-md flex-1 flex flex-col items-center text-center bg-white dark:bg-[#181d23]/80 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-blue-50 dark:hover:bg-[#232b36] cursor-pointer`
                 }
-                style={{ minHeight: 220 }}
+                style={{ minHeight: 180 }}
               >
-                <div className="mb-4 text-blue-600 text-3xl">{feature.icon}</div>
-                <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{feature.title}</h2>
-                <p className="text-gray-600 dark:text-gray-300 text-base">{feature.description}</p>
+                <div className="mb-3 sm:mb-4 text-blue-600 text-2xl sm:text-3xl">{feature.icon}</div>
+                <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-gray-900 dark:text-white">{feature.title}</h2>
+                <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -169,7 +171,7 @@ export default function Home() {
       </section>
 
       {/* Coach Spotlight Section (moved below features) */}
-      <section className="w-full bg-white dark:bg-transparent py-12">
+      <section className="w-full bg-white dark:bg-transparent py-8 sm:py-12">
         <CoachSpotlight />
       </section>
     </main>
