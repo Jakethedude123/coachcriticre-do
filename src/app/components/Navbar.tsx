@@ -129,13 +129,13 @@ export default function Navbar() {
                 <button
                   type="button"
                   ref={buttonRef}
-                  className="navbar-glass-tab flex items-center gap-1 px-4 py-2 text-base"
+                  className="px-5 py-2 rounded-full font-semibold text-[#1565C0] dark:text-[#4FC3F7] border border-blue-100 dark:border-[#232b36] shadow-sm bg-white dark:bg-[#181d23] hover:bg-blue-50 dark:hover:bg-[#232b36] hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2 flex items-center gap-2 text-base"
                   onClick={handleDropdownToggle}
                 >
                   <FaUser className="w-4 h-4" />
                   <span className="font-medium ml-1">Profile</span>
                 </button>
-                <Link href="/messages" className="navbar-glass-tab relative flex items-center justify-center ml-1 px-2 py-1 text-base">
+                <Link href="/messages" className="px-5 py-2 rounded-full font-semibold text-[#1565C0] dark:text-[#4FC3F7] border border-blue-100 dark:border-[#232b36] shadow-sm bg-white dark:bg-[#181d23] hover:bg-blue-50 dark:hover:bg-[#232b36] hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2 relative flex items-center gap-2 justify-center ml-1 text-base">
                   <FaEnvelope className="h-4 w-4" />
                   {hasNewMessages && (
                     <span className="absolute -top-1 -right-1 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>
@@ -179,7 +179,7 @@ export default function Navbar() {
             )}
             <button
               onClick={toggleTheme}
-              className="ml-4 p-2 flex items-center gap-2 rounded-full border-2 border-blue-400 dark:border-yellow-300 bg-white dark:bg-gray-800 text-yellow-500 dark:text-blue-300 shadow-lg hover:scale-110 transition z-50"
+              className="ml-4 p-2 flex items-center gap-2 rounded-full border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-500 dark:hover:bg-gray-600 shadow-sm transition z-50"
               aria-label="Toggle dark mode"
               type="button"
               style={{ minWidth: 40 }}

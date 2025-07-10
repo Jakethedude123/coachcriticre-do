@@ -106,10 +106,8 @@ const FEATURES = [
 
 // Add this style for 3D text effect
 const headline3DStyle = {
-  color: typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches ? '#4FC3F7' : '#111',
   fontWeight: 900,
   textShadow: '0 2px 6px rgba(30, 60, 90, 0.10), 0 1px 0 #e3eaf3', // subtle gray shadow for depth
-  // No background gradient, just solid color
 };
 
 export default function Home() {
@@ -134,8 +132,7 @@ export default function Home() {
       <div className="container mx-auto px-4 pt-10 pb-8">
         <div className="max-w-4xl mx-auto text-center">
           <h1
-            className="text-4xl md:text-6xl font-extrabold mb-2 tracking-tight drop-shadow-lg"
-            style={headline3DStyle}
+            className="text-4xl md:text-6xl font-extrabold mb-2 tracking-tight drop-shadow-lg text-black dark:text-[#4FC3F7]"
           >
             Discover Trusted Bodybuilding and Powerlifting Coaches
           </h1>
