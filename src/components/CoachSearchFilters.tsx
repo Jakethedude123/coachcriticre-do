@@ -109,7 +109,6 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
       : [...currentArray, value];
     handleFilterChange(key, newArray);
   };
-
   return (
     <div className="bg-white dark:bg-[#181d23] rounded-2xl shadow-lg border border-gray-200 dark:border-[#232b36] p-6">
       <div className="mb-4" />
