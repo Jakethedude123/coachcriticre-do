@@ -61,7 +61,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
     trainingStyle: [],
     coachingModality: [],
     federations: [],
-        hasCompetitionExperience: false,
+    hasCompetitionExperience: false,
     requiresFormCorrection: false,
     requiresPosingCoaching: false,
     requiresInjuryPrevention: false,
