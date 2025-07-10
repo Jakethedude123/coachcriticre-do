@@ -121,7 +121,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             className="form-checkbox text-blue-600"
           />
           <span className="font-medium">Sort by Score</span>
-          <Tooltip text="...">
+          <Tooltip content="...">
             <span className="ml-1 text-blue-500 cursor-pointer"> 4d8</span>
           </Tooltip>
         </label>
