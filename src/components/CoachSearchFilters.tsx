@@ -129,60 +129,58 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         
         {expandedSections.competition && (
           <div className="space-y-4 mt-4">
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Select Your Federation</label>
-                <div className="mt-2 space-y-2">
-                    {FEDERATIONS.map(federation => (
-                    <label key={federation} className="inline-flex items-center mr-4">
-                      <input
-                        type="checkbox"
-                        checked={filters.federations?.includes(federation)}
-                        onChange={() => handleArrayFilterChange('federations', federation)}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span className="ml-2">{federation}</span>
-                    </label>
-                  ))}
-                </div>
-                <p className="text-xs text-gray-500 mt-1">Select the federation(s) you plan to compete in</p>
+            {/* --- Federation Section --- */}
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36]">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Select Your Federation</label>
+              <div className="bg-blue-50 rounded-lg p-4 flex flex-wrap gap-3">
+                {FEDERATIONS.map(federation => (
+                  <label key={federation} className="inline-flex items-center mr-4">
+                    <input
+                      type="checkbox"
+                      checked={filters.federations?.includes(federation)}
+                      onChange={() => handleArrayFilterChange('federations', federation)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span className="ml-2">{federation}</span>
+                  </label>
+                ))}
               </div>
+              <p className="text-xs text-gray-500 mt-1">Select the federation(s) you plan to compete in</p>
             </div>
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
-                  Select Your Division
-                  <Tooltip content="Choose all divisions you want to compete in. You can select multiple.">
-                    <span className="ml-1 text-blue-500 cursor-pointer">ⓘ</span>
-                  </Tooltip>
-                </label>
-                <div className="mt-2 flex flex-wrap gap-3 bg-blue-50 rounded-lg p-4 min-w-[340px]">
-                  {BB_DIVISIONS.map(division => (
-                    <label key={division} className="group flex items-center gap-2 cursor-pointer text-base font-medium transition">
-                      <input
-                        type="checkbox"
-                        checked={filters.divisions?.includes(division)}
-                        onChange={() => handleArrayFilterChange('divisions', division)}
-                        className="peer appearance-none w-5 h-5 border-2 border-blue-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                      />
-                      <span className="ml-1 select-none text-gray-800 group-hover:text-blue-700 transition">{division}</span>
-                    </label>
-                  ))}
-                  <div className="w-full my-2 border-t border-gray-200"></div>
-                  {PL_DIVISIONS.map(division => (
-                    <label key={division} className="group flex items-center gap-2 cursor-pointer text-base font-medium transition">
-                      <input
-                        type="checkbox"
-                        checked={filters.divisions?.includes(division)}
-                        onChange={() => handleArrayFilterChange('divisions', division)}
-                        className="peer appearance-none w-5 h-5 border-2 border-blue-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
-                      />
-                      <span className="ml-1 select-none text-gray-800 group-hover:text-blue-700 transition">{division}</span>
-                    </label>
-                  ))}
-                </div>
-                <p className="text-xs text-gray-500 mt-1">Select the division(s) you plan to compete in</p>
+            {/* --- Division Section --- */}
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36]">
+              <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                Select Your Division
+                <Tooltip content="Choose all divisions you want to compete in. You can select multiple.">
+                  <span className="ml-1 text-blue-500 cursor-pointer">ⓘ</span>
+                </Tooltip>
+              </label>
+              <div className="mt-2 flex flex-wrap gap-3 bg-blue-50 rounded-lg p-4 min-w-[340px]">
+                {BB_DIVISIONS.map(division => (
+                  <label key={division} className="group flex items-center gap-2 cursor-pointer text-base font-medium transition">
+                    <input
+                      type="checkbox"
+                      checked={filters.divisions?.includes(division)}
+                      onChange={() => handleArrayFilterChange('divisions', division)}
+                      className="peer appearance-none w-5 h-5 border-2 border-blue-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+                    />
+                    <span className="ml-1 select-none text-gray-800 group-hover:text-blue-700 transition">{division}</span>
+                  </label>
+                ))}
+                <div className="w-full my-2 border-t border-gray-200"></div>
+                {PL_DIVISIONS.map(division => (
+                  <label key={division} className="group flex items-center gap-2 cursor-pointer text-base font-medium transition">
+                    <input
+                      type="checkbox"
+                      checked={filters.divisions?.includes(division)}
+                      onChange={() => handleArrayFilterChange('divisions', division)}
+                      className="peer appearance-none w-5 h-5 border-2 border-blue-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+                    />
+                    <span className="ml-1 select-none text-gray-800 group-hover:text-blue-700 transition">{division}</span>
+                  </label>
+                ))}
               </div>
+              <p className="text-xs text-gray-500 mt-1">Select the division(s) you plan to compete in</p>
             </div>
           </div>
         )}
@@ -202,7 +200,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         </button>
         {expandedSections.specializations && (
           <div className="space-y-4 mt-4">
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36]">
               <div className="space-y-2">
                 <label className="flex items-center">
                   <input
@@ -300,7 +298,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           {expandedSections.timeZone ? <FaChevronUp /> : <FaChevronDown />}
         </button>
         {expandedSections.timeZone && (
-          <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+          <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36]">
             <div className="space-y-2 mt-2">
               {TIME_ZONES.map(tz => (
                 <label key={tz} className="inline-flex items-center mr-4">
@@ -332,7 +330,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         </button>
         {expandedSections.proximity && (
           <div className="space-y-4 mt-4">
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36]">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
                 <input
@@ -344,7 +342,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                 />
               </div>
             </div>
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36]">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Proximity (miles)</label>
                 <input
@@ -375,7 +373,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           {expandedSections.clientTypes ? <FaChevronUp /> : <FaChevronDown />}
         </button>
         {expandedSections.clientTypes && (
-          <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+          <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36]">
             <div className="space-y-2">
               <label className="flex items-center">
                 <input
@@ -440,7 +438,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         
         {expandedSections.contestPrep && (
           <div className="space-y-4 mt-4">
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36]">
               <div className="space-y-2">
                 <label className="flex items-center">
                   <input
@@ -484,7 +482,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         
         {expandedSections.certifications && (
           <div className="space-y-4 mt-4">
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36]">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Required Certifications</label>
                 <div className="mt-2 space-y-2">
