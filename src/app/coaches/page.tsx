@@ -19,12 +19,15 @@ export default function CoachesPage() {
   const [lastDoc, setLastDoc] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [sortByScore, setSortByScore] = useState(true);
+  const [filters, setFilters] = useState<SearchFilters>({ sortByScore });
   const { user } = useAuth();
   const router = useRouter();
   const [filtersOpen, setFiltersOpen] = useState(false); // for mobile
 
-  const handleFiltersChange = useCallback(async (filters: Partial<SearchFilters>) => {
+  const handleFiltersChange = useCallback(async (newFilters: Partial<SearchFilters>) => {
     if (!user) return;
+    const updatedFilters = { ...filters, ...newFilters };
+    setFilters(updatedFilters);
     setLoading(true);
     try {
       const response = await fetch('/api/coaches/search', {
@@ -32,7 +35,7 @@ export default function CoachesPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(filters),
+        body: JSON.stringify(updatedFilters),
       });
 
       if (!response.ok) {
@@ -118,7 +121,7 @@ export default function CoachesPage() {
 
   useEffect(() => {
     handleFiltersChange({ sortByScore });
-  }, [sortByScore, handleFiltersChange]);
+  }, [sortByScore, handleFiltersChange, filters]);
 
   return (
     <div className="min-h-screen bg-white dark:bg-transparent py-6 sm:py-12">
@@ -190,7 +193,7 @@ export default function CoachesPage() {
               </div>
               <div className="overflow-y-auto max-h-[70vh] pr-2">
               <AuthRequiredSearch>
-                <CoachSearchFilters onFiltersChange={handleFiltersChange} />
+                <CoachSearchFilters filters={filters} onFiltersChange={handleFiltersChange} />
               </AuthRequiredSearch>
               </div>
             </div>
