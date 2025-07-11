@@ -41,3 +41,5 @@ Required environment variables:
 - `DEEPGRAM_API_KEY`
 
 <!-- Trigger redeploy: $(date) -->
+
+// Triggering redeploy on Vercel
