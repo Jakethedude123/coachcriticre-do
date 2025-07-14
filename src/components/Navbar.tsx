@@ -146,7 +146,6 @@ export default function Navbar() {
                       className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors"
                     >
                       <FaUser className="h-5 w-5" />
-                      <span>My Profile</span>
                     </button>
 
                     <div
@@ -184,7 +183,7 @@ export default function Navbar() {
                     </div>
                   </div>
                   {/* Messages Icon to the right of Profile */}
-                  <Link href="/messages" className="relative text-gray-600 hover:text-blue-600 transition-colors flex items-center ml-2">
+                  <Link href="/messages" className="relative flex items-center px-5 py-2 rounded-full font-semibold text-[#1565C0] dark:text-[#4FC3F7] border border-blue-100 dark:border-[#232b36] shadow-sm bg-white dark:bg-[#181d23] hover:bg-blue-50 dark:hover:bg-[#232b36] hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2 ml-2 text-base">
                     <FaEnvelope className="h-5 w-5" />
                     {hasNewMessages && (
                       <span className="absolute -top-1 -right-1 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>

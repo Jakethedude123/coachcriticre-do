@@ -111,7 +111,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
   };
 
   return (
-    <div className="bg-white dark:bg-[#181d23] rounded-2xl shadow-lg border border-gray-200 dark:border-[#232b36] p-6">
+    <div className="bg-white dark:bg-[#181d23] rounded-2xl shadow-lg border border-gray-200 dark:border-[#232b36] p-6 w-full max-w-2xl">
       <div className="mb-4" />
       <div className="space-y-4">
       {/* Competition Experience Section */}
@@ -156,7 +156,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                     <span className="ml-1 text-blue-500 cursor-pointer">ⓘ</span>
                   </Tooltip>
                 </label>
-                <div className="mt-2 flex flex-wrap gap-3 bg-blue-50 rounded-lg p-4 min-w-[480px]">
+                <div className="mt-2 flex flex-wrap gap-3 bg-blue-50 rounded-lg p-4 w-full min-w-[480px]">
                   {BB_DIVISIONS.map(division => (
                     <label key={division} className="group flex items-center gap-2 cursor-pointer text-base font-medium transition">
                       <input
@@ -487,7 +487,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Required Certifications</label>
-                <div className="mt-2 space-y-2 min-w-[480px]">
+                <div className="mt-2 space-y-2 w-full min-w-[480px]">
                   {['ISSA', 'NASM', 'ACE', 'NSCA', 'CSCS', 'NCSF', 'B.S.', 'M.S.', 'PhD', 'VizualFX', 'N1', 'HCU', 'J3U'].map(cert => (
                     <label key={cert} className="inline-flex items-center mr-4">
                       <input
