@@ -132,7 +132,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Select Your Federation</label>
-                <div className="mt-2 flex flex-wrap gap-3 bg-blue-50 rounded-lg p-4 w-full min-w-[480px]">
+                <div className="mt-2 flex flex-wrap gap-3 bg-blue-50 rounded-lg p-4 w-full">
                     {FEDERATIONS.map(federation => (
                     <label key={federation} className="inline-flex items-center mr-4">
                       <input
