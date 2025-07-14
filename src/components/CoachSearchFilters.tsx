@@ -129,10 +129,10 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         
         {expandedSections.competition && (
           <div className="space-y-4 mt-4">
-            <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 flex flex-wrap gap-3 w-full overflow-x-hidden">
+            <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Select Your Federation</label>
-                <div className="mt-2 flex flex-wrap gap-3 bg-blue-50 rounded-lg p-4 w-full overflow-x-auto md:overflow-x-visible">
+                <div className="mt-2 flex flex-wrap gap-3 w-full">
                     {FEDERATIONS.map(federation => (
                     <label key={federation} className="inline-flex items-center mr-4">
                       <input
@@ -148,7 +148,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                 <p className="text-xs text-gray-500 mt-1">Select the federation(s) you plan to compete in</p>
               </div>
             </div>
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div>
                 <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
                   Select Your Division
@@ -202,7 +202,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         </button>
         {expandedSections.specializations && (
           <div className="space-y-4 mt-4">
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div className="space-y-2">
                 <label className="flex items-center">
                   <input
@@ -330,7 +330,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         </button>
         {expandedSections.proximity && (
           <div className="space-y-4 mt-4">
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
                 <input
@@ -342,7 +342,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                 />
               </div>
             </div>
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Proximity (miles)</label>
                 <input
@@ -375,7 +375,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         
         {expandedSections.clientTypes && (
           <div className="space-y-4 mt-4">
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div className="space-y-2">
                 <label className="flex items-center">
                   <input
@@ -440,7 +440,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         
         {expandedSections.contestPrep && (
           <div className="space-y-4 mt-4">
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div className="space-y-2">
                 <label className="flex items-center">
                   <input
@@ -484,7 +484,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         
         {expandedSections.certifications && (
           <div className="space-y-4 mt-4">
-            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2">
+            <div className="bg-white dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Required Certifications</label>
                 <div className="mt-2 flex flex-wrap gap-3 w-full">
