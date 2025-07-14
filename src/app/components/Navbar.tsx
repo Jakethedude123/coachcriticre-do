@@ -129,14 +129,13 @@ export default function Navbar() {
                 <button
                   type="button"
                   ref={buttonRef}
-                  className="px-5 py-2 rounded-full font-semibold text-[#1565C0] dark:text-[#4FC3F7] border border-blue-100 dark:border-[#232b36] shadow-sm bg-white dark:bg-[#181d23] hover:bg-blue-50 dark:hover:bg-[#232b36] hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2 flex items-center gap-2 text-base"
+                  className="flex items-center justify-center px-5 py-2 rounded-full font-semibold text-base text-[#1565C0] dark:text-[#4FC3F7] border border-blue-100 dark:border-[#232b36] shadow-sm bg-white dark:bg-[#181d23] hover:bg-blue-50 dark:hover:bg-[#232b36] hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2"
                   onClick={handleDropdownToggle}
                 >
-                  <FaUser className="w-4 h-4" />
-                  <span className="font-medium ml-1">Profile</span>
+                  <FaUser className="h-6 w-6" />
                 </button>
-                <Link href="/messages" className="px-5 py-2 rounded-full font-semibold text-[#1565C0] dark:text-[#4FC3F7] border border-blue-100 dark:border-[#232b36] shadow-sm bg-white dark:bg-[#181d23] hover:bg-blue-50 dark:hover:bg-[#232b36] hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2 relative flex items-center gap-2 justify-center ml-1 text-base">
-                  <FaEnvelope className="h-4 w-4" />
+                <Link href="/messages" className="relative flex items-center justify-center px-5 py-2 rounded-full font-semibold text-base text-[#1565C0] dark:text-[#4FC3F7] border border-blue-100 dark:border-[#232b36] shadow-sm bg-white dark:bg-[#181d23] hover:bg-blue-50 dark:hover:bg-[#232b36] hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2 ml-2">
+                  <FaEnvelope className="h-7 w-7" />
                   {hasNewMessages && (
                     <span className="absolute -top-1 -right-1 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>
                   )}
