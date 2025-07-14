@@ -39,7 +39,7 @@ export default function CoachSearchResults() {
                 profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
                 rating: coach.rating || 0,
                 testimonialCount: coach.testimonialCount || 0,
-                credentials: Array.isArray(coach.credentials) ? coach.credentials : [],
+                credentials: Array.isArray(coach.certifications) ? coach.certifications : [],
                 divisions: Array.isArray(coach.divisions) ? coach.divisions : [],
                 clientTypes: Array.isArray(coach.clientTypes) ? coach.clientTypes : [],
                 federations: Array.isArray(coach.federations) ? coach.federations : [],

@@ -21,6 +21,7 @@ interface CoachCardProps {
       retention: number;
     };
     credentials?: string[];
+    certifications?: string[];
     divisions?: string[];
     clientTypes?: string[];
     federations?: string[];
@@ -40,7 +41,7 @@ export default function CoachCard({ coach, small = false }: CoachCardProps) {
   };
 
   const specialties = normalizeTags(coach.specialties);
-  const credentials = normalizeTags(coach.credentials);
+  const credentials = normalizeTags(coach.credentials || coach.certifications);
   const divisions = normalizeTags(coach.divisions);
   const clientTypes = normalizeTags(coach.clientTypes);
   const federations = normalizeTags(coach.federations);

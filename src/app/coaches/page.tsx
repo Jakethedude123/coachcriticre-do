@@ -221,7 +221,7 @@ export default function CoachesPage() {
                             : [],
                         divisions: Array.isArray(coach.divisions) ? coach.divisions : [],
                         federations: Array.isArray(coach.federations) ? coach.federations : [],
-                        credentials: Array.isArray(coach.credentials) ? coach.credentials : [],
+                        credentials: Array.isArray(coach.certifications) ? coach.certifications : [],
                       }}
                       small
                     />
