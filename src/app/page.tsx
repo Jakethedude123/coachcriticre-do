@@ -132,12 +132,12 @@ export default function Home() {
       <div className="container mx-auto px-4 pt-10 pb-8">
         <div className="max-w-4xl mx-auto text-center">
           <h1
-            className="text-4xl md:text-6xl font-extrabold mb-2 tracking-tight drop-shadow-lg text-black dark:text-[#4FC3F7]"
+            className="text-4xl md:text-6xl font-extrabold mb-2 tracking-tight drop-shadow-lg text-black dark:text-white"
           >
             Discover Trusted Bodybuilding and Powerlifting Coaches
           </h1>
           <p
-            className="text-2xl md:text-3xl mb-8 font-bold tracking-tight drop-shadow text-black dark:text-[#4FC3F7]"
+            className="text-2xl md:text-3xl mb-8 font-bold tracking-tight drop-shadow text-black dark:text-white"
             style={{ textShadow: '0 1px 4px rgba(79,195,247,0.18), 0 1px 0 #fff' }}
           >
             Train Smarter, Choose Better
