@@ -163,7 +163,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                         type="checkbox"
                         checked={filters.divisions?.includes(division)}
                         onChange={() => handleArrayFilterChange('divisions', division)}
-                        className="peer appearance-none w-5 h-5 border-2 border-blue-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+                        className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                       />
                       <span className="ml-1 select-none text-gray-800 group-hover:text-blue-700 transition">{division}</span>
                     </label>
@@ -175,7 +175,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                         type="checkbox"
                         checked={filters.divisions?.includes(division)}
                         onChange={() => handleArrayFilterChange('divisions', division)}
-                        className="peer appearance-none w-5 h-5 border-2 border-blue-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+                        className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                       />
                       <span className="ml-1 select-none text-gray-800 group-hover:text-blue-700 transition">{division}</span>
                     </label>
@@ -300,18 +300,20 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           {expandedSections.timeZone ? <FaChevronUp /> : <FaChevronDown />}
         </button>
         {expandedSections.timeZone && (
-          <div className="space-y-2 mt-4">
-            {TIME_ZONES.map(tz => (
-              <label key={tz} className="inline-flex items-center mr-4">
-                <input
-                  type="checkbox"
-                  checked={filters.timeZones?.includes(tz)}
-                  onChange={() => handleArrayFilterChange('timeZones', tz)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="ml-2">{tz}</span>
-              </label>
-            ))}
+          <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
+            <div className="space-y-2 mt-0">
+              {TIME_ZONES.map(tz => (
+                <label key={tz} className="inline-flex items-center mr-4">
+                  <input
+                    type="checkbox"
+                    checked={filters.timeZones?.includes(tz)}
+                    onChange={() => handleArrayFilterChange('timeZones', tz)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="ml-2">{tz}</span>
+                </label>
+              ))}
+            </div>
           </div>
         )}
       </div>
