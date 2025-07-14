@@ -33,11 +33,23 @@ export default function CoachCard({ coach, small = false }: CoachCardProps) {
     return null;
   }
 
-  // Helper to render tags with color
+  // Normalize and filter out empty tags
+  const normalizeTags = (tags: string[] | undefined): string[] => {
+    if (!tags || !Array.isArray(tags)) return [];
+    return tags.filter(tag => tag && tag.trim().length > 0);
+  };
+
+  const specialties = normalizeTags(coach.specialties);
+  const credentials = normalizeTags(coach.credentials);
+  const divisions = normalizeTags(coach.divisions);
+  const clientTypes = normalizeTags(coach.clientTypes);
+  const federations = normalizeTags(coach.federations);
+
+  // Helper to render tags with consistent styling
   const renderTags = (items: string[], color: string, text: string) =>
     items.map((item, idx) => (
       <span
-        key={item + idx}
+        key={`${text}-${item}-${idx}`}
         className={`inline-block px-2 py-1 mr-1 mb-1 rounded text-xs font-medium ${color}`}
       >
         {item}
@@ -53,11 +65,11 @@ export default function CoachCard({ coach, small = false }: CoachCardProps) {
         <h3 className={`font-bold text-white mb-1 ${small ? 'text-lg' : 'text-2xl'}`}>{coach.name}</h3>
         <p className={`text-white mb-3 ${small ? 'text-xs' : 'text-sm'}`}>{coach.bio}</p>
         <div className="flex flex-wrap gap-1 items-center">
-          {renderTags(coach.specialties || [], 'bg-blue-100 text-blue-800', 'Specialty')}
-          {renderTags(coach.credentials || [], 'bg-green-100 text-green-800', 'Credential')}
-          {renderTags(coach.divisions || [], 'bg-purple-100 text-purple-800', 'Division')}
-          {renderTags(coach.clientTypes || [], 'bg-yellow-100 text-yellow-800', 'Client Type')}
-          {renderTags(coach.federations || [], 'bg-pink-100 text-pink-800', 'Federation')}
+          {renderTags(specialties, 'bg-blue-100 text-blue-800', 'Specialty')}
+          {renderTags(credentials, 'bg-green-100 text-green-800', 'Credential')}
+          {renderTags(divisions, 'bg-purple-100 text-purple-800', 'Division')}
+          {renderTags(clientTypes, 'bg-yellow-100 text-yellow-800', 'Client Type')}
+          {renderTags(federations, 'bg-pink-100 text-pink-800', 'Federation')}
         </div>
       </div>
     </div>

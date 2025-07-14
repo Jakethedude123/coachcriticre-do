@@ -67,6 +67,15 @@ export default function EditCoachProfilePage() {
     setError(null);
     try {
       await updateCoachProfile(coach.id, coach);
+      
+      // Refetch the latest coach data to ensure all components stay in sync
+      try {
+        const updatedCoachData = await getCoachProfile(coach.id);
+        setCoach(updatedCoachData);
+      } catch (error) {
+        console.error('Error refetching coach data after save:', error);
+      }
+      
       router.push(`/coaches/profile/${coach.id}`);
     } catch (err) {
       setError("Failed to save profile");

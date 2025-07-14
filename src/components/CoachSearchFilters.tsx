@@ -131,7 +131,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           <div className="space-y-4 mt-4">
             <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Select Your Federation</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-white">Select Your Federation</label>
                 <div className="mt-2 flex flex-wrap gap-3 w-full">
                     {FEDERATIONS.map(federation => (
                     <label key={federation} className="inline-flex items-center mr-4">
@@ -139,9 +139,9 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                         type="checkbox"
                         checked={filters.federations?.includes(federation)}
                         onChange={() => handleArrayFilterChange('federations', federation)}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                       />
-                      <span className="ml-2">{federation}</span>
+                      <span className="ml-2 dark:text-white">{federation}</span>
                     </label>
                   ))}
                 </div>
@@ -150,7 +150,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             </div>
             <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div>
-                <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-white flex items-center gap-2">
                   Select Your Division
                   <Tooltip content="Choose all divisions you want to compete in. You can select multiple.">
                     <span className="ml-1 text-blue-500 cursor-pointer">ⓘ</span>
@@ -165,7 +165,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                         onChange={() => handleArrayFilterChange('divisions', division)}
                         className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                       />
-                      <span className="ml-1 select-none text-gray-800 group-hover:text-blue-700 transition">{division}</span>
+                      <span className="ml-1 select-none text-gray-800 dark:text-white group-hover:text-blue-700 transition">{division}</span>
                     </label>
                   ))}
                   <div className="w-full my-2 border-t border-gray-200"></div>
@@ -177,7 +177,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                         onChange={() => handleArrayFilterChange('divisions', division)}
                         className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                       />
-                      <span className="ml-1 select-none text-gray-800 group-hover:text-blue-700 transition">{division}</span>
+                      <span className="ml-1 select-none text-gray-800 dark:text-white group-hover:text-blue-700 transition">{division}</span>
                     </label>
                   ))}
                 </div>
@@ -204,81 +204,81 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           <div className="space-y-4 mt-4">
             <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div className="space-y-2">
-                <label className="flex items-center">
+                <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
                     checked={filters.requiresFormCorrection}
                     onChange={(e) => handleFilterChange('requiresFormCorrection', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-2">Form Correction</span>
+                  <span className="ml-2 dark:text-white">Form Correction</span>
                 </label>
-                <label className="flex items-center">
+                <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
                     checked={filters.requiresPosingCoaching}
                     onChange={(e) => handleFilterChange('requiresPosingCoaching', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-2">Posing Coaching</span>
+                  <span className="ml-2 dark:text-white">Posing Coaching</span>
                 </label>
-                <label className="flex items-center">
+                <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
                     checked={filters.requiresInjuryRecovery}
                     onChange={(e) => handleFilterChange('requiresInjuryRecovery', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-2">Injury Recovery</span>
+                  <span className="ml-2 dark:text-white">Injury Recovery</span>
                 </label>
                 
-                <label className="flex items-center">
+                <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
                     checked={filters.requiresNutrition}
                     onChange={(e) => handleFilterChange('requiresNutrition', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-2">Nutrition</span>
+                  <span className="ml-2 dark:text-white">Nutrition</span>
                 </label>
-                <label className="flex items-center">
+                <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
                     checked={filters.experiencedFemalePED}
                     onChange={(e) => handleFilterChange('experiencedFemalePED', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-2">Female PED Use</span>
+                  <span className="ml-2 dark:text-white">Female PED Use</span>
                 </label>
-                <label className="flex items-center">
+                <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
                     checked={filters.edRecovery}
                     onChange={(e) => handleFilterChange('edRecovery', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-2">ED Recovery</span>
+                  <span className="ml-2 dark:text-white">ED Recovery</span>
                 </label>
-                <label className="flex items-center">
+                <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
                     checked={filters.labworkInterpretation}
                     onChange={(e) => handleFilterChange('labworkInterpretation', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-2">Labwork Interpretation</span>
+                  <span className="ml-2 dark:text-white">Labwork Interpretation</span>
                 </label>
               </div>
               <div className="space-y-2">
                 {PL_SPECIALIZATIONS.map((spec) => (
-                  <label key={spec} className="flex items-center">
+                  <label key={spec} className="flex items-center dark:text-white">
                     <input
                       type="checkbox"
                       checked={filters.specialties?.includes(spec)}
                       onChange={() => handleArrayFilterChange('specialties', spec)}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                     />
-                    <span className="ml-2">{spec}</span>
+                    <span className="ml-2 dark:text-white">{spec}</span>
                   </label>
                 ))}
               </div>
@@ -308,7 +308,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                     type="checkbox"
                     checked={filters.timeZones?.includes(tz)}
                     onChange={() => handleArrayFilterChange('timeZones', tz)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
                   <span className="ml-2">{tz}</span>
                 </label>
@@ -334,7 +334,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           <div className="space-y-4 mt-4">
             <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">Location</label>
                 <input
                   type="text"
                   value={filters.proximityLocation}
@@ -346,7 +346,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             </div>
             <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Proximity (miles)</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-white mb-2">Proximity (miles)</label>
                 <input
                   type="range"
                   min="0"
@@ -379,32 +379,32 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           <div className="space-y-4 mt-4">
             <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div className="space-y-2">
-                <label className="flex items-center">
+                <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
                     checked={filters.naturalOnly}
                     onChange={(e) => handleFilterChange('naturalOnly', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-2">Natural Athletes Only</span>
+                  <span className="ml-2 dark:text-white">Natural Athletes Only</span>
                 </label>
-                <label className="flex items-center">
+                <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
                     checked={filters.enhancedExperience}
                     onChange={(e) => handleFilterChange('enhancedExperience', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-2">Enhanced Athletes</span>
+                  <span className="ml-2 dark:text-white">Enhanced Athletes</span>
                 </label>
-                <label className="flex items-center">
+                <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
                     checked={filters.requiresLifestyleCoaching}
                     onChange={(e) => handleFilterChange('requiresLifestyleCoaching', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-2 flex items-center">Lifestyle
+                  <span className="ml-2 flex items-center dark:text-white">Lifestyle
                     <Tooltip content={<span>Lifestyle coaching is focused on helping clients stay healthy, fit, and in good shape year-round, without the demands of contest preparation.</span>}>
                       <span className="ml-1 text-blue-500 cursor-help">&#9432;</span>
                     </Tooltip>
@@ -412,14 +412,14 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                 </label>
               </div>
               <div className="space-y-2">
-                <label className="flex items-center">
+                <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
                     checked={filters.firstTimeCompetitor}
                     onChange={e => handleFilterChange('firstTimeCompetitor', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-2">First time competitor</span>
+                  <span className="ml-2 dark:text-white">First time competitor</span>
                 </label>
               </div>
             </div>
@@ -444,14 +444,14 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           <div className="space-y-4 mt-4">
             <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div className="space-y-2">
-                <label className="flex items-center">
+                <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
                     checked={filters.requiresContestPrep}
                     onChange={(e) => handleFilterChange('requiresContestPrep', e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-2">Contest Prep Experience Required</span>
+                  <span className="ml-2 dark:text-white">Contest Prep Experience Required</span>
                 </label>
               </div>
               {filters.requiresContestPrep && (
@@ -488,7 +488,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
           <div className="space-y-4 mt-4">
             <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Required Certifications</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-white">Required Certifications</label>
                 <div className="mt-2 flex flex-wrap gap-3 w-full">
                   {['ISSA', 'NASM', 'ACE', 'NSCA', 'CSCS', 'NCSF', 'B.S.', 'M.S.', 'PhD', 'VizualFX', 'N1', 'HCU', 'J3U'].map(cert => (
                     <label key={cert} className="inline-flex items-center mr-4">
@@ -496,9 +496,9 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                         type="checkbox"
                         checked={filters.certifications?.includes(cert)}
                         onChange={() => handleArrayFilterChange('certifications', cert)}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                       />
-                      <span className="ml-2">{cert}</span>
+                      <span className="ml-2 dark:text-white">{cert}</span>
                     </label>
                   ))}
                 </div>

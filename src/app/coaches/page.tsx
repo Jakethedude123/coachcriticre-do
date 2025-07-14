@@ -127,7 +127,7 @@ export default function CoachesPage() {
           <div className="col-span-2 max-w-md">
             <div className="sticky top-4">
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-3">Find Your Coach</h2>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">Find Your Coach</h2>
                 <div className="flex items-center space-x-2 bg-white p-3 rounded-lg shadow-sm">
                   <label className="flex items-center space-x-2 text-base">
                     <input
@@ -207,7 +207,7 @@ export default function CoachesPage() {
                       coach={{
                         id: coach.id || coach.userId,
                         name: coach.name,
-                        specialties: coach.specialties || [],
+                        specialties: Array.isArray(coach.specialties) ? coach.specialties : [],
                         bio: coach.bio || '',
                         profileImageUrl: coach.profileImage || '/placeholder-coach.jpg',
                         rating: coach.rating || 0,
@@ -219,8 +219,9 @@ export default function CoachesPage() {
                                 .filter(([_, v]) => v)
                                 .map(([k]) => k)
                             : [],
-                        divisions: coach.divisions || [],
-                        federations: coach.federations || [],
+                        divisions: Array.isArray(coach.divisions) ? coach.divisions : [],
+                        federations: Array.isArray(coach.federations) ? coach.federations : [],
+                        credentials: Array.isArray(coach.credentials) ? coach.credentials : [],
                       }}
                       small
                     />

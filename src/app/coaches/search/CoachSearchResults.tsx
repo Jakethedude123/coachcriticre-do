@@ -34,15 +34,15 @@ export default function CoachSearchResults() {
               <CoachCard coach={{
                 id: coach.id || coach.userId,
                 name: coach.name,
-                specialties: coach.specialties || (coach.specialty ? [coach.specialty] : []),
+                specialties: Array.isArray(coach.specialties) ? coach.specialties : (coach.specialty ? [coach.specialty] : []),
                 bio: coach.bio || '',
                 profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
                 rating: coach.rating || 0,
                 testimonialCount: coach.testimonialCount || 0,
-                credentials: coach.credentials || [],
-                divisions: coach.divisions || [],
-                clientTypes: coach.clientTypes || [],
-                federations: coach.federations || [],
+                credentials: Array.isArray(coach.credentials) ? coach.credentials : [],
+                divisions: Array.isArray(coach.divisions) ? coach.divisions : [],
+                clientTypes: Array.isArray(coach.clientTypes) ? coach.clientTypes : [],
+                federations: Array.isArray(coach.federations) ? coach.federations : [],
               }} />
             </li>
           ))}

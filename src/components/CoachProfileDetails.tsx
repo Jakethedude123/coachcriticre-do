@@ -11,7 +11,7 @@ import {
   CLIENT_TYPES,
   FEDERATIONS,
 } from '@/lib/utils/coachProfileOptions';
-import { updateCoachProfile } from '@/lib/firebase/coachUtils';
+import { updateCoachProfile, getCoachProfile } from '@/lib/firebase/coachUtils';
 
 interface CoachProfileDetailsProps {
   coach: CoachData;
@@ -33,6 +33,14 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
     const updated = checked ? [...prev, value] : prev.filter((v) => v !== value);
     setCoach((c) => ({ ...c, [field]: updated }));
     await updateCoachProfile(coach.id, { [field]: updated });
+    
+    // Refetch the latest coach data to ensure all components stay in sync
+    try {
+      const updatedCoachData = await getCoachProfile(coach.id);
+      setCoach(updatedCoachData);
+    } catch (error) {
+      console.error('Error refetching coach data after update:', error);
+    }
   };
 
   return (
