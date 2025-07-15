@@ -132,7 +132,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-white">Select Your Federation</label>
-                <div className="mt-2 grid grid-cols-1 gap-3 w-full">
+                <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 w-full">
                     {FEDERATIONS.map(federation => (
                     <label key={federation} className="group flex items-center gap-2 cursor-pointer text-base font-medium transition bg-white dark:bg-[#2a3441] rounded-lg p-3 border border-gray-200 dark:border-[#3a4756] hover:border-blue-300 dark:hover:border-blue-400 hover:shadow-sm">
                       <input
@@ -156,7 +156,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                     <span className="ml-1 text-blue-500 cursor-pointer">ⓘ</span>
                   </Tooltip>
                 </label>
-                <div className="mt-2 grid grid-cols-1 gap-3 w-full">
+                <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 w-full">
                   {BB_DIVISIONS.map(division => (
                     <label key={division} className="group flex items-center gap-2 cursor-pointer text-base font-medium transition bg-white dark:bg-[#2a3441] rounded-lg p-3 border border-gray-200 dark:border-[#3a4756] hover:border-blue-300 dark:hover:border-blue-400 hover:shadow-sm">
                       <input
@@ -168,7 +168,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                       <span className="ml-1 select-none text-gray-800 dark:text-white transition">{division}</span>
                     </label>
                   ))}
-                  <div className="w-full my-2 border-t border-gray-200"></div>
+                  <div className="w-full col-span-full my-2 border-t border-gray-200"></div>
                   {PL_DIVISIONS.map(division => (
                     <label key={division} className="group flex items-center gap-2 cursor-pointer text-base font-medium transition bg-white dark:bg-[#2a3441] rounded-lg p-3 border border-gray-200 dark:border-[#3a4756] hover:border-blue-300 dark:hover:border-blue-400 hover:shadow-sm">
                       <input
@@ -301,7 +301,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
         </button>
         {expandedSections.timeZone && (
           <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
-            <div className="mt-2 grid grid-cols-1 gap-3 w-full">
+            <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 w-full">
               {TIME_ZONES.map(tz => (
                 <label key={tz} className="group flex items-center gap-2 cursor-pointer text-base font-medium transition bg-white dark:bg-[#2a3441] rounded-lg p-3 border border-gray-200 dark:border-[#3a4756] hover:border-blue-300 dark:hover:border-blue-400 hover:shadow-sm">
                   <input
@@ -382,6 +382,24 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                 <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
+                    checked={filters.naturalOnly}
+                    onChange={(e) => handleFilterChange('naturalOnly', e.target.checked)}
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+                  />
+                  <span className="ml-2 dark:text-white">Non-enhanced</span>
+                </label>
+                <label className="flex items-center dark:text-white">
+                  <input
+                    type="checkbox"
+                    checked={filters.enhancedExperience}
+                    onChange={(e) => handleFilterChange('enhancedExperience', e.target.checked)}
+                    className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
+                  />
+                  <span className="ml-2 dark:text-white">Enhanced</span>
+                </label>
+                <label className="flex items-center dark:text-white">
+                  <input
+                    type="checkbox"
                     checked={filters.requiresLifestyleCoaching}
                     onChange={(e) => handleFilterChange('requiresLifestyleCoaching', e.target.checked)}
                     className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
@@ -392,8 +410,6 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                     </Tooltip>
                   </span>
                 </label>
-              </div>
-              <div className="space-y-2">
                 <label className="flex items-center dark:text-white">
                   <input
                     type="checkbox"
@@ -436,18 +452,6 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                   <span className="ml-2 dark:text-white">Contest Prep Experience Required</span>
                 </label>
               </div>
-              {filters.requiresContestPrep && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Minimum Successful Preps</label>
-                  <input
-                    type="number"
-                    value={filters.minimumSuccessfulPreps}
-                    onChange={(e) => handleFilterChange('minimumSuccessfulPreps', e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Enter minimum number"
-                  />
-                </div>
-              )}
             </div>
           </div>
         )}
@@ -471,7 +475,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-white">Required Certifications</label>
-                <div className="mt-2 grid grid-cols-1 gap-3 w-full">
+                <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 w-full">
                   {['ISSA', 'NASM', 'ACE', 'NSCA', 'CSCS', 'NCSF', 'B.S.', 'M.S.', 'PhD', 'VizualFX', 'N1', 'HCU', 'J3U'].map(cert => (
                     <label key={cert} className="group flex items-center gap-2 cursor-pointer text-base font-medium transition bg-white dark:bg-[#2a3441] rounded-lg p-3 border border-gray-200 dark:border-[#3a4756] hover:border-blue-300 dark:hover:border-blue-400 hover:shadow-sm">
                       <input
