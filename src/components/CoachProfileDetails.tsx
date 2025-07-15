@@ -80,18 +80,18 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             <div
               className={`transition-all duration-300 ${editBox === 'specialties' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
             >
-              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {SPECIALTIES.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.specialties.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.specialties.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
                     checked={coach.specialties.includes(option)}
                     onChange={e => handleArrayChange('specialties', option, e.target.checked)}
-                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400"
+                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
-                  <span className="transition-all duration-200">{option}</span>
+                  <span className="transition-all duration-200 text-sm break-words">{option}</span>
                 </label>
                 ))}
               </div>
@@ -161,18 +161,18 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             <div
               className={`transition-all duration-300 ${editBox === 'credentials' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
             >
-              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {CREDENTIALS.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.credentials.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.credentials.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
                     checked={coach.credentials.includes(option)}
                     onChange={e => handleArrayChange('credentials', option, e.target.checked)}
-                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400"
+                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
-                  <span className="transition-all duration-200">{option}</span>
+                  <span className="transition-all duration-200 text-sm break-words">{option}</span>
                 </label>
                 ))}
               </div>
