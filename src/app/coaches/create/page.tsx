@@ -485,17 +485,11 @@ export default function CreateCoachProfile() {
               <label className="block text-sm font-medium text-gray-700 mb-2">Client Types</label>
               <div className="flex flex-wrap gap-2">
                 {[
-                  'beginner',
-                  'intermediate',
-                  'advanced',
-                  'enhanced',
                   'non-enhanced',
                   'masters',
                   'female specific',
                   'Contest Prep',
                   'Lifestyle',
-                  'Natural Athletes Only',
-                  'Enhanced Athletes',
                   'First time competitor'
                 ].map((type) => (
                   <label key={type} className="inline-flex items-center">

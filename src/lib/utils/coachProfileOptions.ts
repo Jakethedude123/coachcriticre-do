@@ -20,9 +20,9 @@ export const DIVISIONS = [
 ];
 
 export const CLIENT_TYPES = [
-  'beginner', 'intermediate', 'advanced', 'enhanced', 'non-enhanced', 'masters',
-  'female specific', 'Contest Prep', 'Lifestyle', 'Natural Athletes Only',
-  'Enhanced Athletes', 'First time competitor'
+  'non-enhanced', 'masters',
+  'female specific', 'Contest Prep', 'Lifestyle',
+  'First time competitor'
 ];
 
 export const FEDERATIONS = [
