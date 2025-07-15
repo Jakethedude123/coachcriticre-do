@@ -137,8 +137,8 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             </div>
           </div>
         )}
-        {/* Hide the neighbor if Specialties is open */}
-        {editBox === 'specialties' ? null : (
+        {/* Hide the neighbor if Specialties, Client Types, or Federations is open */}
+        {editBox === 'specialties' || editBox === 'clientTypes' || editBox === 'federations' ? null : (
           // Credentials Box with edit icon and all options as checkboxes
           <div className="bg-white rounded-lg shadow p-6 relative">
             <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
@@ -179,8 +179,8 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             </div>
           </div>
         )}
-        {/* Hide the neighbor if Specialties is open */}
-        {editBox === 'specialties' ? null : (
+        {/* Hide the neighbor if Specialties, Client Types, or Federations is open */}
+        {editBox === 'specialties' || editBox === 'clientTypes' || editBox === 'federations' ? null : (
           // Divisions Box with edit icon and all options as checkboxes
           <div className="bg-white rounded-lg shadow p-6 relative">
             <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
@@ -221,9 +221,47 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             </div>
           </div>
         )}
-        {/* Hide the neighbor if Specialties is open */}
-        {editBox === 'specialties' ? null : (
-          // Client Types Box with edit icon and all options as checkboxes
+        {/* Client Types Box with edit icon and all options as checkboxes */}
+        {editBox === 'clientTypes' ? (
+          <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>Client Types</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'clientTypes' ? null : 'clientTypes')}
+                aria-label="Edit Client Types"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <div className="flex flex-wrap gap-2 min-h-6">
+              {coach.clientTypes.length > 0 && coach.clientTypes.map((type) => (
+                <span key={type} className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">
+                  {type}
+                </span>
+              ))}
+            </div>
+            <div
+              className={`transition-all duration-300 ${editBox === 'clientTypes' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
+            >
+              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                {CLIENT_TYPES.map((option) => (
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.clientTypes.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  style={{ userSelect: 'none' }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={coach.clientTypes.includes(option)}
+                    onChange={e => handleArrayChange('clientTypes', option, e.target.checked)}
+                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400"
+                  />
+                  <span className="transition-all duration-200">{option}</span>
+                </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
           <div className="bg-white rounded-lg shadow p-6 relative">
             <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
               <span>Client Types</span>
@@ -263,9 +301,47 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             </div>
           </div>
         )}
-        {/* Hide the neighbor if Specialties is open */}
-        {editBox === 'specialties' ? null : (
-          // Federations Box with edit icon and all options as checkboxes
+                {/* Federations Box with edit icon and all options as checkboxes */}
+        {editBox === 'federations' ? (
+          <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>Federations</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'federations' ? null : 'federations')}
+                aria-label="Edit Federations"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <div className="flex flex-wrap gap-2 min-h-6">
+              {coach.federations.length > 0 && coach.federations.map((federation) => (
+                <span key={federation} className="bg-pink-100 text-pink-800 px-2 py-1 rounded text-sm">
+                  {federation}
+                </span>
+              ))}
+            </div>
+            <div
+              className={`transition-all duration-300 ${editBox === 'federations' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
+            >
+              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                {FEDERATIONS.map((option) => (
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.federations.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  style={{ userSelect: 'none' }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={coach.federations.includes(option)}
+                    onChange={e => handleArrayChange('federations', option, e.target.checked)}
+                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400"
+                  />
+                  <span className="transition-all duration-200">{option}</span>
+                </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
           <div className="bg-white rounded-lg shadow p-6 relative">
             <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
               <span>Federations</span>
