@@ -23,6 +23,26 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
   const [editBox, setEditBox] = useState<string | null>(null);
   const [coach, setCoach] = useState<CoachData>(initialCoach);
 
+  // Helper function to fix old option names
+  const fixOldOptionNames = (items: string[]): string[] => {
+    return items.map(item => {
+      if (item.toLowerCase().includes('experienced in female ped use') || 
+          item.toLowerCase().includes('experience in female ped use') ||
+          item.toLowerCase().includes('female ped use')) {
+        return 'Female PED Use';
+      }
+      return item;
+    }).filter((item, index, array) => array.indexOf(item) === index); // Remove duplicates
+  };
+
+  // Helper to fix division display
+  const fixDivisionName = (division: string) => {
+    if (division.trim().toLowerCase() === 'womens bodybuilding') {
+      return "Women's Bodybuilding";
+    }
+    return division;
+  };
+
   // Helper to update coach profile and local state
   const handleArrayChange = async (
     field: keyof Pick<CoachData, 'specialties' | 'credentials' | 'divisions' | 'clientTypes' | 'federations'>,
@@ -45,6 +65,26 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
     }
   };
 
+  // Bio change handlers
+  const handleBioChange = (newBio: string) => {
+    setCoach((c) => ({ ...c, bio: newBio }));
+  };
+
+  const handleBioSave = async () => {
+    try {
+      await updateCoachProfile(coach.id, { bio: coach.bio });
+      setEditBox(null);
+      
+      // Refetch the latest coach data to ensure all components stay in sync
+      const updatedCoachData = await getCoachProfile(coach.id);
+      if (updatedCoachData) {
+        setCoach(updatedCoachData);
+      }
+    } catch (error) {
+      console.error('Error updating bio:', error);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-4">
@@ -53,10 +93,57 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
       <CoachCard coach={coach} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
         {/* About Box */}
-        <div className={`bg-white rounded-lg shadow p-6 relative${editBox === 'about' ? ' col-span-2' : ''}`}>
-          <h2 className="text-lg font-semibold mb-2">About</h2>
-          <p className="text-gray-700 whitespace-pre-line">{coach.bio}</p>
-        </div>
+        {editBox === 'about' ? (
+          <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>About</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'about' ? null : 'about')}
+                aria-label="Edit About"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <div className="space-y-4">
+              <textarea
+                value={coach.bio}
+                onChange={(e) => handleBioChange(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                rows={6}
+                placeholder="Tell us about your coaching experience, philosophy, and what makes you unique..."
+              />
+              <div className="flex justify-end space-x-2">
+                <button
+                  onClick={() => setEditBox(null)}
+                  className="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleBioSave()}
+                  className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-white rounded-lg shadow p-6 relative">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>About</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'about' ? null : 'about')}
+                aria-label="Edit About"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <p className="text-gray-700 whitespace-pre-line">{coach.bio}</p>
+          </div>
+        )}
         {/* Specialties Box with edit icon and all options as checkboxes */}
         {editBox === 'specialties' ? (
           <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
@@ -71,7 +158,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
               </button>
             </h2>
             <div className="flex flex-wrap gap-2 min-h-6">
-              {coach.specialties.length > 0 && coach.specialties.map((specialty) => (
+              {coach.specialties.length > 0 && fixOldOptionNames(coach.specialties).map((specialty) => (
                 <span key={specialty} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
                   {specialty}
                 </span>
@@ -110,7 +197,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
               </button>
             </h2>
             <div className="flex flex-wrap gap-2 min-h-6">
-              {coach.specialties.length > 0 && coach.specialties.map((specialty) => (
+              {coach.specialties.length > 0 && fixOldOptionNames(coach.specialties).map((specialty) => (
                 <span key={specialty} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
                   {specialty}
                 </span>
@@ -233,7 +320,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             <div className="flex flex-wrap gap-2 min-h-6">
               {coach.divisions.length > 0 && coach.divisions.map((division) => (
                 <span key={division} className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">
-                  {division}
+                  {fixDivisionName(division)}
                 </span>
               ))}
             </div>
@@ -272,7 +359,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             <div className="flex flex-wrap gap-2 min-h-6">
               {coach.divisions.length > 0 && coach.divisions.map((division) => (
                 <span key={division} className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm">
-                  {division}
+                  {fixDivisionName(division)}
                 </span>
               ))}
             </div>

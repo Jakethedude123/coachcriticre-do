@@ -34,15 +34,33 @@ export default function CoachCard({ coach, small = false }: CoachCardProps) {
     return null;
   }
 
-  // Normalize and filter out empty tags
+  // Normalize and filter out empty tags, and fix old option names
   const normalizeTags = (tags: string[] | undefined): string[] => {
     if (!tags || !Array.isArray(tags)) return [];
-    return tags.filter(tag => tag && tag.trim().length > 0);
+    return tags
+      .filter(tag => tag && tag.trim().length > 0)
+      .map(tag => {
+        // Fix old option names
+        if (tag.toLowerCase().includes('experienced in female ped use') || 
+            tag.toLowerCase().includes('experience in female ped use') ||
+            tag.toLowerCase().includes('female ped use')) {
+          return 'Female PED Use';
+        }
+        return tag;
+      })
+      .filter((tag, index, array) => array.indexOf(tag) === index); // Remove duplicates
   };
 
   const specialties = normalizeTags(coach.specialties);
   const credentials = normalizeTags(coach.credentials || coach.certifications);
-  const divisions = normalizeTags(coach.divisions);
+  const fixDivisionName = (division: string) => {
+    if (division.trim().toLowerCase() === 'womens bodybuilding') {
+      return "Women's Bodybuilding";
+    }
+    return division;
+  };
+
+  const divisions = normalizeTags(coach.divisions).map(fixDivisionName);
   const clientTypes = normalizeTags(coach.clientTypes);
   const federations = normalizeTags(coach.federations);
 
