@@ -141,7 +141,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                         onChange={() => handleArrayFilterChange('federations', federation)}
                         className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                       />
-                      <span className="ml-1 select-none text-gray-800 dark:text-white group-hover:text-blue-700 transition">{federation}</span>
+                      <span className="ml-1 select-none text-gray-800 dark:text-white transition">{federation}</span>
                     </label>
                   ))}
                 </div>
@@ -165,7 +165,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                         onChange={() => handleArrayFilterChange('divisions', division)}
                         className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                       />
-                      <span className="ml-1 select-none text-gray-800 dark:text-white group-hover:text-blue-700 transition">{division}</span>
+                      <span className="ml-1 select-none text-gray-800 dark:text-white transition">{division}</span>
                     </label>
                   ))}
                   <div className="w-full my-2 border-t border-gray-200"></div>
@@ -177,7 +177,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                         onChange={() => handleArrayFilterChange('divisions', division)}
                         className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                       />
-                      <span className="ml-1 select-none text-gray-800 dark:text-white group-hover:text-blue-700 transition">{division}</span>
+                      <span className="ml-1 select-none text-gray-800 dark:text-white transition">{division}</span>
                     </label>
                   ))}
                 </div>
@@ -310,7 +310,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                     onChange={() => handleArrayFilterChange('timeZones', tz)}
                     className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                   />
-                  <span className="ml-1 select-none text-gray-800 dark:text-white group-hover:text-blue-700 transition">{tz}</span>
+                  <span className="ml-1 select-none text-gray-800 dark:text-white transition">{tz}</span>
                 </label>
               ))}
             </div>
@@ -498,7 +498,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
                         onChange={() => handleArrayFilterChange('certifications', cert)}
                         className="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all duration-200 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm"
                       />
-                      <span className="ml-1 select-none text-gray-800 dark:text-white group-hover:text-blue-700 transition">{cert}</span>
+                      <span className="ml-1 select-none text-gray-800 dark:text-white transition">{cert}</span>
                     </label>
                   ))}
                 </div>
