@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaStar, FaInfoCircle } from 'react-icons/fa';
+import { FaStar, FaInfoCircle, FaEdit, FaCamera } from 'react-icons/fa';
 import { Tooltip } from '@/components/ui/Tooltip';
 
 interface CoachCardProps {
@@ -27,9 +27,11 @@ interface CoachCardProps {
     federations?: string[];
   };
   small?: boolean;
+  isOwner?: boolean;
+  onImageEdit?: () => void;
 }
 
-export default function CoachCard({ coach, small = false }: CoachCardProps) {
+export default function CoachCard({ coach, small = false, isOwner = false, onImageEdit }: CoachCardProps) {
   if (!coach) {
     return null;
   }
@@ -77,8 +79,26 @@ export default function CoachCard({ coach, small = false }: CoachCardProps) {
 
   return (
     <div className={`flex w-full ${small ? 'max-w-md' : 'max-w-xl'} rounded-2xl overflow-hidden shadow-lg`} style={{ minHeight: small ? 120 : 180 }}>
-      {/* Left: Two-tone dark */}
-      <div className={`w-2/5 ${small ? 'bg-[#3a4250]' : 'bg-[#374151]'}`} />
+      {/* Left: Image section */}
+      <div className={`w-2/5 ${small ? 'bg-[#3a4250]' : 'bg-[#374151]'} relative`}>
+        {coach.profileImageUrl ? (
+          <Image
+            src={coach.profileImageUrl}
+            alt={coach.name}
+            fill
+            className="object-cover"
+          />
+        ) : null}
+        {isOwner && onImageEdit && (
+          <button
+            onClick={onImageEdit}
+            className="absolute top-2 left-2 p-2 bg-black bg-opacity-50 hover:bg-opacity-70 rounded-full text-white transition-all duration-200 hover:scale-110"
+            title="Edit profile image"
+          >
+            <FaCamera size={small ? 12 : 16} />
+          </button>
+        )}
+      </div>
       {/* Right: Main info */}
       <div className={`w-3/5 ${small ? 'bg-[#2a3140] p-4' : 'bg-[#232b36] p-6'} flex flex-col justify-center`}>
         <h3 className={`font-bold text-white mb-1 ${small ? 'text-lg' : 'text-2xl'}`}>{coach.name}</h3>

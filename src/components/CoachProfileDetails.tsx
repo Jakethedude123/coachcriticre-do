@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import CoachCard from './CoachCard';
+import ImageUploadModal from './ImageUploadModal';
 import Link from 'next/link';
 import { FaEdit } from 'react-icons/fa';
 import type { CoachData } from '@/lib/firebase/coachUtils';
@@ -12,6 +13,8 @@ import {
   FEDERATIONS,
 } from '@/lib/utils/coachProfileOptions';
 import { updateCoachProfile, getCoachProfile } from '@/lib/firebase/coachUtils';
+import { storage } from '@/lib/firebase/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 interface CoachProfileDetailsProps {
   coach: CoachData;
@@ -22,6 +25,8 @@ interface CoachProfileDetailsProps {
 const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initialCoach, isOwner, onEdit }) => {
   const [editBox, setEditBox] = useState<string | null>(null);
   const [coach, setCoach] = useState<CoachData>(initialCoach);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   // Helper function to fix old option names and normalize data
   const fixOldOptionNames = (items: string[]): string[] => {
@@ -77,7 +82,28 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
     checked: boolean
   ) => {
     const prev = coach[field] as string[];
-    const updated = checked ? [...prev, value] : prev.filter((v) => v !== value);
+    let updated: string[];
+    
+    if (checked) {
+      // When checking, add the value
+      updated = [...prev, value];
+    } else {
+      // When unchecking, remove both the exact value and any old variations
+      updated = prev.filter((v) => {
+        if (field === 'specialties' && value === 'Female PED Use') {
+          return v !== 'Female PED Use' && 
+                 !v.toLowerCase().includes('experienced in female ped use') &&
+                 !v.toLowerCase().includes('experience in female ped use') &&
+                 !v.toLowerCase().includes('female ped use');
+        } else if (field === 'divisions' && value === "Women's Bodybuilding") {
+          return v !== "Women's Bodybuilding" && 
+                 v.trim().toLowerCase() !== 'womens bodybuilding';
+        } else {
+          return v !== value;
+        }
+      });
+    }
+    
     setCoach((c) => ({ ...c, [field]: updated }));
     await updateCoachProfile(coach.id, { [field]: updated });
     
@@ -112,13 +138,49 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
     }
   };
 
+  const handleImageSave = async (croppedImageBlob: Blob) => {
+    try {
+      setIsUploading(true);
+      
+      // Create a unique filename
+      const filename = `coach-profiles/${coach.id}/profile-image-${Date.now()}.jpg`;
+      const storageRef = ref(storage, filename);
+      
+      // Upload the cropped image
+      await uploadBytes(storageRef, croppedImageBlob);
+      
+      // Get the download URL
+      const downloadURL = await getDownloadURL(storageRef);
+      
+      // Update the coach profile with the new image URL
+      await updateCoachProfile(coach.id, { profileImageUrl: downloadURL });
+      
+      // Update local state
+      setCoach(prev => ({ ...prev, profileImageUrl: downloadURL }));
+      
+      // Refetch the latest coach data to ensure all components stay in sync
+      const updatedCoachData = await getCoachProfile(coach.id);
+      if (updatedCoachData) {
+        setCoach(updatedCoachData);
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Coach Profile</h1>
       </div>
       <div className="flex justify-center mb-8">
-        <CoachCard coach={coach} />
+        <CoachCard 
+          coach={coach} 
+          isOwner={isOwner}
+          onImageEdit={() => setIsImageModalOpen(true)}
+        />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* About Box */}
@@ -574,6 +636,14 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
           </div>
         )}
       </div>
+      
+      {/* Image Upload Modal */}
+      <ImageUploadModal
+        isOpen={isImageModalOpen}
+        onClose={() => setIsImageModalOpen(false)}
+        onSave={handleImageSave}
+        currentImageUrl={coach.profileImageUrl}
+      />
     </div>
   );
 };
