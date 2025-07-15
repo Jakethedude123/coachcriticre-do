@@ -87,11 +87,13 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">Coach Profile</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Coach Profile</h1>
       </div>
-      <CoachCard coach={coach} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+      <div className="flex justify-center mb-8">
+        <CoachCard coach={coach} />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* About Box */}
         {editBox === 'about' ? (
           <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
@@ -158,7 +160,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
               </button>
             </h2>
             <div className="flex flex-wrap gap-2 min-h-6">
-              {coach.specialties.length > 0 && fixOldOptionNames(coach.specialties).map((specialty) => (
+              {fixOldOptionNames(coach.specialties).length > 0 && fixOldOptionNames(coach.specialties).map((specialty) => (
                 <span key={specialty} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
                   {specialty}
                 </span>
@@ -197,7 +199,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
               </button>
             </h2>
             <div className="flex flex-wrap gap-2 min-h-6">
-              {coach.specialties.length > 0 && fixOldOptionNames(coach.specialties).map((specialty) => (
+              {fixOldOptionNames(coach.specialties).length > 0 && fixOldOptionNames(coach.specialties).map((specialty) => (
                 <span key={specialty} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
                   {specialty}
                 </span>

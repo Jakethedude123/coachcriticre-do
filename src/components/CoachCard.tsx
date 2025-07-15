@@ -84,11 +84,11 @@ export default function CoachCard({ coach, small = false }: CoachCardProps) {
         <h3 className={`font-bold text-white mb-1 ${small ? 'text-lg' : 'text-2xl'}`}>{coach.name}</h3>
         <p className={`text-white mb-3 ${small ? 'text-xs' : 'text-sm'}`}>{coach.bio}</p>
         <div className="flex flex-wrap gap-1 items-center">
-          {renderTags(specialties, 'bg-blue-100 text-blue-800', 'Specialty')}
-          {renderTags(credentials, 'bg-green-100 text-green-800', 'Credential')}
-          {renderTags(divisions, 'bg-purple-100 text-purple-800', 'Division')}
-          {renderTags(clientTypes, 'bg-yellow-100 text-yellow-800', 'Client Type')}
-          {renderTags(federations, 'bg-pink-100 text-pink-800', 'Federation')}
+          {specialties.length > 0 && renderTags(specialties, 'bg-blue-100 text-blue-800', 'Specialty')}
+          {credentials.length > 0 && renderTags(credentials, 'bg-green-100 text-green-800', 'Credential')}
+          {divisions.length > 0 && renderTags(divisions, 'bg-purple-100 text-purple-800', 'Division')}
+          {clientTypes.length > 0 && renderTags(clientTypes, 'bg-yellow-100 text-yellow-800', 'Client Type')}
+          {federations.length > 0 && renderTags(federations, 'bg-pink-100 text-pink-800', 'Federation')}
         </div>
       </div>
     </div>
