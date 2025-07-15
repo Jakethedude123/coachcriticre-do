@@ -17,7 +17,7 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
   const [imageSrc, setImageSrc] = useState<string>('');
   const [crop, setCrop] = useState<Crop>({
     unit: '%' as const,
-    width: 100,
+    width: 40,
     height: 100,
     x: 0,
     y: 0,
@@ -43,7 +43,7 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
     const { width, height } = e.currentTarget;
     const crop: Crop = {
       unit: '%',
-      width: 100,
+      width: 40, // 2/5 of the width
       height: 100,
       x: 0,
       y: 0,
@@ -106,7 +106,7 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
     setImageSrc('');
     setCrop({
       unit: '%' as const,
-      width: 100,
+      width: 40,
       height: 100,
       x: 0,
       y: 0,
@@ -155,9 +155,9 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
           ) : (
             <div className="space-y-4">
               <div className="text-center">
-                <h3 className="text-lg font-medium mb-2">Crop your image</h3>
+                <h3 className="text-lg font-medium mb-2">Crop your profile image</h3>
                 <p className="text-gray-600 text-sm mb-4">
-                  Drag and resize the crop area to select the perfect portion of your image
+                  Drag and resize the crop area to match your profile card dimensions
                 </p>
               </div>
               
@@ -167,8 +167,7 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
                     crop={crop}
                     onChange={(c) => setCrop(c)}
                     onComplete={(c) => setCompletedCrop(c)}
-                    aspect={1}
-                    circularCrop
+                    aspect={2/5}
                   >
                     <img
                       ref={imgRef}
