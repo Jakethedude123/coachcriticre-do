@@ -23,7 +23,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
   const [editBox, setEditBox] = useState<string | null>(null);
   const [coach, setCoach] = useState<CoachData>(initialCoach);
 
-  // Helper function to fix old option names
+  // Helper function to fix old option names and normalize data
   const fixOldOptionNames = (items: string[]): string[] => {
     return items.map(item => {
       if (item.toLowerCase().includes('experienced in female ped use') || 
@@ -33,6 +33,33 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
       }
       return item;
     }).filter((item, index, array) => array.indexOf(item) === index); // Remove duplicates
+  };
+
+  // Helper function to check if an option is actually selected (handles old text variations)
+  const isOptionSelected = (field: 'specialties' | 'divisions', option: string): boolean => {
+    const items = coach[field] as string[];
+    if (field === 'specialties') {
+      // For specialties, check both the exact option and old variations
+      return items.some(item => {
+        if (option === 'Female PED Use') {
+          return item === 'Female PED Use' || 
+                 item.toLowerCase().includes('experienced in female ped use') ||
+                 item.toLowerCase().includes('experience in female ped use') ||
+                 item.toLowerCase().includes('female ped use');
+        }
+        return item === option;
+      });
+    } else if (field === 'divisions') {
+      // For divisions, check both the exact option and old variations
+      return items.some(item => {
+        if (option === "Women's Bodybuilding") {
+          return item === "Women's Bodybuilding" || 
+                 item.trim().toLowerCase() === 'womens bodybuilding';
+        }
+        return item === option;
+      });
+    }
+    return items.includes(option);
   };
 
   // Helper to fix division display
@@ -171,12 +198,12 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             >
               <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {SPECIALTIES.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.specialties.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${isOptionSelected('specialties', option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
-                    checked={coach.specialties.includes(option)}
+                    checked={isOptionSelected('specialties', option)}
                     onChange={e => handleArrayChange('specialties', option, e.target.checked)}
                     className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
@@ -210,12 +237,12 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             >
               <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {SPECIALTIES.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.specialties.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${isOptionSelected('specialties', option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
-                    checked={coach.specialties.includes(option)}
+                    checked={isOptionSelected('specialties', option)}
                     onChange={e => handleArrayChange('specialties', option, e.target.checked)}
                     className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
@@ -331,12 +358,12 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             >
               <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {DIVISIONS.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.divisions.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${isOptionSelected('divisions', option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
-                    checked={coach.divisions.includes(option)}
+                    checked={isOptionSelected('divisions', option)}
                     onChange={e => handleArrayChange('divisions', option, e.target.checked)}
                     className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
@@ -370,12 +397,12 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             >
               <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {DIVISIONS.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.divisions.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${isOptionSelected('divisions', option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
-                    checked={coach.divisions.includes(option)}
+                    checked={isOptionSelected('divisions', option)}
                     onChange={e => handleArrayChange('divisions', option, e.target.checked)}
                     className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
