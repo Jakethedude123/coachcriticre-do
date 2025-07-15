@@ -17,7 +17,7 @@ const DIVISIONS = [
   'mens physique', 'classic physique', 'mens bodybuilding', 'womens physique', 'bikini', 'wellness', 'figure', 'womens bodybuilding'
 ];
 const CLIENT_TYPES = [
-  'non-enhanced', 'masters', 'female specific', 'Contest Prep', 'Lifestyle'
+  'enhanced', 'non-enhanced', 'female specific', 'Contest Prep', 'Lifestyle'
 ];
 const FEDERATIONS = [
   'OCB', 'NPC', 'IFBB'

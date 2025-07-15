@@ -20,7 +20,7 @@ export const DIVISIONS = [
 ];
 
 export const CLIENT_TYPES = [
-  'non-enhanced', 'masters',
+  'non-enhanced', 'enhanced',
   'female specific', 'Contest Prep', 'Lifestyle',
   'First time competitor'
 ];

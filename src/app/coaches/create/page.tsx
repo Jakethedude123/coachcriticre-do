@@ -486,7 +486,7 @@ export default function CreateCoachProfile() {
               <div className="flex flex-wrap gap-2">
                 {[
                   'non-enhanced',
-                  'masters',
+                  'enhanced',
                   'female specific',
                   'Contest Prep',
                   'Lifestyle',
