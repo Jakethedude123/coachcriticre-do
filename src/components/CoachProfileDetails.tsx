@@ -82,7 +82,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             >
               <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {SPECIALTIES.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-4 py-3 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.specialties.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.specialties.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
@@ -121,16 +121,16 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             >
               <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {SPECIALTIES.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.specialties.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.specialties.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
                     checked={coach.specialties.includes(option)}
                     onChange={e => handleArrayChange('specialties', option, e.target.checked)}
-                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400"
+                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
-                  <span className="transition-all duration-200">{option}</span>
+                  <span className="transition-all duration-200 text-sm">{option}</span>
                 </label>
                 ))}
               </div>
@@ -242,16 +242,16 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             >
               <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {DIVISIONS.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.divisions.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.divisions.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
                     checked={coach.divisions.includes(option)}
                     onChange={e => handleArrayChange('divisions', option, e.target.checked)}
-                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400"
+                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
-                  <span className="transition-all duration-200">{option}</span>
+                  <span className="transition-all duration-200 text-sm">{option}</span>
                 </label>
                 ))}
               </div>
@@ -281,16 +281,16 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             >
               <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {DIVISIONS.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.divisions.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.divisions.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
                     checked={coach.divisions.includes(option)}
                     onChange={e => handleArrayChange('divisions', option, e.target.checked)}
-                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400"
+                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
-                  <span className="transition-all duration-200">{option}</span>
+                  <span className="transition-all duration-200 text-sm">{option}</span>
                 </label>
                 ))}
               </div>
@@ -322,16 +322,16 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             >
               <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {CLIENT_TYPES.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.clientTypes.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.clientTypes.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
                     checked={coach.clientTypes.includes(option)}
                     onChange={e => handleArrayChange('clientTypes', option, e.target.checked)}
-                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400"
+                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
-                  <span className="transition-all duration-200">{option}</span>
+                  <span className="transition-all duration-200 text-sm">{option}</span>
                 </label>
                 ))}
               </div>
@@ -361,16 +361,16 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             >
               <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {CLIENT_TYPES.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.clientTypes.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.clientTypes.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
                     checked={coach.clientTypes.includes(option)}
                     onChange={e => handleArrayChange('clientTypes', option, e.target.checked)}
-                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400"
+                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
-                  <span className="transition-all duration-200">{option}</span>
+                  <span className="transition-all duration-200 text-sm">{option}</span>
                 </label>
                 ))}
               </div>
@@ -402,16 +402,16 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             >
               <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {FEDERATIONS.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.federations.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.federations.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
                     checked={coach.federations.includes(option)}
                     onChange={e => handleArrayChange('federations', option, e.target.checked)}
-                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400"
+                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
-                  <span className="transition-all duration-200">{option}</span>
+                  <span className="transition-all duration-200 text-sm">{option}</span>
                 </label>
                 ))}
               </div>
@@ -441,16 +441,16 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             >
               <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {FEDERATIONS.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.federations.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.federations.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
                     type="checkbox"
                     checked={coach.federations.includes(option)}
                     onChange={e => handleArrayChange('federations', option, e.target.checked)}
-                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400"
+                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
                   />
-                  <span className="transition-all duration-200">{option}</span>
+                  <span className="transition-all duration-200 text-sm">{option}</span>
                 </label>
                 ))}
               </div>

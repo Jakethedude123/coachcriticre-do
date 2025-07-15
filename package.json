@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check-data": "node scripts/check-coach-data.js",
+    "fix-data": "node scripts/check-coach-data.js --fix"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
@@ -50,6 +52,7 @@
     "eslint-config-next": "14.1.0",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
