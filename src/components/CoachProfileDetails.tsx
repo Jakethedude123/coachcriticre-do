@@ -137,9 +137,47 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             </div>
           </div>
         )}
-        {/* Hide the neighbor if Specialties, Client Types, or Federations is open */}
-        {editBox === 'specialties' || editBox === 'clientTypes' || editBox === 'federations' ? null : (
-          // Credentials Box with edit icon and all options as checkboxes
+        {/* Credentials Box with edit icon and all options as checkboxes */}
+        {editBox === 'credentials' ? (
+          <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>Credentials</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'credentials' ? null : 'credentials')}
+                aria-label="Edit Credentials"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <div className="flex flex-wrap gap-2 min-h-6">
+              {coach.credentials.length > 0 && coach.credentials.map((credential) => (
+                <span key={credential} className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">
+                  {credential}
+                </span>
+              ))}
+            </div>
+            <div
+              className={`transition-all duration-300 ${editBox === 'credentials' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
+            >
+              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                {CREDENTIALS.map((option) => (
+                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${coach.credentials.includes(option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  style={{ userSelect: 'none' }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={coach.credentials.includes(option)}
+                    onChange={e => handleArrayChange('credentials', option, e.target.checked)}
+                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
+                  />
+                  <span className="transition-all duration-200 text-sm">{option}</span>
+                </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
           <div className="bg-white rounded-lg shadow p-6 relative">
             <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
               <span>Credentials</span>
@@ -259,7 +297,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             </div>
           </div>
         )}
-        {/* Client Types Box with edit icon and all options as checkboxes */}
+                {/* Client Types Box with edit icon and all options as checkboxes */}
         {editBox === 'clientTypes' ? (
           <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
             <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
