@@ -16,7 +16,7 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState<string>('');
   const [crop, setCrop] = useState<Crop>({
-    unit: '%',
+    unit: '%' as const,
     width: 100,
     height: 100,
     x: 0,
@@ -41,7 +41,7 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
 
   const onImageLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
     const { width, height } = e.currentTarget;
-    const crop = {
+    const crop: Crop = {
       unit: '%',
       width: 100,
       height: 100,
@@ -105,7 +105,7 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
     setSelectedFile(null);
     setImageSrc('');
     setCrop({
-      unit: '%',
+      unit: '%' as const,
       width: 100,
       height: 100,
       x: 0,
