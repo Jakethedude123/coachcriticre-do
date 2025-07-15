@@ -13,8 +13,7 @@ import {
   FEDERATIONS,
 } from '@/lib/utils/coachProfileOptions';
 import { updateCoachProfile, getCoachProfile } from '@/lib/firebase/coachUtils';
-import { storage } from '@/lib/firebase/firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { StorageService } from '@/lib/firebase/storageUtils';
 
 interface CoachProfileDetailsProps {
   coach: CoachData;
@@ -142,15 +141,8 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
     try {
       setIsUploading(true);
       
-      // Create a unique filename
-      const filename = `coach-profiles/${coach.id}/profile-image-${Date.now()}.jpg`;
-      const storageRef = ref(storage, filename);
-      
-      // Upload the cropped image
-      await uploadBytes(storageRef, croppedImageBlob);
-      
-      // Get the download URL
-      const downloadURL = await getDownloadURL(storageRef);
+      // Upload the cropped image using the StorageService
+      const downloadURL = await StorageService.uploadProfileImage(coach.id, croppedImageBlob);
       
       // Update the coach profile with the new image URL
       await updateCoachProfile(coach.id, { profileImageUrl: downloadURL });
@@ -165,6 +157,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
       }
     } catch (error) {
       console.error('Error uploading image:', error);
+      // You might want to show a user-friendly error message here
     } finally {
       setIsUploading(false);
     }

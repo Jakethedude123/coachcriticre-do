@@ -24,6 +24,8 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
   });
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   const [isCropping, setIsCropping] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string>('');
   const imgRef = useRef<HTMLImageElement>(null);
 
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,11 +95,16 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
 
   const handleSave = async () => {
     try {
+      setIsSaving(true);
+      setError('');
       const croppedBlob = await getCroppedImg();
-      onSave(croppedBlob);
+      await onSave(croppedBlob);
       onClose();
     } catch (error) {
       console.error('Error cropping image:', error);
+      setError('Failed to save image. Please try again.');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -113,6 +120,8 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
     });
     setCompletedCrop(undefined);
     setIsCropping(false);
+    setIsSaving(false);
+    setError('');
     onClose();
   };
 
@@ -180,19 +189,35 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
                 </div>
               </div>
 
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                  {error}
+                </div>
+              )}
               <div className="flex justify-end space-x-2 pt-4">
                 <button
                   onClick={handleClose}
-                  className="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  disabled={isSaving}
+                  className="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSave}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                  disabled={isSaving}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-50"
                 >
-                  <FaCheck size={14} />
-                  Save Image
+                  {isSaving ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <FaCheck size={14} />
+                      Save Image
+                    </>
+                  )}
                 </button>
               </div>
             </div>
