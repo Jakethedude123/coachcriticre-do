@@ -14,26 +14,43 @@ export class StorageService {
         throw new Error('User must be authenticated to upload images');
       }
 
+      // Verify the user is uploading to their own folder
+      if (user.uid !== userId) {
+        throw new Error('You can only upload images to your own profile');
+      }
+
       // Create a unique filename
       const filename = `profile-image-${Date.now()}.jpg`;
       const storageRef = ref(storage, `coach-profiles/${userId}/${filename}`);
       
-      // Upload the image
+      // Upload the image with proper metadata
       const snapshot = await uploadBytes(storageRef, imageBlob, {
         contentType: 'image/jpeg',
         customMetadata: {
           uploadedBy: userId,
           uploadedAt: new Date().toISOString(),
+          originalSize: imageBlob.size.toString(),
         }
       });
       
       // Get the download URL
       const downloadURL = await getDownloadURL(snapshot.ref);
       
+      console.log('Image uploaded successfully:', downloadURL);
       return downloadURL;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error uploading profile image:', error);
-      throw error;
+      
+      // Provide more specific error messages
+      if (error.code === 'storage/unauthorized') {
+        throw new Error('You do not have permission to upload images. Please check your authentication.');
+      } else if (error.code === 'storage/quota-exceeded') {
+        throw new Error('Storage quota exceeded. Please try a smaller image.');
+      } else if (error.code === 'storage/unauthenticated') {
+        throw new Error('Please log in to upload images.');
+      } else {
+        throw new Error(`Upload failed: ${error.message || 'Unknown error'}`);
+      }
     }
   }
 

@@ -4,6 +4,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import { FaTimes, FaUpload, FaCrop, FaCheck } from 'react-icons/fa';
 import ReactCrop, { Crop, PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import { useAuth } from '@/lib/hooks/useAuth';
 
 interface ImageUploadModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ interface ImageUploadModalProps {
 }
 
 export default function ImageUploadModal({ isOpen, onClose, onSave, currentImageUrl }: ImageUploadModalProps) {
+  const { user } = useAuth();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState<string>('');
   const [crop, setCrop] = useState<Crop>({
@@ -31,7 +33,21 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
   const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
+      
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setError('File size must be less than 5MB');
+        return;
+      }
+      
+      // Check file type
+      if (!file.type.startsWith('image/')) {
+        setError('Please select an image file');
+        return;
+      }
+      
       setSelectedFile(file);
+      setError('');
       const reader = new FileReader();
       reader.addEventListener('load', () => {
         setImageSrc(reader.result?.toString() || '');
@@ -95,6 +111,12 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
 
   const handleSave = async () => {
     try {
+      // Check authentication
+      if (!user) {
+        setError('You must be logged in to upload images');
+        return;
+      }
+      
       setIsSaving(true);
       setError('');
       const croppedBlob = await getCroppedImg();
@@ -147,16 +169,26 @@ export default function ImageUploadModal({ isOpen, onClose, onSave, currentImage
                 <FaUpload size={48} className="mx-auto text-gray-400" />
               </div>
               <p className="text-gray-600 mb-4">Upload a profile image</p>
+              {!user && (
+                <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-3 rounded-lg mb-4">
+                  Please log in to upload images
+                </div>
+              )}
               <input
                 type="file"
                 accept="image/*"
                 onChange={onSelectFile}
                 className="hidden"
                 id="image-upload"
+                disabled={!user}
               />
               <label
                 htmlFor="image-upload"
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer inline-block"
+                className={`px-6 py-2 rounded-lg transition-colors cursor-pointer inline-block ${
+                  user 
+                    ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
               >
                 Choose Image
               </label>
