@@ -37,7 +37,9 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
     // Refetch the latest coach data to ensure all components stay in sync
     try {
       const updatedCoachData = await getCoachProfile(coach.id);
-      setCoach(updatedCoachData);
+      if (updatedCoachData) {
+        setCoach(updatedCoachData);
+      }
     } catch (error) {
       console.error('Error refetching coach data after update:', error);
     }
