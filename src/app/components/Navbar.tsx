@@ -109,6 +109,12 @@ export default function Navbar() {
               >
                 Upgrade
               </Link>
+              <Link
+                href="/about"
+                className="px-5 py-2 rounded-full font-semibold text-[#1565C0] dark:text-[#4FC3F7] border border-blue-100 dark:border-[#232b36] shadow-sm bg-white dark:bg-[#181d23] hover:bg-blue-50 dark:hover:bg-[#232b36] hover:border-blue-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-2"
+              >
+                About
+              </Link>
             </div>
           </div>
 

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/firebase/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { sendEmail } from '@/lib/services/emailService';
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,40 +25,17 @@ export async function POST(req: NextRequest) {
     // Store in Firestore
     const docRef = await addDoc(collection(db, 'bugReports'), reportData);
 
-    // Send email notification
-    try {
-      const emailSubject = `Bug Report - ${new Date().toLocaleDateString()}`;
-      const emailBody = `
-New Bug Report Submitted
-
-Description: ${bugReport.description}
-
-Steps to Reproduce: ${bugReport.steps}
-
-Expected Behavior: ${bugReport.expectedBehavior || 'Not specified'}
-
-Actual Behavior: ${bugReport.actualBehavior || 'Not specified'}
-
-System Information:
-- Browser: ${bugReport.browser}
-- URL: ${bugReport.url}
-- User Agent: ${bugReport.userAgent}
-- Timestamp: ${new Date().toISOString()}
-
-Report ID: ${docRef.id}
-      `;
-
-      await sendEmail({
-        to: 'coachcriticllc@gmail.com',
-        subject: emailSubject,
-        text: emailBody,
-      });
-
-      console.log('Bug report email sent to coachcriticllc@gmail.com');
-    } catch (emailError) {
-      console.error('Failed to send bug report email:', emailError);
-      // Don't fail the request if email fails
-    }
+    // Log bug report details for easy viewing
+    console.log('=== BUG REPORT SUBMITTED ===');
+    console.log('Report ID:', docRef.id);
+    console.log('Description:', bugReport.description);
+    console.log('Steps:', bugReport.steps);
+    console.log('Expected:', bugReport.expectedBehavior || 'Not specified');
+    console.log('Actual:', bugReport.actualBehavior || 'Not specified');
+    console.log('Browser:', bugReport.browser);
+    console.log('URL:', bugReport.url);
+    console.log('Timestamp:', new Date().toISOString());
+    console.log('=== END BUG REPORT ===');
 
     console.log('Bug report submitted:', {
       id: docRef.id,

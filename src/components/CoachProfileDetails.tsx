@@ -164,7 +164,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 py-8 overflow-x-hidden">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Coach Profile</h1>
       </div>
@@ -175,10 +175,10 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
           onImageEdit={() => setIsImageModalOpen(true)}
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-x-hidden">
         {/* About Box */}
         {editBox === 'about' ? (
-          <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
+          <div className="bg-white rounded-lg shadow p-6 relative col-span-1 md:col-span-2">
             <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
               <span>About</span>
               <button
@@ -230,7 +230,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
         )}
         {/* Specialties Box with edit icon and all options as checkboxes */}
         {editBox === 'specialties' ? (
-          <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
+          <div className="bg-white rounded-lg shadow p-6 relative col-span-1 md:col-span-2">
             <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
               <span>Specialties</span>
               <button
@@ -310,7 +310,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
         )}
         {/* Credentials Box with edit icon and all options as checkboxes */}
         {editBox === 'credentials' ? (
-          <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
+          <div className="bg-white rounded-lg shadow p-6 relative col-span-1 md:col-span-2">
             <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
               <span>Credentials</span>
               <button
@@ -390,7 +390,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
         )}
         {/* Divisions Box with edit icon and all options as checkboxes */}
         {editBox === 'divisions' ? (
-          <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
+          <div className="bg-white rounded-lg shadow p-6 relative col-span-1 md:col-span-2">
             <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
               <span>Divisions</span>
               <button
@@ -470,7 +470,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
         )}
                 {/* Client Types Box with edit icon and all options as checkboxes */}
         {editBox === 'clientTypes' ? (
-          <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
+          <div className="bg-white rounded-lg shadow p-6 relative col-span-1 md:col-span-2">
             <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
               <span>Client Types</span>
               <button
@@ -550,7 +550,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
         )}
                 {/* Federations Box with edit icon and all options as checkboxes */}
         {editBox === 'federations' ? (
-          <div className="bg-white rounded-lg shadow p-6 relative col-span-2">
+          <div className="bg-white rounded-lg shadow p-6 relative col-span-1 md:col-span-2">
             <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
               <span>Federations</span>
               <button
