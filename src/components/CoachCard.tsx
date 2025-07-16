@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { FaStar, FaInfoCircle, FaEdit, FaCamera } from 'react-icons/fa';
 import { Tooltip } from '@/components/ui/Tooltip';
 
@@ -32,6 +33,8 @@ interface CoachCardProps {
 }
 
 export default function CoachCard({ coach, small = false, isOwner = false, onImageEdit }: CoachCardProps) {
+  const [imageError, setImageError] = useState(false);
+  
   if (!coach) {
     return null;
   }
@@ -81,12 +84,17 @@ export default function CoachCard({ coach, small = false, isOwner = false, onIma
     <div className={`flex w-full ${small ? 'max-w-md' : 'max-w-xl'} rounded-2xl overflow-hidden shadow-lg`} style={{ minHeight: small ? 120 : 180 }}>
       {/* Left: Image section */}
       <div className={`w-2/5 ${small ? 'bg-[#3a4250]' : 'bg-[#374151]'} relative`}>
-        {coach.profileImageUrl ? (
+        {coach.profileImageUrl && !imageError ? (
           <Image
             src={coach.profileImageUrl}
             alt={coach.name}
             fill
             className="object-cover"
+            unoptimized={coach.profileImageUrl.includes('firebasestorage.googleapis.com')}
+            onError={() => {
+              console.error('Failed to load image:', coach.profileImageUrl);
+              setImageError(true);
+            }}
           />
         ) : null}
         {isOwner && onImageEdit && (
