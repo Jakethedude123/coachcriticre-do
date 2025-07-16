@@ -251,9 +251,9 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             <div
               className={`transition-all duration-300 ${editBox === 'specialties' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
             >
-              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+              <div className="coach-dropdown-dark">
                 {SPECIALTIES.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${isOptionSelected('specialties', option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`coach-dropdown-option-dark ${isOptionSelected('specialties', option) ? 'coach-dropdown-option-selected-dark' : 'coach-dropdown-option-text-dark'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
@@ -290,9 +290,9 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             <div
               className={`transition-all duration-300 ${editBox === 'specialties' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
             >
-              <div className="bg-blue-50 rounded-lg p-4 space-y-2 shadow-inner grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+              <div className="coach-dropdown-dark">
                 {SPECIALTIES.map((option) => (
-                  <label key={option} className={`flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all duration-200 font-semibold tracking-wide shadow-sm bg-white hover:bg-blue-50 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-400 ${isOptionSelected('specialties', option) ? 'bg-blue-100 text-blue-800 ring-2 ring-blue-400' : 'text-gray-800'}`}
+                  <label key={option} className={`coach-dropdown-option-dark ${isOptionSelected('specialties', option) ? 'coach-dropdown-option-selected-dark' : 'coach-dropdown-option-text-dark'}`}
                   style={{ userSelect: 'none' }}
                 >
                   <input
