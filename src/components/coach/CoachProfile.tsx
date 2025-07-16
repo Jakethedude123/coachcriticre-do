@@ -52,7 +52,7 @@ export default function CoachProfile({ coach, showActions = true }: CoachProfile
         {/* Profile Image */}
         <div className="relative w-32 h-32">
           <Image
-            src={coach.avatar || '/placeholder-coach.jpg'}
+            src={coach.avatar || ''}
             alt={coach.name}
             width={128}
             height={128}

@@ -52,7 +52,7 @@ function CoachSpotlight() {
               name: coach.name,
               specialties: Array.isArray(coach.specialties) ? coach.specialties : [],
               bio: coach.bio || '',
-              profileImageUrl: coach.avatar || '/placeholder-coach.jpg',
+              profileImageUrl: coach.avatar || '',
               rating: 0,
               testimonialCount: 0,
               credentials: Array.isArray(coach.credentials) ? coach.credentials : [],

@@ -87,7 +87,7 @@ export default function Navbar() {
                 width={200}
                 height={60}
                 className="h-16 w-auto transition-transform duration-300 group-hover:scale-110"
-                onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-coach.png'; }}
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
             </Link>
             <div className="hidden md:flex md:ml-10 space-x-4">

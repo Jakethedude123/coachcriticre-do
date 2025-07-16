@@ -36,7 +36,7 @@ export default function CoachSearchResults() {
                 name: coach.name,
                 specialties: Array.isArray(coach.specialties) ? coach.specialties : (coach.specialty ? [coach.specialty] : []),
                 bio: coach.bio || '',
-                profileImageUrl: coach.profileImageUrl || coach.avatar || '/placeholder-coach.jpg',
+                profileImageUrl: coach.profileImageUrl || coach.avatar || '',
                 rating: coach.rating || 0,
                 testimonialCount: coach.testimonialCount || 0,
                 credentials: Array.isArray(coach.certifications) ? coach.certifications : [],
