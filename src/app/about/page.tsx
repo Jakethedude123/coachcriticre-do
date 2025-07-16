@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { FaDumbbell, FaStar, FaUsers, FaShieldAlt, FaTrophy, FaSearch } from 'react-icons/fa';
+import { FaDumbbell, FaUsers, FaSearch } from 'react-icons/fa';
 
 export default function AboutPage() {
   return (
@@ -40,32 +40,6 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
               <div className="text-blue-600 text-3xl mb-4">
-                <FaShieldAlt />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                Verified Coaches
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Every coach is thoroughly vetted and verified. We check credentials, 
-                experience, and client testimonials to ensure quality.
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-              <div className="text-blue-600 text-3xl mb-4">
-                <FaStar />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                Real Reviews
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Authentic reviews from real clients. No fake testimonials or 
-                manipulated ratings - just honest feedback from athletes.
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-              <div className="text-blue-600 text-3xl mb-4">
                 <FaUsers />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
@@ -74,19 +48,6 @@ export default function AboutPage() {
               <p className="text-gray-600 dark:text-gray-300">
                 Built by athletes, for athletes. Our community helps maintain 
                 quality standards and provides valuable insights.
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-              <div className="text-blue-600 text-3xl mb-4">
-                <FaTrophy />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                Proven Results
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Coaches with track records of success. Verified experience and 
-                client testimonials to help you make informed decisions.
               </p>
             </div>
 
