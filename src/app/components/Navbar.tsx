@@ -115,6 +115,14 @@ export default function Navbar() {
               >
                 About
               </Link>
+              {user && isCoach && (
+                <Link
+                  href="/analytics"
+                  className="px-5 py-2 rounded-full font-semibold text-white border border-purple-300 shadow-lg bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 hover:shadow-xl hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2"
+                >
+                  📊 Analytics
+                </Link>
+              )}
             </div>
           </div>
 

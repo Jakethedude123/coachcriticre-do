@@ -133,7 +133,7 @@ export default function AboutPage() {
               Ready to Find Your Coach?
             </h2>
             <p className="text-xl mb-6 opacity-90">
-              Join thousands of athletes who have found their perfect coach on CoachCritic.
+              Start your journey to find the perfect coach for your fitness goals.
             </p>
             <Link 
               href="/coaches/search"
