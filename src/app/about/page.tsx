@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { FaDumbbell, FaStar, FaUsers, FaShieldAlt, FaTrophy, FaHeart } from 'react-icons/fa';
+import { FaDumbbell, FaStar, FaUsers, FaShieldAlt, FaTrophy, FaSearch } from 'react-icons/fa';
 
 export default function AboutPage() {
   return (
@@ -38,7 +38,7 @@ export default function AboutPage() {
             Why Choose CoachCritic?
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
               <div className="text-blue-600 text-3xl mb-4">
                 <FaShieldAlt />
               </div>
@@ -51,7 +51,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
               <div className="text-blue-600 text-3xl mb-4">
                 <FaStar />
               </div>
@@ -64,7 +64,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
               <div className="text-blue-600 text-3xl mb-4">
                 <FaUsers />
               </div>
@@ -77,7 +77,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
               <div className="text-blue-600 text-3xl mb-4">
                 <FaTrophy />
               </div>
@@ -85,12 +85,12 @@ export default function AboutPage() {
                 Proven Results
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Coaches with track records of success. See real transformations 
-                and competition results from their clients.
+                Coaches with track records of success. Verified experience and 
+                client testimonials to help you make informed decisions.
               </p>
             </div>
 
-            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
               <div className="text-blue-600 text-3xl mb-4">
                 <FaDumbbell />
               </div>
@@ -103,16 +103,16 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
+            <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
               <div className="text-blue-600 text-3xl mb-4">
-                <FaHeart />
+                <FaSearch />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                Personalized Matching
+                Advanced Search
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Advanced filtering to find coaches that match your goals, 
-                experience level, and preferences.
+                Powerful filtering options to find coaches that match your goals, 
+                experience level, and specific needs.
               </p>
             </div>
           </div>
