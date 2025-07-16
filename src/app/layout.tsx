@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/contexts/AuthContext";
 import Navbar from "@/app/components/Navbar";
+import BugReportButton from "@/components/BugReportButton";
 import { FC } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,6 +24,7 @@ const RootLayout: FC<RootLayoutProps> = ({ children }) => {
           <div className="min-h-screen bg-white dark:bg-transparent">
             <Navbar />
             {children}
+            <BugReportButton />
           </div>
         </AuthProvider>
       </body>
