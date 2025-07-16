@@ -10,7 +10,6 @@ interface BugReportModalProps {
 }
 
 interface BugReport {
-  title: string;
   description: string;
   steps: string;
   expectedBehavior: string;
@@ -24,7 +23,6 @@ export default function BugReportButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bugReport, setBugReport] = useState<BugReport>({
-    title: '',
     description: '',
     steps: '',
     expectedBehavior: '',
@@ -60,7 +58,6 @@ export default function BugReportButton() {
         alert('Bug report submitted successfully! Thank you for your feedback.');
         setIsModalOpen(false);
         setBugReport({
-          title: '',
           description: '',
           steps: '',
           expectedBehavior: '',
@@ -121,21 +118,6 @@ export default function BugReportButton() {
             </div>
 
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-                  Bug Title *
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  required
-                  value={bugReport.title}
-                  onChange={(e) => setBugReport({ ...bugReport, title: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                  placeholder="Brief description of the bug"
-                />
-              </div>
-
               <div>
                 <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
                   Detailed Description *
