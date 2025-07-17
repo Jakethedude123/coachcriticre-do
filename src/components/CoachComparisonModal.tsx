@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { FaTimes, FaRefresh } from 'react-icons/fa';
+import { FaTimes, FaRedo } from 'react-icons/fa';
 
 interface CoachData {
   id?: string;
@@ -9,8 +9,8 @@ interface CoachData {
   name: string;
   specialties: string[];
   bio: string;
-  rating: number;
-  testimonialCount: number;
+  rating?: number;
+  testimonialCount?: number;
   credentials?: string[];
   divisions?: string[];
   clientTypes?: string[];
@@ -52,6 +52,10 @@ export default function CoachComparisonModal({
       } else {
         comparisons.push(`Both coaches have similar ratings (${coach1.rating.toFixed(1)})`);
       }
+    } else if (coach1.rating && !coach2.rating) {
+      comparisons.push(`${coach1.name} has a rating of ${coach1.rating.toFixed(1)}`);
+    } else if (coach2.rating && !coach1.rating) {
+      comparisons.push(`${coach2.name} has a rating of ${coach2.rating.toFixed(1)}`);
     }
 
     // Compare testimonial count
@@ -61,6 +65,10 @@ export default function CoachComparisonModal({
       } else if (coach2.testimonialCount > coach1.testimonialCount) {
         comparisons.push(`${coach2.name} has more client testimonials (${coach2.testimonialCount} vs ${coach1.testimonialCount})`);
       }
+    } else if (coach1.testimonialCount && !coach2.testimonialCount) {
+      comparisons.push(`${coach1.name} has ${coach1.testimonialCount} client testimonials`);
+    } else if (coach2.testimonialCount && !coach1.testimonialCount) {
+      comparisons.push(`${coach2.name} has ${coach2.testimonialCount} client testimonials`);
     }
 
     // Compare response time
@@ -280,7 +288,7 @@ export default function CoachComparisonModal({
             onClick={onStartOver}
             className="flex items-center space-x-2 px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors"
           >
-            <FaRefresh size={16} />
+            <FaRedo size={16} />
             <span>Start Over</span>
           </button>
           
