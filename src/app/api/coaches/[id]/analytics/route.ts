@@ -1,6 +1,18 @@
 import { NextResponse } from 'next/server';
 import { adminDb as db } from '@/lib/firebase/firebaseAdmin';
 
+function serialize(obj: any): any {
+  if (obj === null || obj === undefined) return obj;
+  if (typeof obj !== 'object') return obj;
+  if (obj.toDate) return obj.toDate().toISOString(); // Firestore Timestamp
+  if (Array.isArray(obj)) return obj.map(serialize);
+  const out: any = {};
+  for (const key in obj) {
+    out[key] = serialize(obj[key]);
+  }
+  return out;
+}
+
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
@@ -14,18 +26,16 @@ export async function GET(
     const coachDoc = await coachRef.get();
 
     if (!coachDoc.exists) {
-      return NextResponse.json(
-        { error: 'Coach not found' },
-        { status: 404 }
-      );
+      const resp = { error: 'Coach not found' };
+      console.log('[analytics API] Response:', resp);
+      return NextResponse.json(resp, { status: 404 });
     }
 
     const coach = coachDoc.data();
     if (!coach) {
-      return NextResponse.json(
-        { error: 'Coach data not found' },
-        { status: 404 }
-      );
+      const resp = { error: 'Coach data not found' };
+      console.log('[analytics API] Response:', resp);
+      return NextResponse.json(resp, { status: 404 });
     }
 
     // Calculate start date based on time range
@@ -45,34 +55,30 @@ export async function GET(
         startDate.setDate(now.getDate() - 7);
     }
 
-    // Return basic analytics if no history is available
-    if (!coach.analytics?.history) {
-      return NextResponse.json({
-        profileViews: coach.analytics?.profileViews || 0,
-        messagesSent: coach.analytics?.messagesSent || 0,
-        inquiriesReceived: coach.analytics?.inquiriesReceived || 0,
-        clientsGained: coach.analytics?.clientsGained || 0,
-        history: [],
-      });
-    }
+    // Defensive: always return all fields, never undefined
+    const analytics = coach.analytics || {};
+    const profileViews = analytics.profileViews ?? 0;
+    const messagesSent = analytics.messagesSent ?? 0;
+    const inquiriesReceived = analytics.inquiriesReceived ?? 0;
+    const clientsGained = analytics.clientsGained ?? 0;
+    let history = Array.isArray(analytics.history)
+      ? analytics.history.filter((entry: { date: { toDate: () => Date } }) => entry.date && entry.date.toDate && entry.date.toDate() >= startDate)
+      : [];
+    history = serialize(history);
 
-    // Filter analytics history based on time range
-    const relevantHistory = coach.analytics.history.filter(
-      (entry: { date: { toDate: () => Date } }) => entry.date.toDate() >= startDate
-    );
-
-    return NextResponse.json({
-      profileViews: coach.analytics.profileViews,
-      messagesSent: coach.analytics.messagesSent,
-      inquiriesReceived: coach.analytics.inquiriesReceived,
-      clientsGained: coach.analytics.clientsGained,
-      history: relevantHistory,
-    });
+    const resp = {
+      profileViews,
+      messagesSent,
+      inquiriesReceived,
+      clientsGained,
+      history,
+    };
+    console.log('[analytics API] Response:', resp);
+    return NextResponse.json(resp);
   } catch (error) {
     console.error('Error fetching coach analytics:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch analytics' },
-      { status: 500 }
-    );
+    const resp = { error: 'Failed to fetch analytics' };
+    console.log('[analytics API] Response:', resp);
+    return NextResponse.json(resp, { status: 500 });
   }
 } 

@@ -7,7 +7,9 @@ export async function POST(req: NextRequest) {
     console.log('[API/messages/send] Received:', { to, from, text });
     if (!to || !from || !text) {
       console.log('[API/messages/send] Missing fields:', { to, from, text });
-      return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+      const resp = { error: 'Missing fields' };
+      console.log('[API/messages/send] Response:', resp);
+      return NextResponse.json(resp, { status: 400 });
     }
     const message = {
       to,
@@ -18,9 +20,17 @@ export async function POST(req: NextRequest) {
     };
     const ref = await adminDb.collection('messages').add(message);
     console.log('[API/messages/send] Message written with ID:', ref.id);
-    return NextResponse.json({ success: true });
+    const resp = { success: true };
+    console.log('[API/messages/send] Response:', resp);
+    return NextResponse.json(resp);
   } catch (error) {
     console.error('[API/messages/send] Error:', error);
-    return NextResponse.json({ error: 'Failed to send message' }, { status: 500 });
+    const resp = { error: 'Failed to send message' };
+    console.log('[API/messages/send] Response:', resp);
+    return NextResponse.json(resp, { status: 500 });
   }
+  // Defensive: never return undefined
+  const resp = { error: 'Unknown error' };
+  console.log('[API/messages/send] Response:', resp);
+  return NextResponse.json(resp, { status: 500 });
 } 

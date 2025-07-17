@@ -40,7 +40,7 @@ const nextConfig = {
       },
     ];
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config, { dev, isServer }) => {
     // Handle undici package
     config.module.rules.push({
       test: /node_modules\/undici\/.*\.js$/,
@@ -69,21 +69,6 @@ const nextConfig = {
       });
     }
 
-    return config;
-  },
-  experimental: {
-    esmExternals: 'loose' // Handle ESM packages more loosely
-  },
-  // Enable React strict mode for better development
-  reactStrictMode: true,
-  // Enable production source maps for better debugging
-  productionBrowserSourceMaps: true,
-  // Enable compression
-  compress: true,
-  // Optimize production builds
-  swcMinify: true,
-  // Enable tree shaking
-  webpack: (config, { dev, isServer }) => {
     // Optimize bundle size in production
     if (!dev && !isServer) {
       config.optimization = {
@@ -111,8 +96,20 @@ const nextConfig = {
         },
       };
     }
+
     return config;
   },
+  experimental: {
+    esmExternals: 'loose' // Handle ESM packages more loosely
+  },
+  // Enable React strict mode for better development
+  reactStrictMode: true,
+  // Enable production source maps for better debugging
+  productionBrowserSourceMaps: true,
+  // Enable compression
+  compress: true,
+  // Optimize production builds
+  swcMinify: true,
   eslint: {
     ignoreDuringBuilds: true,
   },

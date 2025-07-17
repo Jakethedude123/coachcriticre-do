@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { FaStar, FaInfoCircle, FaEdit, FaCamera } from 'react-icons/fa';
+import { FaStar, FaInfoCircle, FaEdit, FaCamera, FaUser } from 'react-icons/fa';
 import { Tooltip } from '@/components/ui/Tooltip';
 
 interface CoachCardProps {
@@ -93,7 +93,8 @@ export default function CoachCard({
       </span>
     ));
 
-  const handleCardClick = () => {
+  const handleSelectionClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (selectable && onSelect) {
       onSelect(coach.id, !selected);
     }
@@ -101,11 +102,8 @@ export default function CoachCard({
 
   return (
     <div 
-      className={`flex w-full ${small ? 'max-w-md' : 'max-w-xl'} rounded-2xl overflow-hidden shadow-lg transition-all duration-200 ${
-        selectable ? 'cursor-pointer hover:shadow-xl' : ''
-      } ${selected ? 'ring-4 ring-blue-500 shadow-xl' : ''}`} 
+      className={`flex w-full ${small ? 'max-w-md' : 'max-w-xl'} rounded-2xl overflow-hidden shadow-lg transition-all duration-200 hover:shadow-xl`} 
       style={{ minHeight: small ? 120 : 180 }}
-      onClick={handleCardClick}
     >
       {/* Left: Image section */}
       <div className={`w-2/5 ${small ? 'bg-[#3a4250]' : 'bg-[#374151]'} relative`}>
@@ -134,30 +132,49 @@ export default function CoachCard({
       </div>
       {/* Right: Main info */}
       <div className={`w-3/5 ${small ? 'bg-[#2a3140] p-4' : 'bg-[#232b36] p-6'} flex flex-col justify-center relative`}>
+        {/* Selection checkbox - top right */}
         {selectable && (
           <div className="absolute top-2 right-2">
-            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-              selected 
-                ? 'bg-blue-500 border-blue-500' 
-                : 'bg-transparent border-white'
-            }`}>
+            <button
+              onClick={handleSelectionClick}
+              className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 ${
+                selected 
+                  ? 'bg-blue-500 border-blue-500' 
+                  : 'bg-transparent border-white hover:border-blue-300'
+              }`}
+              title={selected ? "Deselect for comparison" : "Select for comparison"}
+            >
               {selected && (
                 <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
               )}
-            </div>
+            </button>
           </div>
         )}
+        
         <h3 className={`font-bold text-white mb-1 ${small ? 'text-lg' : 'text-2xl'}`}>{coach.name}</h3>
         <p className={`text-white mb-3 ${small ? 'text-xs' : 'text-sm'}`}>{coach.bio}</p>
-        <div className="flex flex-wrap gap-1 items-center">
+        <div className="flex flex-wrap gap-1 items-center mb-3">
           {specialties.length > 0 && renderTags(specialties, 'bg-blue-100 text-blue-800', 'Specialty')}
           {credentials.length > 0 && renderTags(credentials, 'bg-green-100 text-green-800', 'Credential')}
           {divisions.length > 0 && renderTags(divisions, 'bg-purple-100 text-purple-800', 'Division')}
           {clientTypes.length > 0 && renderTags(clientTypes, 'bg-yellow-100 text-yellow-800', 'Client Type')}
           {federations.length > 0 && renderTags(federations, 'bg-pink-100 text-pink-800', 'Federation')}
         </div>
+        
+        {/* Profile link button */}
+        <Link 
+          href={`/coaches/${coach.id}`}
+          className={`inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${
+            small 
+              ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+              : 'bg-blue-600 hover:bg-blue-700 text-white'
+          }`}
+        >
+          <FaUser className="mr-2" size={small ? 12 : 14} />
+          View Profile
+        </Link>
       </div>
     </div>
   );
