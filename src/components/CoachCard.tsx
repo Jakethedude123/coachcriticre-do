@@ -27,7 +27,7 @@ interface CoachCardProps {
     clientTypes?: string[];
     federations?: string[];
     responseTime?: string;
-    yearsExperience?: number;
+    yearsExperience?: number | string;
   };
   small?: boolean;
   isOwner?: boolean;
