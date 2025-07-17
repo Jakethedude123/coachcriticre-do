@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { FaEye, FaSearch, FaMousePointer, FaChartLine, FaBell, FaExclamationTriangle, FaLock, FaUsers, FaChartBar, FaArrowUp } from 'react-icons/fa';
 
 const sections = [
@@ -55,6 +55,38 @@ const sections = [
 
 export default function TeaserAnalyticsDashboard({ onUpgradeClick }: { onUpgradeClick: () => void }) {
   const [hovered, setHovered] = useState<string | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [tooltipPlacement, setTooltipPlacement] = useState<'top' | 'bottom' | 'left' | 'right'>('bottom');
+
+  const calculateTooltipPosition = (event: React.MouseEvent, sectionKey: string) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const tooltipWidth = 288; // w-72 = 288px
+    const tooltipHeight = 80; // Approximate height
+    const margin = 12; // mt-3 = 12px
+    
+    let x = rect.left + rect.width / 2;
+    let y = rect.bottom + margin;
+    let placement: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
+    
+    // Check if tooltip would go off the right edge
+    if (x + tooltipWidth / 2 > window.innerWidth - 20) {
+      x = window.innerWidth - tooltipWidth / 2 - 20;
+    }
+    
+    // Check if tooltip would go off the left edge
+    if (x - tooltipWidth / 2 < 20) {
+      x = tooltipWidth / 2 + 20;
+    }
+    
+    // Check if tooltip would go off the bottom edge
+    if (y + tooltipHeight > window.innerHeight - 20) {
+      y = rect.top - tooltipHeight - margin;
+      placement = 'top';
+    }
+    
+    setTooltipPosition({ x, y });
+    setTooltipPlacement(placement);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-[#0f1419] dark:to-[#1a1f2e] p-6">
@@ -79,7 +111,10 @@ export default function TeaserAnalyticsDashboard({ onUpgradeClick }: { onUpgrade
                     ? 'md:col-span-2 lg:col-span-3 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-[#1a1f2e] dark:to-[#232b36] border-2 border-blue-200 dark:border-[#4FC3F7]/30' 
                     : 'bg-white/80 dark:bg-[#181d23]/80 border border-gray-200 dark:border-gray-700'
                 } rounded-2xl p-6 shadow-lg hover:shadow-xl backdrop-blur-sm`}
-                onMouseEnter={() => setHovered(section.key)}
+                onMouseEnter={(e) => {
+                  setHovered(section.key);
+                  calculateTooltipPosition(e, section.key);
+                }}
                 onMouseLeave={() => setHovered(null)}
                 onClick={onUpgradeClick}
               >
@@ -136,18 +171,6 @@ export default function TeaserAnalyticsDashboard({ onUpgradeClick }: { onUpgrade
                       </div>
                     </div>
                   )}
-
-                  {/* Hover Tooltip */}
-                  {hovered === section.key && (
-                    <div className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-72 bg-white dark:bg-[#232b36] text-gray-900 dark:text-gray-100 text-sm rounded-xl shadow-2xl p-4 z-[100] border border-blue-200 dark:border-[#4FC3F7]">
-                      <div className="flex items-start space-x-2">
-                        <div className="p-1 rounded bg-blue-100 dark:bg-[#4FC3F7]/20 mt-0.5">
-                          <FaArrowUp className="text-blue-600 dark:text-[#4FC3F7] text-xs" />
-                        </div>
-                        <p>{section.tooltip}</p>
-                      </div>
-                    </div>
-                  )}
                 </div>
 
                 {/* Upgrade Hint */}
@@ -160,6 +183,24 @@ export default function TeaserAnalyticsDashboard({ onUpgradeClick }: { onUpgrade
             );
           })}
         </div>
+
+        {/* Floating Tooltip */}
+        {hovered && (
+          <div 
+            className="fixed w-72 bg-white dark:bg-[#232b36] text-gray-900 dark:text-gray-100 text-sm rounded-xl shadow-2xl p-4 z-[100] border border-blue-200 dark:border-[#4FC3F7] pointer-events-none"
+            style={{
+              left: tooltipPosition.x - 144, // Center the tooltip (288/2 = 144)
+              top: tooltipPosition.y,
+            }}
+          >
+            <div className="flex items-start space-x-2">
+              <div className="p-1 rounded bg-blue-100 dark:bg-[#4FC3F7]/20 mt-0.5">
+                <FaArrowUp className="text-blue-600 dark:text-[#4FC3F7] text-xs" />
+              </div>
+              <p>{sections.find(s => s.key === hovered)?.tooltip}</p>
+            </div>
+          </div>
+        )}
 
         {/* Bottom CTA */}
         <div className="text-center mt-8">

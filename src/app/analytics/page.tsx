@@ -4,9 +4,9 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import TeaserAnalyticsDashboard from '@/components/TeaserAnalyticsDashboard';
-import UpgradeModal from '@/components/UpgradeModal';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase/firebase';
+import { useRouter } from 'next/navigation';
 
 const AnalyticsDashboard = dynamic(() => import('@/components/AnalyticsDashboard'), { ssr: false });
 
@@ -14,9 +14,13 @@ export default function AnalyticsPage() {
   const { user, isCoach, coachId, loading } = useAuth();
   const [coachProfile, setCoachProfile] = useState<any>(null);
   const [plan, setPlan] = useState<'basic' | 'pro' | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
   const [profileLoading, setProfileLoading] = useState(true);
   const [profileError, setProfileError] = useState<string | null>(null);
+  const router = useRouter();
+
+  const handleUpgradeClick = () => {
+    router.push('/upgrade');
+  };
 
   useEffect(() => {
     if (!coachId) return;
@@ -73,10 +77,7 @@ export default function AnalyticsPage() {
   // Basic plan: show teaser dashboard
   if (plan === 'basic') {
     return (
-      <>
-        <TeaserAnalyticsDashboard onUpgradeClick={() => setModalOpen(true)} />
-        <UpgradeModal open={modalOpen} onClose={() => setModalOpen(false)} />
-      </>
+      <TeaserAnalyticsDashboard onUpgradeClick={handleUpgradeClick} />
     );
   }
 
