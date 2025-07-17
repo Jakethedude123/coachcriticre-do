@@ -13,7 +13,14 @@ interface CoachData {
   testimonialCount?: number;
   credentials?: string[];
   divisions?: string[];
-  clientTypes?: string[];
+  clientTypes?: string[] | {
+    natural: boolean;
+    enhanced: boolean;
+    beginners: boolean;
+    advanced: boolean;
+    competitors: boolean;
+    weightClasses?: string[];
+  };
   federations?: string[];
   responseTime?: string;
   yearsExperience?: number;
@@ -35,6 +42,22 @@ export default function CoachComparisonModal({
   coach2 
 }: CoachComparisonModalProps) {
   if (!isOpen) return null;
+
+  // Helper function to convert clientTypes to string array
+  const getClientTypes = (clientTypes: any): string[] => {
+    if (Array.isArray(clientTypes)) {
+      return clientTypes;
+    } else if (clientTypes && typeof clientTypes === 'object') {
+      const types: string[] = [];
+      if (clientTypes.natural) types.push('natural');
+      if (clientTypes.enhanced) types.push('enhanced');
+      if (clientTypes.beginners) types.push('beginners');
+      if (clientTypes.advanced) types.push('advanced');
+      if (clientTypes.competitors) types.push('competitors');
+      return types;
+    }
+    return [];
+  };
 
   // Generate comparison summary
   const generateComparisonSummary = (coach1: CoachData, coach2: CoachData): string => {
@@ -90,10 +113,13 @@ export default function CoachComparisonModal({
     }
 
     // Compare client types
-    const enhanced1 = coach1.clientTypes?.some(c => c.toLowerCase().includes('enhanced'));
-    const enhanced2 = coach2.clientTypes?.some(c => c.toLowerCase().includes('enhanced'));
-    const natural1 = coach1.clientTypes?.some(c => c.toLowerCase().includes('non-enhanced') || c.toLowerCase().includes('natural'));
-    const natural2 = coach2.clientTypes?.some(c => c.toLowerCase().includes('non-enhanced') || c.toLowerCase().includes('natural'));
+    const clientTypes1 = getClientTypes(coach1.clientTypes);
+    const clientTypes2 = getClientTypes(coach2.clientTypes);
+    
+    const enhanced1 = clientTypes1.some(c => c.toLowerCase().includes('enhanced'));
+    const enhanced2 = clientTypes2.some(c => c.toLowerCase().includes('enhanced'));
+    const natural1 = clientTypes1.some(c => c.toLowerCase().includes('non-enhanced') || c.toLowerCase().includes('natural'));
+    const natural2 = clientTypes2.some(c => c.toLowerCase().includes('non-enhanced') || c.toLowerCase().includes('natural'));
     
     if (enhanced1 && !enhanced2) {
       comparisons.push(`${coach1.name} works with enhanced athletes, while ${coach2.name} focuses on natural athletes`);
@@ -257,26 +283,26 @@ export default function CoachComparisonModal({
                 <h5 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {coach1.name}'s Client Types
                 </h5>
-                <div className="flex flex-wrap gap-1">
-                  {coach1.clientTypes?.slice(0, 2).map((type, idx) => (
-                    <span key={idx} className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">
-                      {type}
-                    </span>
-                  ))}
-                </div>
+                                 <div className="flex flex-wrap gap-1">
+                   {getClientTypes(coach1.clientTypes).slice(0, 2).map((type, idx) => (
+                     <span key={idx} className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">
+                       {type}
+                     </span>
+                   ))}
+                 </div>
               </div>
               
               <div>
                 <h5 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {coach2.name}'s Client Types
                 </h5>
-                <div className="flex flex-wrap gap-1">
-                  {coach2.clientTypes?.slice(0, 2).map((type, idx) => (
-                    <span key={idx} className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">
-                      {type}
-                    </span>
-                  ))}
-                </div>
+                                 <div className="flex flex-wrap gap-1">
+                   {getClientTypes(coach2.clientTypes).slice(0, 2).map((type, idx) => (
+                     <span key={idx} className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">
+                       {type}
+                     </span>
+                   ))}
+                 </div>
               </div>
             </div>
           </div>
