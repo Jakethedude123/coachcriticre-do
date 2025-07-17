@@ -26,13 +26,26 @@ interface CoachCardProps {
     divisions?: string[];
     clientTypes?: string[];
     federations?: string[];
+    responseTime?: string;
+    yearsExperience?: number;
   };
   small?: boolean;
   isOwner?: boolean;
   onImageEdit?: () => void;
+  selectable?: boolean;
+  selected?: boolean;
+  onSelect?: (coachId: string, selected: boolean) => void;
 }
 
-export default function CoachCard({ coach, small = false, isOwner = false, onImageEdit }: CoachCardProps) {
+export default function CoachCard({ 
+  coach, 
+  small = false, 
+  isOwner = false, 
+  onImageEdit,
+  selectable = false,
+  selected = false,
+  onSelect
+}: CoachCardProps) {
   const [imageError, setImageError] = useState(false);
   
   if (!coach) {
@@ -80,8 +93,20 @@ export default function CoachCard({ coach, small = false, isOwner = false, onIma
       </span>
     ));
 
+  const handleCardClick = () => {
+    if (selectable && onSelect) {
+      onSelect(coach.id, !selected);
+    }
+  };
+
   return (
-    <div className={`flex w-full ${small ? 'max-w-md' : 'max-w-xl'} rounded-2xl overflow-hidden shadow-lg`} style={{ minHeight: small ? 120 : 180 }}>
+    <div 
+      className={`flex w-full ${small ? 'max-w-md' : 'max-w-xl'} rounded-2xl overflow-hidden shadow-lg transition-all duration-200 ${
+        selectable ? 'cursor-pointer hover:shadow-xl' : ''
+      } ${selected ? 'ring-4 ring-blue-500 shadow-xl' : ''}`} 
+      style={{ minHeight: small ? 120 : 180 }}
+      onClick={handleCardClick}
+    >
       {/* Left: Image section */}
       <div className={`w-2/5 ${small ? 'bg-[#3a4250]' : 'bg-[#374151]'} relative`}>
         {coach.profileImageUrl && !imageError ? (
@@ -108,7 +133,22 @@ export default function CoachCard({ coach, small = false, isOwner = false, onIma
         )}
       </div>
       {/* Right: Main info */}
-      <div className={`w-3/5 ${small ? 'bg-[#2a3140] p-4' : 'bg-[#232b36] p-6'} flex flex-col justify-center`}>
+      <div className={`w-3/5 ${small ? 'bg-[#2a3140] p-4' : 'bg-[#232b36] p-6'} flex flex-col justify-center relative`}>
+        {selectable && (
+          <div className="absolute top-2 right-2">
+            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+              selected 
+                ? 'bg-blue-500 border-blue-500' 
+                : 'bg-transparent border-white'
+            }`}>
+              {selected && (
+                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+              )}
+            </div>
+          </div>
+        )}
         <h3 className={`font-bold text-white mb-1 ${small ? 'text-lg' : 'text-2xl'}`}>{coach.name}</h3>
         <p className={`text-white mb-3 ${small ? 'text-xs' : 'text-sm'}`}>{coach.bio}</p>
         <div className="flex flex-wrap gap-1 items-center">

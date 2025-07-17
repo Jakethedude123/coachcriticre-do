@@ -12,6 +12,8 @@ import { FaInfoCircle } from 'react-icons/fa';
 import { Tooltip } from '@/components/ui/Tooltip';
 import AuthRequiredSearch from '@/components/AuthRequiredSearch';
 import Link from 'next/link';
+import CoachComparisonModal from '@/components/CoachComparisonModal';
+import CompareCoachesButton from '@/components/CompareCoachesButton';
 
 export default function CoachesPage() {
   const [coaches, setCoaches] = useState<CoachProfile[]>([]);
@@ -19,6 +21,8 @@ export default function CoachesPage() {
   const [lastDoc, setLastDoc] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [sortByScore, setSortByScore] = useState(true);
+  const [selectedCoaches, setSelectedCoaches] = useState<string[]>([]);
+  const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
   const { user } = useAuth();
   const router = useRouter();
 
@@ -118,6 +122,39 @@ export default function CoachesPage() {
   useEffect(() => {
     handleFiltersChange({ sortByScore });
   }, [sortByScore, handleFiltersChange]);
+
+  // Handle coach selection
+  const handleCoachSelect = (coachId: string, selected: boolean) => {
+    if (selected) {
+      // Only allow selecting up to 2 coaches
+      if (selectedCoaches.length < 2) {
+        setSelectedCoaches(prev => [...prev, coachId]);
+      }
+    } else {
+      setSelectedCoaches(prev => prev.filter(id => id !== coachId));
+    }
+  };
+
+  // Handle comparison modal
+  const handleCompareCoaches = () => {
+    setIsComparisonModalOpen(true);
+  };
+
+  const handleCloseComparisonModal = () => {
+    setIsComparisonModalOpen(false);
+  };
+
+  const handleStartOver = () => {
+    setSelectedCoaches([]);
+    setIsComparisonModalOpen(false);
+  };
+
+  // Get selected coach data
+  const getSelectedCoachData = () => {
+    const coach1 = coaches.find(c => c.id === selectedCoaches[0] || c.userId === selectedCoaches[0]);
+    const coach2 = coaches.find(c => c.id === selectedCoaches[1] || c.userId === selectedCoaches[1]);
+    return { coach1, coach2 };
+  };
 
   return (
     <div className="min-h-screen bg-white dark:bg-transparent py-12">
@@ -222,8 +259,13 @@ export default function CoachesPage() {
                         divisions: Array.isArray(coach.divisions) ? coach.divisions : [],
                         federations: Array.isArray(coach.federations) ? coach.federations : [],
                         credentials: Array.isArray(coach.certifications) ? coach.certifications : [],
+                        responseTime: coach.responseTime,
+                        yearsExperience: coach.yearsExperience,
                       }}
                       small
+                      selectable
+                      selected={selectedCoaches.includes(coach.id || coach.userId)}
+                      onSelect={handleCoachSelect}
                     />
                   </li>
                 ))}
@@ -232,6 +274,23 @@ export default function CoachesPage() {
           </div>
         </div>
       </div>
+
+      {/* Compare Coaches Button */}
+      <CompareCoachesButton 
+        isVisible={selectedCoaches.length === 2}
+        onClick={handleCompareCoaches}
+      />
+
+      {/* Coach Comparison Modal */}
+      {selectedCoaches.length === 2 && (
+        <CoachComparisonModal
+          isOpen={isComparisonModalOpen}
+          onClose={handleCloseComparisonModal}
+          onStartOver={handleStartOver}
+          coach1={getSelectedCoachData().coach1!}
+          coach2={getSelectedCoachData().coach2!}
+        />
+      )}
     </div>
   );
 } 
