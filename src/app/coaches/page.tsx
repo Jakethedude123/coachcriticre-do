@@ -14,6 +14,7 @@ import AuthRequiredSearch from '@/components/AuthRequiredSearch';
 import Link from 'next/link';
 import CoachComparisonModal from '@/components/CoachComparisonModal';
 import CompareCoachesButton from '@/components/CompareCoachesButton';
+import CompareButton from '@/components/CompareButton';
 
 export default function CoachesPage() {
   const [coaches, setCoaches] = useState<CoachProfile[]>([]);
@@ -23,6 +24,7 @@ export default function CoachesPage() {
   const [sortByScore, setSortByScore] = useState(true);
   const [selectedCoaches, setSelectedCoaches] = useState<string[]>([]);
   const [isComparisonModalOpen, setIsComparisonModalOpen] = useState(false);
+  const [isCompareMode, setIsCompareMode] = useState(false);
   const { user } = useAuth();
   const router = useRouter();
 
@@ -122,6 +124,16 @@ export default function CoachesPage() {
   useEffect(() => {
     handleFiltersChange({ sortByScore });
   }, [sortByScore, handleFiltersChange]);
+
+  // Handle compare mode toggle
+  const handleCompareModeToggle = () => {
+    setIsCompareMode(!isCompareMode);
+    if (isCompareMode) {
+      // Exit compare mode - clear selections
+      setSelectedCoaches([]);
+      setIsComparisonModalOpen(false);
+    }
+  };
 
   // Handle coach selection
   const handleCoachSelect = (coachId: string, selected: boolean) => {
@@ -263,9 +275,10 @@ export default function CoachesPage() {
                         yearsExperience: coach.yearsExperience,
                       }}
                       small
-                      selectable
+                      selectable={isCompareMode}
                       selected={selectedCoaches.includes(coach.id || coach.userId)}
                       onSelect={handleCoachSelect}
+                      showCheckbox={isCompareMode}
                     />
                   </li>
                 ))}
@@ -274,6 +287,13 @@ export default function CoachesPage() {
           </div>
         </div>
       </div>
+
+      {/* Compare Button */}
+      <CompareButton 
+        isActive={isCompareMode}
+        onToggle={handleCompareModeToggle}
+        selectedCount={selectedCoaches.length}
+      />
 
       {/* Compare Coaches Button */}
       <CompareCoachesButton 

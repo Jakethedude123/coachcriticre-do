@@ -35,6 +35,7 @@ interface CoachCardProps {
   selectable?: boolean;
   selected?: boolean;
   onSelect?: (coachId: string, selected: boolean) => void;
+  showCheckbox?: boolean;
 }
 
 export default function CoachCard({ 
@@ -44,7 +45,8 @@ export default function CoachCard({
   onImageEdit,
   selectable = false,
   selected = false,
-  onSelect
+  onSelect,
+  showCheckbox = false
 }: CoachCardProps) {
   const [imageError, setImageError] = useState(false);
   
@@ -132,8 +134,8 @@ export default function CoachCard({
       </div>
       {/* Right: Main info */}
       <div className={`w-3/5 ${small ? 'bg-[#2a3140] p-4' : 'bg-[#232b36] p-6'} flex flex-col justify-center relative`}>
-        {/* Selection checkbox - top right */}
-        {selectable && (
+        {/* Selection checkbox - only show when in compare mode */}
+        {selectable && showCheckbox && (
           <div className="absolute top-2 right-2">
             <button
               onClick={handleSelectionClick}
