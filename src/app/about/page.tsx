@@ -39,7 +39,7 @@ export default function AboutPage() {
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-              <div className="text-blue-600 text-3xl mb-4">
+              <div className="text-blue-600 dark:text-[#4FC3F7] text-3xl mb-4">
                 <FaUsers />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
@@ -52,7 +52,7 @@ export default function AboutPage() {
             </div>
 
             <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-              <div className="text-blue-600 text-3xl mb-4">
+              <div className="text-blue-600 dark:text-[#4FC3F7] text-3xl mb-4">
                 <FaDumbbell />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
@@ -65,7 +65,7 @@ export default function AboutPage() {
             </div>
 
             <div className="bg-white dark:bg-[#181d23] rounded-xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-              <div className="text-blue-600 text-3xl mb-4">
+              <div className="text-blue-600 dark:text-[#4FC3F7] text-3xl mb-4">
                 <FaSearch />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">

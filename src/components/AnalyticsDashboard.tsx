@@ -11,7 +11,6 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts';
-import { RateLimiter } from '@/lib/services/RateLimiter';
 
 interface Props {
   coach: Coach;
@@ -19,53 +18,9 @@ interface Props {
 
 type TimeRange = '7d' | '30d' | '90d' | 'all';
 
-interface RateLimitStatus {
-  profileViews: boolean;
-  searchAppearances: boolean;
-  profileClicks: boolean;
-}
-
-interface AnalyticsData {
-  profileViews: number;
-  searchAppearances: number;
-  profileClicks: number;
-}
-
 export default function AnalyticsDashboard({ coach }: Props) {
   const [selectedMetric, setSelectedMetric] = useState<keyof Coach['analytics']>('profileViews');
   const [timeRange, setTimeRange] = useState<'week' | 'month' | 'year'>('week');
-  const [rateLimitStatus, setRateLimitStatus] = useState<RateLimitStatus>({
-    profileViews: true,
-    searchAppearances: true,
-    profileClicks: true
-  });
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData>({
-    profileViews: 0,
-    searchAppearances: 0,
-    profileClicks: 0
-  });
-
-  useEffect(() => {
-    const checkRateLimits = async () => {
-      const profileViews = await RateLimiter.checkRateLimit(coach.userId, 'profileViews');
-      const searchAppearances = await RateLimiter.checkRateLimit(coach.userId, 'searchAppearances');
-      const profileClicks = await RateLimiter.checkRateLimit(coach.userId, 'profileClicks');
-      
-      setRateLimitStatus({
-        profileViews,
-        searchAppearances,
-        profileClicks
-      });
-
-      setAnalyticsData({
-        profileViews: profileViews ? 1 : 0,
-        searchAppearances: searchAppearances ? 1 : 0,
-        profileClicks: profileClicks ? 1 : 0
-      });
-    };
-
-    checkRateLimits();
-  }, [coach.userId]);
 
   const getTimeRangeData = () => {
     const now = new Date();
@@ -111,19 +66,10 @@ export default function AnalyticsDashboard({ coach }: Props) {
     return acc;
   }, []);
 
-  const data = [
-    {
-      name: 'Current Hour',
-      'Profile Views': analyticsData.profileViews,
-      'Search Appearances': analyticsData.searchAppearances,
-      'Profile Clicks': analyticsData.profileClicks
-    }
-  ];
-
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
+    <div className="bg-white dark:bg-[#181d23] rounded-lg shadow-sm p-6">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Analytics Dashboard</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Analytics Dashboard</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {metrics.map(({ key, label, icon: Icon, value }) => (
             <button
@@ -131,8 +77,8 @@ export default function AnalyticsDashboard({ coach }: Props) {
               onClick={() => setSelectedMetric(key as keyof Coach['analytics'])}
               className={`p-4 rounded-lg border ${
                 selectedMetric === key
-                  ? 'border-blue-500 bg-blue-50 text-blue-700'
-                  : 'border-gray-200 hover:border-gray-300'
+                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
             >
               <Icon className="w-6 h-6 mb-2" />
@@ -147,7 +93,7 @@ export default function AnalyticsDashboard({ coach }: Props) {
 
       <div>
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Trend</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Trend</h3>
           <div className="flex gap-2">
             {['week', 'month', 'year'].map((range) => (
               <button
@@ -155,8 +101,8 @@ export default function AnalyticsDashboard({ coach }: Props) {
                 onClick={() => setTimeRange(range as 'week' | 'month' | 'year')}
                 className={`px-3 py-1 rounded-md text-sm ${
                   timeRange === range
-                    ? 'bg-gray-900 text-white'
-                    : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-gray-900 dark:bg-blue-600 text-white'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
               >
                 {range.charAt(0).toUpperCase() + range.slice(1)}
@@ -168,10 +114,17 @@ export default function AnalyticsDashboard({ coach }: Props) {
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis dataKey="date" stroke="#9CA3AF" />
+              <YAxis stroke="#9CA3AF" />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: '#1F2937', 
+                  border: '1px solid #374151',
+                  borderRadius: '8px',
+                  color: '#F9FAFB'
+                }}
+              />
               <Legend />
               <Line
                 type="monotone"
@@ -196,7 +149,7 @@ export default function AnalyticsDashboard({ coach }: Props) {
         </div>
       </div>
 
-      <div className="mt-4 text-sm text-gray-500 text-right">
+      <div className="mt-4 text-sm text-gray-500 dark:text-gray-400 text-right">
         Last updated: {new Date().toLocaleString()}
       </div>
     </div>
