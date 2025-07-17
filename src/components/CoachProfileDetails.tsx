@@ -173,6 +173,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
           coach={coach} 
           isOwner={isOwner}
           onImageEdit={() => setIsImageModalOpen(true)}
+          hideViewProfile={true}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-x-hidden">

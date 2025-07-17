@@ -124,7 +124,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <FaTrophy className="text-yellow-500" />
             Looking to Compete In
           </span>
-          {expandedSections.competition ? <FaChevronUp /> : <FaChevronDown />}
+          {expandedSections.competition ? <FaChevronUp className="text-white" /> : <FaChevronDown className="text-white" />}
         </button>
         
         {expandedSections.competition && (
@@ -198,7 +198,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <FaCog className="text-gray-500" />
             Specializations
           </span>
-          {expandedSections.specializations ? <FaChevronUp /> : <FaChevronDown />}
+          {expandedSections.specializations ? <FaChevronUp className="text-white" /> : <FaChevronDown className="text-white" />}
         </button>
         {expandedSections.specializations && (
           <div className="space-y-4 mt-4">
@@ -297,7 +297,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <FaGlobeAmericas className="text-green-500" />
             Time Zone
           </span>
-          {expandedSections.timeZone ? <FaChevronUp /> : <FaChevronDown />}
+          {expandedSections.timeZone ? <FaChevronUp className="text-white" /> : <FaChevronDown className="text-white" />}
         </button>
         {expandedSections.timeZone && (
           <div className="bg-blue-50 dark:bg-[#232b36] rounded-xl shadow p-4 border border-gray-100 dark:border-[#232b36] mt-2 w-full">
@@ -328,7 +328,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <FaMapMarkerAlt className="text-red-500" />
             Location / Proximity
           </span>
-          {expandedSections.proximity ? <FaChevronUp /> : <FaChevronDown />}
+          {expandedSections.proximity ? <FaChevronUp className="text-white" /> : <FaChevronDown className="text-white" />}
         </button>
         {expandedSections.proximity && (
           <div className="space-y-4 mt-4">
@@ -372,7 +372,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <FaUsers className="text-purple-500" />
             Client Types
           </span>
-          {expandedSections.clientTypes ? <FaChevronUp /> : <FaChevronDown />}
+          {expandedSections.clientTypes ? <FaChevronUp className="text-white" /> : <FaChevronDown className="text-white" />}
         </button>
         
         {expandedSections.clientTypes && (
@@ -435,7 +435,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <FaMedal className="text-yellow-600" />
             Contest Prep
           </span>
-          {expandedSections.contestPrep ? <FaChevronUp /> : <FaChevronDown />}
+          {expandedSections.contestPrep ? <FaChevronUp className="text-white" /> : <FaChevronDown className="text-white" />}
         </button>
         
         {expandedSections.contestPrep && (
@@ -467,7 +467,7 @@ export default function CoachSearchFilters({ onFiltersChange }: FilterProps) {
             <FaMedal className="text-yellow-500" />
             Certifications
           </span>
-          {expandedSections.certifications ? <FaChevronUp /> : <FaChevronDown />}
+          {expandedSections.certifications ? <FaChevronUp className="text-white" /> : <FaChevronDown className="text-white" />}
         </button>
         
         {expandedSections.certifications && (

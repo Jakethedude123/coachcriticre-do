@@ -36,6 +36,7 @@ interface CoachCardProps {
   selected?: boolean;
   onSelect?: (coachId: string, selected: boolean) => void;
   showCheckbox?: boolean;
+  hideViewProfile?: boolean;
 }
 
 export default function CoachCard({ 
@@ -46,7 +47,8 @@ export default function CoachCard({
   selectable = false,
   selected = false,
   onSelect,
-  showCheckbox = false
+  showCheckbox = false,
+  hideViewProfile = false
 }: CoachCardProps) {
   const [imageError, setImageError] = useState(false);
   
@@ -166,17 +168,19 @@ export default function CoachCard({
         </div>
         
         {/* Profile link button */}
-        <Link 
-          href={`/coaches/${coach.id}`}
-          className={`inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${
-            small 
-              ? 'bg-blue-600 hover:bg-blue-700 text-white' 
-              : 'bg-blue-600 hover:bg-blue-700 text-white'
-          }`}
-        >
-          <FaUser className="mr-2" size={small ? 12 : 14} />
-          View Profile
-        </Link>
+        {!hideViewProfile && (
+          <Link 
+            href={`/coaches/${coach.id}`}
+            className={`inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${
+              small 
+                ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
+            }`}
+          >
+            <FaUser className="mr-2" size={small ? 12 : 14} />
+            View Profile
+          </Link>
+        )}
       </div>
     </div>
   );
