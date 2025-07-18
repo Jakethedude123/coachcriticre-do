@@ -9,6 +9,7 @@ import { db } from '@/lib/firebase/firebase';
 import { useRouter } from 'next/navigation';
 
 const AnalyticsDashboard = dynamic(() => import('@/components/AnalyticsDashboard'), { ssr: false });
+const PostPerformance = dynamic(() => import('@/components/posts/PostPerformance'), { ssr: false });
 
 export default function AnalyticsPage() {
   const { user, isCoach, coachId, loading } = useAuth();
@@ -89,7 +90,10 @@ export default function AnalyticsPage() {
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Analytics Dashboard</h1>
           <p className="text-gray-600 dark:text-gray-400">Track your profile performance and connect with interested athletes</p>
         </div>
-        <AnalyticsDashboard coach={coachProfile} />
+        <div className="space-y-8">
+          <AnalyticsDashboard coach={coachProfile} />
+          <PostPerformance />
+        </div>
       </div>
     </div>
   );
