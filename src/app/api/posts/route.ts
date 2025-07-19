@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       userId,
       coach.name,
       coach.avatar,
-      coach.rating,
+      0, // Default rating - can be updated later when rating system is implemented
       coach.subscription?.plan === 'pro',
       { content: content.trim(), imageFile: imageFileObj, tags: tags || [] }
     );
