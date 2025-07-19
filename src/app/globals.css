@@ -119,3 +119,59 @@ body {
 .coach-dropdown-option-text-dark {
   @apply text-gray-800 dark:text-white;
 }
+
+/* Coach Card Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Smooth transitions for coach cards */
+.coach-card-enter {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.coach-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tag animations */
+.tag-animate {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Professional glow effect */
+.professional-glow {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.professional-glow:hover {
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+}
