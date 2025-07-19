@@ -8,7 +8,7 @@ import { Coach } from '@/lib/firebase/models/coach';
 import type { CoachProfile } from '@/lib/types/coach';
 
 interface CoachCardProps {
-  coach: Coach | CoachProfile;
+  coach: Coach | CoachProfile | any; // Allow CoachData and other compatible types
   small?: boolean;
   isOwner?: boolean;
   onImageEdit?: () => void;
