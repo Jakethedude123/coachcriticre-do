@@ -130,7 +130,7 @@ export default function CoachCard({
           opacity: isLoaded ? 1 : 0,
           transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
           transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-          background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
+          background: 'linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%)'
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -174,7 +174,7 @@ export default function CoachCard({
         )}
       </div>
       {/* Right: Main info */}
-      <div className={`w-3/5 ${small ? 'p-4' : 'p-6'} flex flex-col justify-center relative`} style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)' }}>
+      <div className={`w-3/5 ${small ? 'p-4' : 'p-6'} flex flex-col justify-center relative`} style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%)' }}>
         
         <h3 className={`font-extrabold text-gray-900 mb-2 ${small ? 'text-lg' : 'text-3xl'} transition-all duration-500 group-hover:text-blue-600 group-hover:scale-105 transform bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text group-hover:from-blue-600 group-hover:to-blue-800`}>{coach.name}</h3>
         <p className={`text-gray-600 mb-3 ${small ? 'text-xs' : 'text-base'} line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700 overflow-hidden font-medium`}>
