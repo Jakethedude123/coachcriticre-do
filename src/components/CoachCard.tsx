@@ -165,8 +165,12 @@ export default function CoachCard({
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         {isOwner && onImageEdit && (
           <button
-            onClick={onImageEdit}
-            className="absolute top-2 left-2 p-2 bg-black/60 hover:bg-black/80 rounded-full text-white transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onImageEdit();
+            }}
+            className="absolute top-2 left-2 p-2 bg-black/60 hover:bg-black/80 rounded-full text-white transition-all duration-300 hover:scale-110 backdrop-blur-sm z-10"
             title="Edit profile image"
           >
             <FaCamera size={small ? 12 : 16} />
