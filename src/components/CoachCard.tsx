@@ -139,7 +139,7 @@ export default function CoachCard({
         <div className={`absolute inset-0 bg-gradient-to-br from-blue-600/15 to-purple-600/15 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none`}></div>
         
         {/* Left: Image section */}
-      <div className={`w-2/5 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden`}>
+      <div className={`w-1/3 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden`}>
         {/* Handle both Coach and CoachProfile image fields */}
         {(() => {
           const imageUrl = 'profileImage' in coach ? coach.profileImage : ('avatar' in coach ? coach.avatar : undefined);
@@ -178,7 +178,7 @@ export default function CoachCard({
         )}
       </div>
       {/* Right: Main info */}
-      <div className={`w-3/5 ${small ? 'p-4' : 'p-6'} flex flex-col justify-center relative`} style={{ background: 'linear-gradient(135deg, #f8fbff 0%, #e6f3ff 100%)' }}>
+      <div className={`w-2/3 ${small ? 'p-4' : 'p-6'} flex flex-col justify-center relative`} style={{ background: 'linear-gradient(135deg, #f8fbff 0%, #e6f3ff 100%)' }}>
         
         <h3 className={`font-extrabold text-gray-900 mb-2 ${small ? 'text-lg' : 'text-3xl'} transition-all duration-500 group-hover:text-blue-600 group-hover:scale-105 transform bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text group-hover:from-blue-600 group-hover:to-blue-800`}>{coach.name}</h3>
         <p className={`text-gray-600 mb-3 ${small ? 'text-xs' : 'text-base'} line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700 overflow-hidden font-medium`}>

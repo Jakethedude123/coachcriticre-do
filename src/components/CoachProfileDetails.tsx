@@ -26,6 +26,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
   const [coach, setCoach] = useState<CoachData>(initialCoach);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [location, setLocation] = useState(coach.location?.address || '');
 
   // Helper function to fix old option names and normalize data
   const fixOldOptionNames = (items: string[]): string[] => {
@@ -137,6 +138,27 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
     }
   };
 
+  const handleLocationSave = async () => {
+    try {
+      await updateCoachProfile(coach.id, { 
+        location: { 
+          address: location,
+          lat: coach.location?.lat,
+          lng: coach.location?.lng
+        } 
+      });
+      setEditBox(null);
+      
+      // Refetch the latest coach data to ensure all components stay in sync
+      const updatedCoachData = await getCoachProfile(coach.id);
+      if (updatedCoachData) {
+        setCoach(updatedCoachData);
+      }
+    } catch (error) {
+      console.error('Error updating location:', error);
+    }
+  };
+
   const handleImageSave = async (croppedImageBlob: Blob) => {
     try {
       setIsUploading(true);
@@ -182,6 +204,64 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
           hideViewProfile={true}
         />
       </div>
+      
+      {/* Location Box - positioned next to card, under View Posts */}
+      <div className="flex justify-end mb-6">
+        <div className="w-full max-w-md">
+          {editBox === 'location' ? (
+            <div className="bg-white rounded-lg shadow p-6 relative">
+              <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+                <span>Location</span>
+                <button
+                  className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                  onClick={() => setEditBox(editBox === 'location' ? null : 'location')}
+                  aria-label="Edit Location"
+                >
+                  <FaEdit size={18} />
+                </button>
+              </h2>
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter your location (city, state, country)..."
+                />
+                <div className="flex justify-end space-x-2">
+                  <button
+                    onClick={() => setEditBox(null)}
+                    className="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => handleLocationSave()}
+                    className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg shadow p-6 relative">
+              <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+                <span>Location</span>
+                <button
+                  className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                  onClick={() => setEditBox(editBox === 'location' ? null : 'location')}
+                  aria-label="Edit Location"
+                >
+                  <FaEdit size={18} />
+                </button>
+              </h2>
+              <p className="text-gray-700">{coach.location?.address || 'No location set'}</p>
+            </div>
+          )}
+        </div>
+      </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-x-hidden">
         {/* About Box */}
         {editBox === 'about' ? (

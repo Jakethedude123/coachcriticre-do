@@ -171,7 +171,7 @@ export default function CoachesPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-transparent py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-4 gap-8">
+        <div className="grid grid-cols-5 gap-8">
           {/* Filters Sidebar */}
           <div className="col-span-1 max-w-sm">
             <div className="sticky top-4">
@@ -236,7 +236,7 @@ export default function CoachesPage() {
           </div>
 
           {/* Coaches Grid - right side, limit to 6, smaller cards */}
-          <div className="col-span-3 flex flex-col gap-6 items-start w-full">
+          <div className="col-span-4 flex flex-col gap-6 items-start w-full">
             {loading && coaches.length === 0 ? (
               <div className="space-y-4 w-full">
                 {[...Array(6)].map((_, i) => (
