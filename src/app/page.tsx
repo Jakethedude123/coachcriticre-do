@@ -20,15 +20,17 @@ function CoachSpotlight() {
       .then(data => {
         // Get up to 5 coaches for the carousel
         const availableCoaches = data.coaches || [];
+        console.log('Fetched coaches:', availableCoaches.length, availableCoaches);
         setCoaches(availableCoaches.slice(0, 5));
         setLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('Error fetching coaches:', error);
         setLoading(false);
       });
   }, []);
 
-  // Auto-advance carousel every 5 seconds
+  // Auto-advance carousel every 5 seconds (only if multiple coaches)
   useEffect(() => {
     if (coaches.length < 2) return;
     const interval = setInterval(() => {
@@ -63,7 +65,25 @@ function CoachSpotlight() {
     );
   }
 
-  if (!coaches.length) return null;
+  // Always show the section, even if no coaches (for debugging)
+  if (!coaches.length) {
+    return (
+      <section className="w-full bg-white dark:bg-transparent py-6">
+        <div className="max-w-4xl mx-auto text-center mb-6">
+          <h2 className="text-5xl font-extrabold mb-3 text-blue-900 bg-gradient-to-r from-blue-900 to-blue-700 bg-clip-text text-transparent">
+            Coach Spotlight
+          </h2>
+          <p className="text-xl font-semibold text-gray-700 mb-2">This week's featured coach from our community.</p>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
+        </div>
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+            <p className="text-gray-500">No coaches available at the moment.</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="w-full bg-white dark:bg-transparent py-6">
@@ -77,18 +97,26 @@ function CoachSpotlight() {
       <div className="max-w-3xl mx-auto px-4 relative">
         {/* Carousel Container */}
         <div className="relative overflow-hidden rounded-2xl">
-          {coaches.map((coach, idx) => (
-            <div
-              key={coach.userId || idx}
-              className={`absolute left-0 right-0 transition-all duration-700 ${
-                idx === current 
-                  ? 'opacity-100 scale-100 z-10 pointer-events-auto' 
-                  : 'opacity-0 scale-95 z-0 pointer-events-none'
-              }`}
-            >
-              <CoachCard coach={coach} />
+          {coaches.length === 1 ? (
+            // Single coach - no carousel needed
+            <div className="relative">
+              <CoachCard coach={coaches[0]} />
             </div>
-          ))}
+          ) : (
+            // Multiple coaches - carousel
+            coaches.map((coach, idx) => (
+              <div
+                key={coach.userId || idx}
+                className={`absolute left-0 right-0 transition-all duration-700 ${
+                  idx === current 
+                    ? 'opacity-100 scale-100 z-10 pointer-events-auto' 
+                    : 'opacity-0 scale-95 z-0 pointer-events-none'
+                }`}
+              >
+                <CoachCard coach={coach} />
+              </div>
+            ))
+          )}
         </div>
         
         {/* Carousel Controls */}
