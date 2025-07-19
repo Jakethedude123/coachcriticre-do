@@ -29,12 +29,15 @@ function CoachSpotlight() {
 
   if (loading) {
     return (
-      <section className="w-full bg-white dark:bg-transparent py-12">
-        <div className="max-w-3xl mx-auto text-center mb-8">
-          <h2 className="text-3xl font-bold mb-2 text-blue-900">Coach Spotlight</h2>
-          <p className="text-gray-500">Meet our top coaches—handpicked for their expertise and results.</p>
+      <section className="w-full bg-white dark:bg-transparent py-8">
+        <div className="max-w-4xl mx-auto text-center mb-8">
+          <h2 className="text-5xl font-extrabold mb-4 text-blue-900 bg-gradient-to-r from-blue-900 to-blue-700 bg-clip-text text-transparent">
+            Coach Spotlight
+          </h2>
+          <p className="text-xl font-semibold text-gray-700 mb-2">Meet our top coaches—handpicked for their expertise and results.</p>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
         </div>
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-3xl mx-auto px-4">
           <div className="bg-white rounded-xl shadow-lg p-6 animate-pulse">
             <div className="flex">
               <div className="w-32 h-32 bg-gray-200 rounded-lg mr-6"></div>
@@ -53,12 +56,15 @@ function CoachSpotlight() {
   if (!coaches.length) return null;
 
   return (
-    <section className="w-full bg-white dark:bg-transparent py-12">
-      <div className="max-w-3xl mx-auto text-center mb-8">
-        <h2 className="text-3xl font-bold mb-2 text-blue-900">Coach Spotlight</h2>
-        <p className="text-gray-500">Meet our top coaches—handpicked for their expertise and results.</p>
+    <section className="w-full bg-white dark:bg-transparent py-8">
+      <div className="max-w-4xl mx-auto text-center mb-8">
+        <h2 className="text-5xl font-extrabold mb-4 text-blue-900 bg-gradient-to-r from-blue-900 to-blue-700 bg-clip-text text-transparent">
+          Coach Spotlight
+        </h2>
+        <p className="text-xl font-semibold text-gray-700 mb-2">Meet our top coaches—handpicked for their expertise and results.</p>
+        <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
       </div>
-      <div className="max-w-2xl mx-auto px-4">
+      <div className="max-w-3xl mx-auto px-4">
         <CoachCard coach={coaches[0]} />
       </div>
     </section>
@@ -151,7 +157,7 @@ export default function Home() {
       </section>
 
       {/* Coach Spotlight Section */}
-      <section className="w-full bg-white dark:bg-transparent py-12">
+      <section className="w-full bg-white dark:bg-transparent py-8">
         <CoachSpotlight />
       </section>
     </main>

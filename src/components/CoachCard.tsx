@@ -124,9 +124,9 @@ export default function CoachCard({
       className="block w-full h-full"
     >
       <div 
-        className={`flex w-full h-full ${small ? 'max-w-sm' : 'max-w-lg'} rounded-xl overflow-hidden shadow-lg coach-card-enhanced group bg-white cursor-pointer relative`} 
+        className={`flex w-full h-full ${small ? 'max-w-sm' : 'max-w-lg'} rounded-2xl overflow-hidden shadow-2xl coach-card-enhanced group bg-white cursor-pointer relative border border-gray-100`} 
         style={{ 
-          minHeight: small ? 120 : 160,
+          minHeight: small ? 120 : 180,
           opacity: isLoaded ? 1 : 0,
           transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
           transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -135,11 +135,11 @@ export default function CoachCard({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Hover overlay effect */}
-        <div className={`absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-xl pointer-events-none`}></div>
+        {/* Enhanced hover overlay effect */}
+        <div className={`absolute inset-0 bg-gradient-to-br from-blue-600/15 to-purple-600/15 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none`}></div>
         
         {/* Left: Image section */}
-      <div className={`w-2/5 bg-gray-100 relative overflow-hidden`}>
+      <div className={`w-2/5 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden`}>
         {/* Handle both Coach and CoachProfile image fields */}
         {(() => {
           const imageUrl = 'profileImage' in coach ? coach.profileImage : ('avatar' in coach ? coach.avatar : undefined);
@@ -156,13 +156,13 @@ export default function CoachCard({
               }}
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <FaUser className="text-gray-400 text-4xl" />
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+              <FaUser className="text-gray-400 text-5xl" />
             </div>
           );
         })()}
-        {/* Gradient overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        {/* Enhanced gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         {isOwner && onImageEdit && (
           <button
             onClick={onImageEdit}
@@ -176,22 +176,22 @@ export default function CoachCard({
       {/* Right: Main info */}
       <div className={`w-3/5 ${small ? 'bg-white p-4' : 'bg-white p-6'} flex flex-col justify-center relative`} style={{ backgroundColor: 'white' }}>
         
-        <h3 className={`font-bold text-gray-900 mb-2 ${small ? 'text-lg' : 'text-2xl'} transition-all duration-500 group-hover:text-blue-600 group-hover:scale-105 transform`}>{coach.name}</h3>
-        <p className={`text-gray-600 mb-4 ${small ? 'text-xs' : 'text-sm'} line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700 overflow-hidden`}>
+        <h3 className={`font-extrabold text-gray-900 mb-3 ${small ? 'text-lg' : 'text-3xl'} transition-all duration-500 group-hover:text-blue-600 group-hover:scale-105 transform bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text group-hover:from-blue-600 group-hover:to-blue-800`}>{coach.name}</h3>
+        <p className={`text-gray-600 mb-5 ${small ? 'text-xs' : 'text-base'} line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700 overflow-hidden font-medium`}>
           {coach.bio && coach.bio.length > 100 ? `${coach.bio.substring(0, 100)}...` : (coach.bio || 'No bio available')}
         </p>
-        <div className="flex flex-wrap gap-1 items-center mb-4">
-          {specialties.length > 0 && renderTags(specialties, 'bg-blue-100 text-blue-800 group-hover:bg-blue-200 group-hover:text-blue-900', 'Specialty')}
-          {credentials.length > 0 && renderTags(credentials, 'bg-green-100 text-green-800 group-hover:bg-green-200 group-hover:text-green-900', 'Credential')}
-          {divisions.length > 0 && renderTags(divisions, 'bg-purple-100 text-purple-800 group-hover:bg-purple-200 group-hover:text-purple-900', 'Division')}
-          {clientTypes.length > 0 && renderTags(clientTypes, 'bg-yellow-100 text-yellow-800 group-hover:bg-yellow-200 group-hover:text-yellow-900', 'Client Type')}
-          {federations.length > 0 && renderTags(federations, 'bg-pink-100 text-pink-800 group-hover:bg-pink-200 group-hover:text-pink-900', 'Federation')}
+        <div className="flex flex-wrap gap-2 items-center mb-4">
+          {specialties.length > 0 && renderTags(specialties, 'bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 group-hover:from-blue-200 group-hover:to-blue-300 group-hover:text-blue-900 shadow-sm', 'Specialty')}
+          {credentials.length > 0 && renderTags(credentials, 'bg-gradient-to-r from-green-100 to-green-200 text-green-800 group-hover:from-green-200 group-hover:to-green-300 group-hover:text-green-900 shadow-sm', 'Credential')}
+          {divisions.length > 0 && renderTags(divisions, 'bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 group-hover:from-purple-200 group-hover:to-purple-300 group-hover:text-purple-900 shadow-sm', 'Division')}
+          {clientTypes.length > 0 && renderTags(clientTypes, 'bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 group-hover:from-yellow-200 group-hover:to-yellow-300 group-hover:text-yellow-900 shadow-sm', 'Client Type')}
+          {federations.length > 0 && renderTags(federations, 'bg-gradient-to-r from-pink-100 to-pink-200 text-pink-800 group-hover:from-pink-200 group-hover:to-pink-300 group-hover:text-pink-900 shadow-sm', 'Federation')}
         </div>
         
-        {/* Modern click indicator */}
+        {/* Enhanced click indicator */}
         <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
-          <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center shadow-lg">
-            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+          <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-xl border-2 border-white">
+            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
             </svg>
           </div>
