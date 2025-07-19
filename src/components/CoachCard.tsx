@@ -62,7 +62,7 @@ export default function CoachCard({
   };
 
   const specialties = normalizeTags(coach.specialties);
-  const credentials = normalizeTags(coach.credentials || coach.certifications);
+  const credentials = normalizeTags((coach as any).credentials || coach.certifications);
   const fixDivisionName = (division: string) => {
     if (division.trim().toLowerCase() === 'womens bodybuilding') {
       return "Women's Bodybuilding";
@@ -71,7 +71,7 @@ export default function CoachCard({
   };
 
   const divisions = normalizeTags(coach.divisions).map(fixDivisionName);
-  const clientTypes = normalizeTags(coach.clientTypes);
+  const clientTypes = normalizeTags((coach as any).clientTypes);
   const federations = normalizeTags(coach.federations);
 
   // Helper to render tags with consistent styling and animations
