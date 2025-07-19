@@ -22,8 +22,10 @@ export default async function CoachProfilePage({ params }: { params: { id: strin
   const coach = serializeCoach(doc.data()) as Coach;
 
   return (
-    <div className="max-w-3xl mx-auto mt-8">
-      <CoachProfile coach={coach} />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-12 px-4">
+      <div className="max-w-6xl mx-auto">
+        <CoachProfile coach={coach} />
+      </div>
     </div>
   );
 } 

@@ -1,11 +1,11 @@
 "use client";
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Coach, PLAN_BENEFITS } from '@/lib/firebase/models/coach';
 import VerifiedBadge from './VerifiedBadge';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { FaStar, FaMapMarkerAlt, FaBolt, FaUser, FaEnvelope } from 'react-icons/fa';
+import { FaStar, FaMapMarkerAlt, FaBolt, FaUser, FaEnvelope, FaMedal, FaTrophy, FaAward, FaCheckCircle } from 'react-icons/fa';
 
 interface CoachProfileProps {
   coach: Coach;
@@ -17,7 +17,14 @@ export default function CoachProfile({ coach, showActions = true }: CoachProfile
   const [showMessageBox, setShowMessageBox] = useState(false);
   const [message, setMessage] = useState('');
   const [sendStatus, setSendStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [isLoaded, setIsLoaded] = useState(false);
   const { user } = useAuth();
+
+  // Animate component entrance
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Normalize and filter out empty tags
   const normalizeTags = (tags: string[] | undefined): string[] => {
@@ -31,12 +38,16 @@ export default function CoachProfile({ coach, showActions = true }: CoachProfile
   const clientTypes = normalizeTags(coach.clientTypes);
   const federations = normalizeTags(coach.federations);
 
-  // Helper to render tags with consistent styling
+  // Helper to render tags with consistent styling (keeping original style as requested)
   const renderTags = (items: string[], color: string, text: string) =>
     items.map((item, idx) => (
       <span
         key={`${text}-${item}-${idx}`}
-        className={`inline-block px-3 py-1 mr-2 mb-2 rounded-full text-sm font-medium ${color}`}
+        className={`inline-block px-3 py-1 mr-2 mb-2 rounded-full text-sm font-medium ${color} transition-all duration-300 hover:scale-105 hover:shadow-md`}
+        style={{ 
+          animationDelay: `${idx * 50}ms`,
+          animation: isLoaded ? 'fadeInUp 0.5s ease-out forwards' : 'none'
+        }}
       >
         {item}
       </span>
@@ -68,105 +79,148 @@ export default function CoachProfile({ coach, showActions = true }: CoachProfile
   };
 
   return (
-    <div className="flex w-full max-w-4xl rounded-2xl overflow-hidden shadow-lg transition-all duration-200 bg-white dark:bg-transparent">
+    <div 
+      className="flex w-full max-w-5xl rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 bg-white dark:bg-transparent transform hover:scale-[1.01]"
+      style={{ 
+        opacity: isLoaded ? 1 : 0,
+        transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
+        transition: 'all 0.6s ease-out'
+      }}
+    >
       {/* Left: Image section */}
-      <div className="w-1/3 bg-[#374151] relative min-h-[400px]">
+      <div className="w-2/5 bg-gradient-to-br from-[#374151] to-[#232b36] relative min-h-[500px] overflow-hidden">
         {coach.avatar ? (
           <Image
             src={coach.avatar}
             alt={coach.name}
             fill
-            className="object-cover"
+            className="object-cover transition-transform duration-700 hover:scale-105"
             unoptimized={coach.avatar.includes('firebasestorage.googleapis.com')}
           />
         ) : (
-          <div className="w-full h-full bg-gray-600 flex items-center justify-center">
-            <FaUser className="text-white text-6xl opacity-50" />
+          <div className="w-full h-full bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center">
+            <FaUser className="text-white/40 text-8xl" />
           </div>
         )}
+        {/* Gradient overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+        
+        {/* Status badge overlay */}
+        <div className="absolute top-6 left-6">
+          <div className="bg-yellow-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
+            <FaStar className="mr-1" />
+            New Coach
+          </div>
+        </div>
       </div>
 
       {/* Right: Main info */}
-      <div className="w-2/3 bg-[#232b36] p-8 flex flex-col justify-start">
+      <div className="w-3/5 bg-gradient-to-br from-[#232b36] to-[#1a1f28] p-10 flex flex-col justify-start">
         {/* Header */}
-        <div className="mb-6">
-          <div className="flex items-center space-x-3 mb-2">
-            <h1 className="text-3xl font-bold text-white">{coach.name}</h1>
+        <div className="mb-8">
+          <div className="flex items-center space-x-4 mb-3">
+            <h1 className="text-4xl font-bold text-white tracking-tight">{coach.name}</h1>
             {isVerified && <VerifiedBadge />}
           </div>
           
-          <p className="text-gray-300 text-lg mb-3">
+          <p className="text-blue-300 text-xl mb-4 font-medium">
             {coach.trainingStyle?.join(', ') || 'Bodybuilding Coach'}
           </p>
 
-          <div className="flex items-center space-x-6 text-gray-300">
-            <div className="flex items-center">
-              <FaStar className="text-yellow-400 mr-2" />
-              <span className="font-medium">New</span>
+          <div className="flex items-center space-x-8 text-gray-300">
+            <div className="flex items-center bg-gray-800/50 px-3 py-1 rounded-full">
+              <FaMapMarkerAlt className="mr-2 text-blue-400" />
+              <span className="font-medium">{coach.location?.city}, {coach.location?.state}</span>
             </div>
-            <div className="flex items-center">
-              <FaMapMarkerAlt className="mr-2" />
-              <span>{coach.location?.city}, {coach.location?.state}</span>
-            </div>
-            <div className="flex items-center">
-              <FaBolt className="mr-2" />
-              <span>{coach.experience || 'Experienced'}</span>
+            <div className="flex items-center bg-gray-800/50 px-3 py-1 rounded-full">
+              <FaBolt className="mr-2 text-yellow-400" />
+              <span className="font-medium">{coach.experience || 'Experienced'}</span>
             </div>
           </div>
         </div>
 
         {/* About Section */}
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-white mb-3">About</h2>
-          <p className="text-gray-300 leading-relaxed">{coach.bio || 'No bio available.'}</p>
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+            <FaUser className="mr-3 text-blue-400" />
+            About
+          </h2>
+          <div className="bg-gray-800/30 rounded-xl p-6 border border-gray-700/50">
+            <p className="text-gray-200 leading-relaxed text-lg">{coach.bio || 'No bio available.'}</p>
+          </div>
         </div>
 
         {/* Specialties Section */}
         {specialties.length > 0 && (
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold text-white mb-3">Specialties</h2>
-            <div className="flex flex-wrap">
-              {renderTags(specialties, 'bg-blue-100 text-blue-800', 'Specialty')}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+              <FaMedal className="mr-3 text-blue-400" />
+              Specialties
+            </h2>
+            <div className="bg-gray-800/30 rounded-xl p-6 border border-gray-700/50">
+              <div className="flex flex-wrap">
+                {renderTags(specialties, 'bg-blue-100 text-blue-800', 'Specialty')}
+              </div>
             </div>
           </div>
         )}
 
         {/* Credentials Section */}
         {credentials.length > 0 && (
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold text-white mb-3">Credentials</h2>
-            <div className="flex flex-wrap">
-              {renderTags(credentials, 'bg-green-100 text-green-800', 'Credential')}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+              <FaAward className="mr-3 text-green-400" />
+              Credentials
+            </h2>
+            <div className="bg-gray-800/30 rounded-xl p-6 border border-gray-700/50">
+              <div className="flex flex-wrap">
+                {renderTags(credentials, 'bg-green-100 text-green-800', 'Credential')}
+              </div>
             </div>
           </div>
         )}
 
         {/* Divisions Section */}
         {divisions.length > 0 && (
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold text-white mb-3">Divisions</h2>
-            <div className="flex flex-wrap">
-              {renderTags(divisions, 'bg-purple-100 text-purple-800', 'Division')}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+              <FaTrophy className="mr-3 text-purple-400" />
+              Divisions
+            </h2>
+            <div className="bg-gray-800/30 rounded-xl p-6 border border-gray-700/50">
+              <div className="flex flex-wrap">
+                {renderTags(divisions, 'bg-purple-100 text-purple-800', 'Division')}
+              </div>
             </div>
           </div>
         )}
 
         {/* Client Types Section */}
         {clientTypes.length > 0 && (
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold text-white mb-3">Client Types</h2>
-            <div className="flex flex-wrap">
-              {renderTags(clientTypes, 'bg-yellow-100 text-yellow-800', 'Client Type')}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+              <FaCheckCircle className="mr-3 text-yellow-400" />
+              Client Types
+            </h2>
+            <div className="bg-gray-800/30 rounded-xl p-6 border border-gray-700/50">
+              <div className="flex flex-wrap">
+                {renderTags(clientTypes, 'bg-yellow-100 text-yellow-800', 'Client Type')}
+              </div>
             </div>
           </div>
         )}
 
         {/* Federations Section */}
         {federations.length > 0 && (
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold text-white mb-3">Federations</h2>
-            <div className="flex flex-wrap">
-              {renderTags(federations, 'bg-pink-100 text-pink-800', 'Federation')}
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
+              <FaTrophy className="mr-3 text-pink-400" />
+              Federations
+            </h2>
+            <div className="bg-gray-800/30 rounded-xl p-6 border border-gray-700/50">
+              <div className="flex flex-wrap">
+                {renderTags(federations, 'bg-pink-100 text-pink-800', 'Federation')}
+              </div>
             </div>
           </div>
         )}
@@ -175,33 +229,37 @@ export default function CoachProfile({ coach, showActions = true }: CoachProfile
         {showActions && (
           <div className="mt-auto">
             <button
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2"
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl"
               onClick={() => setShowMessageBox((v) => !v)}
             >
-              <FaEnvelope />
-              <span>Contact Coach</span>
+              <FaEnvelope className="text-lg" />
+              <span className="text-lg">Contact Coach</span>
             </button>
             
             {showMessageBox && (
-              <div className="mt-4 space-y-3">
+              <div className="mt-6 space-y-4 bg-gray-800/30 rounded-xl p-6 border border-gray-700/50">
                 <textarea
-                  className="w-full border border-gray-300 rounded-lg p-3 text-gray-900 resize-none"
+                  className="w-full border border-gray-600 bg-gray-700/50 rounded-xl p-4 text-white placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                   rows={4}
-                  placeholder="Write your message..."
+                  placeholder="Write your message to this coach..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                 />
                 <button
-                  className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
                   onClick={handleSend}
                 >
                   Send Message
                 </button>
                 {sendStatus === 'success' && (
-                  <div className="text-green-400 text-sm text-center">Message sent successfully!</div>
+                  <div className="text-green-400 text-sm text-center bg-green-900/20 p-3 rounded-lg border border-green-500/30">
+                    ✓ Message sent successfully!
+                  </div>
                 )}
                 {sendStatus === 'error' && (
-                  <div className="text-red-400 text-sm text-center">Failed to send message. Please try again.</div>
+                  <div className="text-red-400 text-sm text-center bg-red-900/20 p-3 rounded-lg border border-red-500/30">
+                    ✗ Failed to send message. Please try again.
+                  </div>
                 )}
               </div>
             )}
