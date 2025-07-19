@@ -61,8 +61,9 @@ export default function CoachCard({
       .filter((tag, index, array) => array.indexOf(tag) === index); // Remove duplicates
   };
 
+  // Handle both Coach and CoachProfile types for all fields
   const specialties = normalizeTags(coach.specialties);
-  const credentials = normalizeTags((coach as any).credentials || coach.certifications);
+  const credentials = normalizeTags('credentials' in coach ? coach.credentials : coach.certifications);
   const fixDivisionName = (division: string) => {
     if (division.trim().toLowerCase() === 'womens bodybuilding') {
       return "Women's Bodybuilding";
@@ -71,7 +72,7 @@ export default function CoachCard({
   };
 
   const divisions = normalizeTags(coach.divisions).map(fixDivisionName);
-  const clientTypes = normalizeTags((coach as any).clientTypes);
+  const clientTypes = normalizeTags('clientTypes' in coach ? coach.clientTypes : []);
   const federations = normalizeTags(coach.federations);
 
   // Helper to render tags with consistent styling and animations
@@ -113,23 +114,27 @@ export default function CoachCard({
     >
       {/* Left: Image section */}
       <div className={`w-2/5 ${small ? 'bg-gray-200' : 'bg-gray-300'} relative overflow-hidden`}>
-        {(coach.avatar || (coach as any).profileImage) && !imageError ? (
-          <Image
-            src={coach.avatar || (coach as any).profileImage}
-            alt={coach.name}
-            fill
-            className={`object-cover transition-transform duration-700 ${isHovered ? 'scale-110' : 'scale-100'}`}
-            unoptimized={(coach.avatar || (coach as any).profileImage).includes('firebasestorage.googleapis.com')}
-            onError={() => {
-              console.error('Failed to load image:', coach.avatar || (coach as any).profileImage);
-              setImageError(true);
-            }}
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <FaUser className="text-gray-400 text-4xl" />
-          </div>
-        )}
+        {/* Handle both Coach and CoachProfile image fields */}
+        {(() => {
+          const imageUrl = 'profileImage' in coach ? coach.profileImage : coach.avatar;
+          return imageUrl && !imageError ? (
+            <Image
+              src={imageUrl}
+              alt={coach.name}
+              fill
+              className={`object-cover transition-transform duration-700 ${isHovered ? 'scale-110' : 'scale-100'}`}
+              unoptimized={imageUrl.includes('firebasestorage.googleapis.com')}
+              onError={() => {
+                console.error('Failed to load image:', imageUrl);
+                setImageError(true);
+              }}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <FaUser className="text-gray-400 text-4xl" />
+            </div>
+          );
+        })()}
         {/* Gradient overlay for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         {isOwner && onImageEdit && (
