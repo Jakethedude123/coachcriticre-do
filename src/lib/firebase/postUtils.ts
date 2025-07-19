@@ -66,7 +66,12 @@ export async function createPost(
     return postRef.id;
   } catch (error) {
     console.error('Error creating post:', error);
-    throw new Error('Failed to create post');
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      name: error instanceof Error ? error.name : 'Unknown'
+    });
+    throw new Error(`Failed to create post: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
@@ -93,7 +98,12 @@ export async function getPosts(filters: PostFilters = { filter: 'all' }, lastPos
     })) as Post[];
   } catch (error) {
     console.error('Error fetching posts:', error);
-    throw new Error('Failed to fetch posts');
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      name: error instanceof Error ? error.name : 'Unknown'
+    });
+    throw new Error(`Failed to fetch posts: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
