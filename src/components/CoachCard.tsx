@@ -137,7 +137,8 @@ export default function CoachCard({
       >
         {/* Hover overlay effect */}
         <div className={`absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-xl pointer-events-none`}></div>
-      {/* Left: Image section */}
+        
+        {/* Left: Image section */}
       <div className={`w-2/5 ${small ? 'bg-gray-200' : 'bg-gray-300'} relative overflow-hidden`}>
         {/* Handle both Coach and CoachProfile image fields */}
         {(() => {
@@ -214,6 +215,7 @@ export default function CoachCard({
           </div>
         </div>
       </div>
+    </div>
     </Link>
   );
 }
