@@ -92,7 +92,9 @@ export default function CoachCard({
   const handleSelectionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (selectable && onSelect) {
-      onSelect(coach.id, !selected);
+      // Handle both Coach and CoachProfile types
+      const coachId = 'id' in coach ? coach.id : coach.userId;
+      onSelect(coachId, !selected);
     }
   };
 
@@ -178,7 +180,7 @@ export default function CoachCard({
         {/* Profile link button */}
         {!hideViewProfile && (
           <Link 
-            href={`/coaches/${coach.userId || (coach as any).id}`}
+            href={`/coaches/${'id' in coach ? coach.id : coach.userId}`}
             className={`inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-105 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform`}
           >
             <FaUser className="mr-2" size={small ? 12 : 14} />
