@@ -251,7 +251,7 @@ export default function CoachesPage() {
             ) : (
               <ul className="space-y-6 w-full">
                 {coaches.slice(0, 6).map((coach) => (
-                  <li key={coach.userId} className="w-full max-w-2xl">
+                  <li key={coach.userId} className="w-full max-w-xs">
                     <CoachCard 
                       coach={coach}
                       small

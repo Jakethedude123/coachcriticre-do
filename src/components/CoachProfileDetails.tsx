@@ -199,7 +199,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
       <div className="flex justify-center mb-8">
         <div className="flex gap-6 items-start max-w-4xl w-full">
           {/* Coach Card */}
-          <div className="flex-1 max-w-sm">
+          <div className="flex-1 max-w-xs">
             <CoachCard 
               coach={coach} 
               isOwner={isOwner}

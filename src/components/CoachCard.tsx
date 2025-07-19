@@ -121,7 +121,7 @@ export default function CoachCard({
 
     const cardContent = (
     <div 
-      className={`flex flex-col w-full ${small ? 'w-full' : 'max-w-sm'} rounded-2xl overflow-hidden shadow-2xl coach-card-enhanced group cursor-pointer relative border border-gray-100`} 
+      className={`flex flex-col w-full ${small ? 'w-full' : 'max-w-xs'} rounded-2xl overflow-hidden shadow-2xl coach-card-enhanced group cursor-pointer relative border border-gray-100`} 
       style={{ 
         minHeight: small ? 200 : 320,
         opacity: isLoaded ? 1 : 0,
@@ -136,18 +136,38 @@ export default function CoachCard({
       {/* Enhanced hover overlay effect */}
               <div className={`absolute inset-0 bg-gradient-to-br from-[#667eea]/15 to-[#764ba2]/15 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none`}></div>
       
-      {/* Top: Image section with gradient background */}
-      <div className={`h-2/5 bg-gradient-to-br from-[#667eea] to-[#764ba2] relative overflow-hidden flex items-center justify-center`}>
-        {/* Handle both Coach and CoachProfile image fields */}
+      {/* Top: Image section with Instagram story-style background */}
+      <div className={`h-1/2 relative overflow-hidden flex items-center justify-center`}>
+        {/* Blurred background image (Instagram story style) */}
         {(() => {
           const imageUrl = 'profileImage' in coach ? coach.profileImage : ('avatar' in coach ? coach.avatar : undefined);
           return imageUrl && !imageError ? (
-            <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg">
+            <div className="absolute inset-0">
               <Image
                 src={imageUrl}
                 alt={coach.name}
-                width={96}
-                height={96}
+                fill
+                className="object-cover blur-sm scale-110"
+                unoptimized={imageUrl.includes('firebasestorage.googleapis.com')}
+              />
+              {/* Gradient overlay for better contrast */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#667eea]/80 to-[#764ba2]/80"></div>
+            </div>
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-[#667eea] to-[#764ba2]"></div>
+          );
+        })()}
+        
+        {/* Circular profile picture */}
+        {(() => {
+          const imageUrl = 'profileImage' in coach ? coach.profileImage : ('avatar' in coach ? coach.avatar : undefined);
+          return imageUrl && !imageError ? (
+            <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-white shadow-lg relative z-10">
+              <Image
+                src={imageUrl}
+                alt={coach.name}
+                width={112}
+                height={112}
                 className={`object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110`}
                 unoptimized={imageUrl.includes('firebasestorage.googleapis.com')}
                 onError={() => {
@@ -157,8 +177,8 @@ export default function CoachCard({
               />
             </div>
           ) : (
-            <div className="w-24 h-24 rounded-full bg-white/20 flex items-center justify-center border-4 border-white shadow-lg">
-              <FaUser className="text-white text-4xl" />
+            <div className="w-28 h-28 rounded-full bg-white/20 flex items-center justify-center border-4 border-white shadow-lg relative z-10">
+              <FaUser className="text-white text-5xl" />
             </div>
           );
         })()}
@@ -171,7 +191,7 @@ export default function CoachCard({
               e.stopPropagation();
               onImageEdit();
             }}
-            className="absolute top-2 right-2 p-2 bg-black/60 hover:bg-black/80 rounded-full text-white transition-all duration-300 hover:scale-110 backdrop-blur-sm z-10"
+            className="absolute top-3 right-3 p-2 bg-black/60 hover:bg-black/80 rounded-full text-white transition-all duration-300 hover:scale-110 backdrop-blur-sm z-20"
             title="Edit profile image"
           >
             <FaCamera size={small ? 12 : 14} />
@@ -180,27 +200,42 @@ export default function CoachCard({
       </div>
 
       {/* Bottom: Main info */}
-      <div className={`h-3/5 p-6 flex flex-col justify-start relative bg-white`}>
+      <div className={`h-1/2 p-4 flex flex-col justify-start relative bg-white`}>
         {/* Coach name */}
-        <h3 className={`font-bold text-gray-900 mb-1 text-center ${small ? 'text-lg' : 'text-xl'} transition-all duration-500 group-hover:text-blue-600`}>
+        <h3 className={`font-bold text-gray-900 mb-2 text-center ${small ? 'text-lg' : 'text-xl'} transition-all duration-500 group-hover:text-blue-600`}>
           {coach.name.toUpperCase()}
         </h3>
         
         {/* Bio */}
-        <p className={`text-gray-600 mb-4 text-center text-sm line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700`}>
-          {coach.bio && coach.bio.length > 80 ? `${coach.bio.substring(0, 80)}...` : (coach.bio || 'No bio available')}
+        <p className={`text-gray-600 mb-3 text-center text-sm line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700`}>
+          {coach.bio && coach.bio.length > 60 ? `${coach.bio.substring(0, 60)}...` : (coach.bio || 'No bio available')}
         </p>
         
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1 justify-center mb-4">
-          {specialties.slice(0, 3).map((specialty, idx) => (
+        {/* All Tags - Show more tags */}
+        <div className="flex flex-wrap gap-1 justify-center">
+          {specialties.map((specialty, idx) => (
             <span key={`specialty-${idx}`} className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
               {specialty}
             </span>
           ))}
-          {credentials.slice(0, 2).map((credential, idx) => (
+          {credentials.map((credential, idx) => (
             <span key={`credential-${idx}`} className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
               {credential}
+            </span>
+          ))}
+          {divisions.map((division, idx) => (
+            <span key={`division-${idx}`} className="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs font-medium">
+              {division}
+            </span>
+          ))}
+          {clientTypes.map((clientType, idx) => (
+            <span key={`clientType-${idx}`} className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
+              {clientType}
+            </span>
+          ))}
+          {federations.map((federation, idx) => (
+            <span key={`federation-${idx}`} className="bg-pink-100 text-pink-800 px-2 py-1 rounded-full text-xs font-medium">
+              {federation}
             </span>
           ))}
         </div>
