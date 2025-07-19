@@ -50,6 +50,7 @@ export interface CreatePostData {
 
 export interface PostFilters {
   filter: 'all' | 'my-posts' | 'followed-tags';
+  coachId?: string;
   followedTags?: string[];
 }
 
