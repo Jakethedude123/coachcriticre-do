@@ -162,11 +162,12 @@ export class NotificationService {
   static async updateAnalytics(coachId: string, type: keyof Analytics) {
     try {
       const { adminDb } = await import('../firebase/firebaseAdmin');
+      const admin = await import('firebase-admin');
       const coachRef = adminDb.collection('coaches').doc(coachId);
       
       await coachRef.update({
-        [`analytics.${type}`]: adminDb.FieldValue.increment(1),
-        [`analytics.history`]: adminDb.FieldValue.arrayUnion({
+        [`analytics.${type}`]: admin.firestore.FieldValue.increment(1),
+        [`analytics.history`]: admin.firestore.FieldValue.arrayUnion({
           date: new Date().toISOString(),
           metric: type,
           value: 1
