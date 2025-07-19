@@ -47,25 +47,7 @@ function CoachSpotlight() {
             className={`absolute left-0 right-0 transition-all duration-700 ${idx === current ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-95 z-0'} pointer-events-none`}
             style={{ minHeight: 320 }}
           >
-            <CoachCard coach={{
-              id: coach.userId,
-              name: coach.name,
-              specialties: Array.isArray(coach.specialties) ? coach.specialties : [],
-              bio: coach.bio || '',
-              profileImageUrl: coach.avatar || '',
-              rating: 0,
-              testimonialCount: 0,
-              credentials: Array.isArray(coach.credentials) ? coach.credentials : [],
-              divisions: Array.isArray(coach.divisions) ? coach.divisions : [],
-              clientTypes: Array.isArray(coach.clientTypes)
-                ? coach.clientTypes
-                : coach.clientTypes
-                  ? Object.entries(coach.clientTypes)
-                      .filter(([_, v]) => v)
-                      .map(([k]) => k)
-                  : [],
-              federations: Array.isArray(coach.federations) ? coach.federations : [],
-            }} />
+            <CoachCard coach={coach} />
           </div>
         ))}
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">

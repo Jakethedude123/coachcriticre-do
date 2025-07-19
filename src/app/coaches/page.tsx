@@ -163,8 +163,8 @@ export default function CoachesPage() {
 
   // Get selected coach data
   const getSelectedCoachData = () => {
-    const coach1 = coaches.find(c => c.id === selectedCoaches[0] || c.userId === selectedCoaches[0]);
-    const coach2 = coaches.find(c => c.id === selectedCoaches[1] || c.userId === selectedCoaches[1]);
+    const coach1 = coaches.find(c => c.userId === selectedCoaches[0]);
+    const coach2 = coaches.find(c => c.userId === selectedCoaches[1]);
     return { coach1, coach2 };
   };
 
@@ -251,32 +251,12 @@ export default function CoachesPage() {
             ) : (
               <ul className="space-y-6 w-full">
                 {coaches.slice(0, 6).map((coach) => (
-                  <li key={coach.id || coach.userId}>
+                  <li key={coach.userId}>
                     <CoachCard 
-                      coach={{
-                        id: coach.id || coach.userId,
-                        name: coach.name,
-                        specialties: Array.isArray(coach.specialties) ? coach.specialties : [],
-                        bio: coach.bio || '',
-                        profileImageUrl: coach.profileImage || '',
-                        rating: coach.rating || 0,
-                        testimonialCount: coach.testimonialCount || 0,
-                        clientTypes: Array.isArray(coach.clientTypes)
-                          ? coach.clientTypes
-                          : coach.clientTypes
-                            ? Object.entries(coach.clientTypes)
-                                .filter(([_, v]) => v)
-                                .map(([k]) => k)
-                            : [],
-                        divisions: Array.isArray(coach.divisions) ? coach.divisions : [],
-                        federations: Array.isArray(coach.federations) ? coach.federations : [],
-                        credentials: Array.isArray(coach.certifications) ? coach.certifications : [],
-                        responseTime: coach.responseTime,
-                        yearsExperience: coach.yearsExperience,
-                      }}
+                      coach={coach}
                       small
                       selectable={isCompareMode}
-                      selected={selectedCoaches.includes(coach.id || coach.userId)}
+                      selected={selectedCoaches.includes(coach.userId)}
                       onSelect={handleCoachSelect}
                       showCheckbox={isCompareMode}
                     />

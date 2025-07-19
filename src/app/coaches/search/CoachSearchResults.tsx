@@ -4,11 +4,12 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import CoachCard from '@/components/CoachCard';
+import type { Coach } from "@/lib/firebase/models/coach";
 
 export default function CoachSearchResults() {
   const searchParams = useSearchParams();
   const q = searchParams.get('q') || '';
-  const [coaches, setCoaches] = useState([]);
+  const [coaches, setCoaches] = useState<Coach[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -29,21 +30,9 @@ export default function CoachSearchResults() {
         <p>No coaches found.</p>
       ) : (
         <ul className="space-y-6">
-          {coaches.map((coach: any) => (
-            <li key={coach.id}>
-              <CoachCard coach={{
-                id: coach.id || coach.userId,
-                name: coach.name,
-                specialties: Array.isArray(coach.specialties) ? coach.specialties : (coach.specialty ? [coach.specialty] : []),
-                bio: coach.bio || '',
-                profileImageUrl: coach.profileImageUrl || coach.avatar || '',
-                rating: coach.rating || 0,
-                testimonialCount: coach.testimonialCount || 0,
-                credentials: Array.isArray(coach.certifications) ? coach.certifications : [],
-                divisions: Array.isArray(coach.divisions) ? coach.divisions : [],
-                clientTypes: Array.isArray(coach.clientTypes) ? coach.clientTypes : [],
-                federations: Array.isArray(coach.federations) ? coach.federations : [],
-              }} />
+          {coaches.map((coach) => (
+            <li key={coach.userId}>
+              <CoachCard coach={coach} />
             </li>
           ))}
         </ul>

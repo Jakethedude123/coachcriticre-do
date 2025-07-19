@@ -45,19 +45,7 @@ export default function AllCoachesClient() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((coach) => (
             <div key={coach.userId} className="h-full">
-              <CoachCard coach={{
-                id: coach.userId,
-                name: coach.name,
-                specialties: coach.specialties || [],
-                bio: coach.bio || '',
-                profileImageUrl: coach.avatar || '',
-                rating: 0,
-                testimonialCount: 0,
-                credentials: coach.credentials || [],
-                divisions: coach.divisions || [],
-                clientTypes: coach.clientTypes || [],
-                federations: coach.federations || [],
-              }} small />
+              <CoachCard coach={coach} small />
             </div>
           ))}
         </div>

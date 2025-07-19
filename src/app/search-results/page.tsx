@@ -1,19 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import CoachCard from '@/components/CoachCard';
-
-interface Coach {
-  id: string;
-  name: string;
-  specialty?: string;
-  location?: {
-    city?: string;
-    state?: string;
-    country?: string;
-    [key: string]: any;
-  };
-  [key: string]: any;
-}
+import type { Coach } from "@/lib/firebase/models/coach";
 
 export default function SearchResultsPage() {
   const [coaches, setCoaches] = useState<Coach[]>([]);
@@ -47,25 +35,11 @@ export default function SearchResultsPage() {
       {error && <p className="text-center text-red-500">{error}</p>}
       <div className="grid md:grid-cols-3 gap-6">
         {coaches.map((coach) => {
-          // Map coach data to match unified CoachCard props
-          const mappedCoach = {
-            id: coach.id || coach.userId,
-            name: coach.name,
-            specialties: Array.isArray(coach.specialties) ? coach.specialties : (coach.specialty ? [coach.specialty] : []),
-            bio: coach.bio || '',
-            profileImageUrl: coach.profileImageUrl || coach.avatar || '',
-            rating: coach.rating || 0,
-            testimonialCount: coach.testimonialCount || 0,
-            credentials: Array.isArray(coach.certifications) ? coach.certifications : [],
-            divisions: Array.isArray(coach.divisions) ? coach.divisions : [],
-            clientTypes: Array.isArray(coach.clientTypes) ? coach.clientTypes : [],
-            federations: Array.isArray(coach.federations) ? coach.federations : [],
-          };
-          const isExpanded = hoveredCoachId === coach.id;
+          const isExpanded = hoveredCoachId === coach.userId;
           return (
             <div
-              key={coach.id}
-              onMouseEnter={() => setHoveredCoachId(coach.id)}
+              key={coach.userId}
+              onMouseEnter={() => setHoveredCoachId(coach.userId)}
               onMouseLeave={() => setHoveredCoachId(null)}
               className={`transition-all duration-300 overflow-hidden bg-white rounded-lg ${isExpanded ? 'shadow-2xl' : 'shadow'} p-0`}
               style={{
@@ -76,7 +50,7 @@ export default function SearchResultsPage() {
               }}
             >
               <div className="transition-opacity duration-200" style={{ opacity: 1, width: '100%' }}>
-                <CoachCard coach={mappedCoach} />
+                <CoachCard coach={coach} />
               </div>
             </div>
           );
