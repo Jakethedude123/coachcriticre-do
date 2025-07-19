@@ -196,6 +196,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
           <span>View Posts</span>
         </Link>
       </div>
+      {/* Top row with coach card and location box */}
       <div className="flex justify-center mb-8">
         <div className="flex gap-6 items-start max-w-4xl w-full">
           {/* Coach Card */}
@@ -265,7 +266,8 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
       </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-x-hidden">
+      {/* Grid layout for info boxes - aligned with coach card */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-x-hidden max-w-4xl mx-auto">
         {/* About Box */}
         {editBox === 'about' ? (
           <div className="bg-white rounded-lg shadow p-6 relative col-span-1 md:col-span-2">
@@ -376,25 +378,6 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
                   {specialty}
                 </span>
               ))}
-            </div>
-            <div
-              className={`transition-all duration-300 ${editBox === 'specialties' ? 'opacity-100 mt-4' : 'max-h-0 opacity-0 overflow-hidden'}`}
-            >
-              <div className="coach-dropdown-dark">
-                {SPECIALTIES.map((option) => (
-                  <label key={option} className={`coach-dropdown-option-dark ${isOptionSelected('specialties', option) ? 'coach-dropdown-option-selected-dark' : 'coach-dropdown-option-text-dark'}`}
-                  style={{ userSelect: 'none' }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={isOptionSelected('specialties', option)}
-                    onChange={e => handleArrayChange('specialties', option, e.target.checked)}
-                    className="accent-blue-600 w-5 h-5 rounded-full transition-all duration-200 focus:ring-2 focus:ring-blue-400 flex-shrink-0"
-                  />
-                  <span className="transition-all duration-200 text-sm">{option}</span>
-                </label>
-                ))}
-              </div>
             </div>
           </div>
         )}

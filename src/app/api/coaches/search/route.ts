@@ -3,7 +3,11 @@ import { adminDb as db } from '@/lib/firebase/firebaseAdmin';
 
 export async function POST(req: NextRequest) {
   try {
-    const coachesRef = db.collection('coaches');
+    if (!db) {
+      return NextResponse.json({ error: 'Database not initialized' }, { status: 500 });
+    }
+
+    const coachesRef = db!.collection('coaches');
     const snapshot = await coachesRef.get();
     const coaches = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     return NextResponse.json({ coaches });
@@ -14,7 +18,11 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const coachesRef = db.collection('coaches');
+    if (!db) {
+      return NextResponse.json({ error: 'Database not initialized' }, { status: 500 });
+    }
+
+    const coachesRef = db!.collection('coaches');
     const snapshot = await coachesRef.get();
     const coaches = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     return NextResponse.json({ coaches });

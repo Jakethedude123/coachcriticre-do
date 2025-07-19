@@ -39,6 +39,11 @@ export default function CoachCard({
     const timer = setTimeout(() => setIsLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
+
+  // Reset image error when coach changes
+  useEffect(() => {
+    setImageError(false);
+  }, [coach.profileImage, coach.avatar]);
   
   if (!coach) {
     return null;
@@ -119,11 +124,19 @@ export default function CoachCard({
     }
   };
 
+  // Helper function to truncate bio with word limit
+  const truncateBio = (bio: string, wordLimit: number = 8) => {
+    if (!bio) return 'No bio available';
+    const words = bio.split(' ');
+    if (words.length <= wordLimit) return bio;
+    return words.slice(0, wordLimit).join(' ') + '...';
+  };
+
     const cardContent = (
     <div 
       className={`flex flex-col w-full ${small ? 'w-full' : 'max-w-xs'} rounded-2xl overflow-hidden shadow-2xl coach-card-enhanced group cursor-pointer relative border border-gray-100`} 
       style={{ 
-        minHeight: small ? 200 : 320,
+        minHeight: small ? 200 : 360, // Increased height for better 50/50 split
         opacity: isLoaded ? 1 : 0,
         transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
         transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -149,6 +162,10 @@ export default function CoachCard({
                 fill
                 className="object-cover blur-sm scale-110"
                 unoptimized={imageUrl.includes('firebasestorage.googleapis.com')}
+                onError={() => {
+                  console.error('Failed to load background image:', imageUrl);
+                  setImageError(true);
+                }}
               />
               {/* Gradient overlay for better contrast */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#667eea]/80 to-[#764ba2]/80"></div>
@@ -162,23 +179,23 @@ export default function CoachCard({
         {(() => {
           const imageUrl = 'profileImage' in coach ? coach.profileImage : ('avatar' in coach ? coach.avatar : undefined);
           return imageUrl && !imageError ? (
-            <div className="w-28 h-28 rounded-full overflow-hidden border-4 border-white shadow-lg relative z-10">
+            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg relative z-10">
               <Image
                 src={imageUrl}
                 alt={coach.name}
-                width={112}
-                height={112}
+                width={128}
+                height={128}
                 className={`object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110`}
                 unoptimized={imageUrl.includes('firebasestorage.googleapis.com')}
                 onError={() => {
-                  console.error('Failed to load image:', imageUrl);
+                  console.error('Failed to load profile image:', imageUrl);
                   setImageError(true);
                 }}
               />
             </div>
           ) : (
-            <div className="w-28 h-28 rounded-full bg-white/20 flex items-center justify-center border-4 border-white shadow-lg relative z-10">
-              <FaUser className="text-white text-5xl" />
+            <div className="w-32 h-32 rounded-full bg-white/20 flex items-center justify-center border-4 border-white shadow-lg relative z-10">
+              <FaUser className="text-white text-6xl" />
             </div>
           );
         })()}
@@ -206,9 +223,9 @@ export default function CoachCard({
           {coach.name.toUpperCase()}
         </h3>
         
-        {/* Bio */}
-        <p className={`text-gray-600 mb-3 text-center text-sm line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700`}>
-          {coach.bio && coach.bio.length > 60 ? `${coach.bio.substring(0, 60)}...` : (coach.bio || 'No bio available')}
+        {/* Bio with word limit */}
+        <p className={`text-gray-600 mb-3 text-center text-sm leading-relaxed transition-all duration-500 group-hover:text-gray-700`}>
+          {truncateBio(coach.bio, 8)}
         </p>
         
         {/* All Tags - Show more tags */}

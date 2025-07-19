@@ -13,6 +13,11 @@ export class RateLimiter {
   };
 
   private static async getRateLimitData(coachId: string, type: keyof typeof RateLimiter.LIMITS): Promise<RateLimitData> {
+    if (!adminDb) {
+      console.error('Database not initialized for rate limiting');
+      return { count: 0, lastReset: Date.now() };
+    }
+
     const docRef = adminDb.collection('rateLimits').doc(`${coachId}_${type}`);
     const docSnap = await docRef.get();
     
@@ -27,6 +32,11 @@ export class RateLimiter {
   }
 
   private static async updateRateLimit(coachId: string, type: keyof typeof RateLimiter.LIMITS, data: RateLimitData) {
+    if (!adminDb) {
+      console.error('Database not initialized for rate limiting');
+      return;
+    }
+
     const docRef = adminDb.collection('rateLimits').doc(`${coachId}_${type}`);
     await docRef.set(data);
   }

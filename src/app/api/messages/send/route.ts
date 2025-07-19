@@ -3,6 +3,10 @@ import { adminDb } from '@/lib/firebase/firebaseAdmin';
 
 export async function POST(req: NextRequest) {
   try {
+    if (!adminDb) {
+      return NextResponse.json({ error: 'Database not initialized' }, { status: 500 });
+    }
+
     const { to, from, text } = await req.json();
     console.log('[API/messages/send] Received:', { to, from, text });
     if (!to || !from || !text) {

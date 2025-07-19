@@ -8,6 +8,10 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    if (!auth) {
+      return NextResponse.json({ error: 'Authentication not initialized' }, { status: 500 });
+    }
+
     const postId = params.id;
     
     // Get the authorization header
@@ -17,7 +21,7 @@ export async function GET(
     }
 
     const token = authHeader.substring(7);
-    const decodedToken = await auth.verifyIdToken(token);
+    const decodedToken = await auth!.verifyIdToken(token);
     const userId = decodedToken.uid;
 
     // Get coach profile to check if Pro user

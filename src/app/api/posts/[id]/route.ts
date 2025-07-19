@@ -29,6 +29,10 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    if (!auth) {
+      return NextResponse.json({ error: 'Authentication not initialized' }, { status: 500 });
+    }
+
     const postId = params.id;
     
     // Get the authorization header
@@ -55,6 +59,10 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
+    if (!auth) {
+      return NextResponse.json({ error: 'Authentication not initialized' }, { status: 500 });
+    }
+
     const postId = params.id;
     const { action, ...data } = await request.json();
     

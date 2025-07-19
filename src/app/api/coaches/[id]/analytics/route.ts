@@ -18,11 +18,15 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
+    if (!db) {
+      return NextResponse.json({ error: 'Database not initialized' }, { status: 500 });
+    }
+
     const { searchParams } = new URL(request.url);
     const timeRange = searchParams.get('timeRange') || '7d'; // Default to 7 days
 
     // Get the coach document
-    const coachRef = db.collection('coaches').doc(params.id);
+    const coachRef = db!.collection('coaches').doc(params.id);
     const coachDoc = await coachRef.get();
 
     if (!coachDoc.exists) {

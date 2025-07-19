@@ -163,6 +163,12 @@ export class NotificationService {
     try {
       const { adminDb } = await import('../firebase/firebaseAdmin');
       const admin = await import('firebase-admin');
+      
+      if (!adminDb) {
+        console.error('Database not initialized for analytics update');
+        return;
+      }
+      
       const coachRef = adminDb.collection('coaches').doc(coachId);
       
       await coachRef.update({

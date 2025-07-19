@@ -5,6 +5,10 @@ import { auth } from '@/lib/firebase/firebaseAdmin';
 
 export async function POST(request: NextRequest) {
   try {
+    if (!auth) {
+      return NextResponse.json({ error: 'Authentication not initialized' }, { status: 500 });
+    }
+
     const { content, imageFile, tags } = await request.json();
     
     // Get the authorization header
@@ -89,6 +93,9 @@ export async function GET(request: NextRequest) {
     
     if (authHeader && authHeader.startsWith('Bearer ')) {
       try {
+        if (!auth) {
+          return NextResponse.json({ error: 'Authentication not initialized' }, { status: 500 });
+        }
         const token = authHeader.substring(7);
         const decodedToken = await auth.verifyIdToken(token);
         userId = decodedToken.uid;

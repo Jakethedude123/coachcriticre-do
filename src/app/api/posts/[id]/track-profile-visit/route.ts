@@ -7,6 +7,10 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
+    if (!auth) {
+      return NextResponse.json({ error: 'Authentication not initialized' }, { status: 500 });
+    }
+
     const postId = params.id;
     
     // Get the authorization header

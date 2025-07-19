@@ -17,6 +17,10 @@ function serializeCoach(coach: any): any {
 }
 
 export default async function CoachProfilePage({ params }: { params: { id: string } }) {
+  if (!adminDb) {
+    throw new Error('Database not initialized');
+  }
+
   const doc = await adminDb.collection('coaches').doc(params.id).get();
   if (!doc.exists) return notFound();
   const coach = serializeCoach(doc.data()) as Coach;

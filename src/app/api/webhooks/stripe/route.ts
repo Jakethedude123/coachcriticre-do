@@ -29,6 +29,11 @@ export async function POST(req: Request) {
   }
 
   try {
+    if (!db) {
+      console.error('Database not initialized for webhook processing');
+      return NextResponse.json({ error: 'Database not initialized' }, { status: 500 });
+    }
+
     switch (event.type) {
       case 'payment_intent.succeeded': {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
