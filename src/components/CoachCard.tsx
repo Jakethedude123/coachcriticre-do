@@ -99,7 +99,7 @@ export default function CoachCard({
     items.map((item, idx) => (
       <span
         key={`${text}-${item}-${idx}`}
-        className={`inline-block px-2 py-1 mr-1 mb-1 rounded-full text-xs font-medium ${color} transition-all duration-300 hover:scale-110 hover:shadow-md transform`}
+        className={`inline-block px-2 py-1 mr-1 mb-1 rounded-full text-xs font-medium ${color} tag-hover transform`}
         style={{ 
           animationDelay: `${idx * 50}ms`,
           animation: isLoaded ? 'fadeInUp 0.5s ease-out forwards' : 'none'
@@ -119,18 +119,24 @@ export default function CoachCard({
   };
 
   return (
-    <div 
-      className={`flex w-full h-full ${small ? 'max-w-sm' : 'max-w-lg'} rounded-xl overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg transform hover:scale-[1.01] group bg-white !bg-white`} 
-      style={{ 
-        minHeight: small ? 120 : 160,
-        opacity: isLoaded ? 1 : 0,
-        transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
-        transition: 'all 0.5s ease-out',
-        backgroundColor: 'white'
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <Link 
+      href={`/coaches/${'id' in coach ? coach.id : coach.userId}`}
+      className="block w-full h-full"
     >
+      <div 
+        className={`flex w-full h-full ${small ? 'max-w-sm' : 'max-w-lg'} rounded-xl overflow-hidden shadow-md coach-card-enhanced group bg-white !bg-white cursor-pointer relative`} 
+        style={{ 
+          minHeight: small ? 120 : 160,
+          opacity: isLoaded ? 1 : 0,
+          transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
+          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+          backgroundColor: 'white'
+        }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {/* Hover overlay effect */}
+        <div className={`absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-xl pointer-events-none`}></div>
       {/* Left: Image section */}
       <div className={`w-2/5 ${small ? 'bg-gray-200' : 'bg-gray-300'} relative overflow-hidden`}>
         {/* Handle both Coach and CoachProfile image fields */}
@@ -141,7 +147,7 @@ export default function CoachCard({
               src={imageUrl}
               alt={coach.name}
               fill
-              className={`object-cover transition-transform duration-700 ${isHovered ? 'scale-110' : 'scale-100'}`}
+              className={`object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110`}
               unoptimized={imageUrl.includes('firebasestorage.googleapis.com')}
               onError={() => {
                 console.error('Failed to load image:', imageUrl);
@@ -189,30 +195,26 @@ export default function CoachCard({
           </div>
         )}
         
-        <h3 className={`font-bold text-gray-900 mb-2 ${small ? 'text-lg' : 'text-2xl'} transition-all duration-300 ${isHovered ? 'text-blue-600' : ''}`}>{coach.name}</h3>
-        <p className={`text-gray-600 mb-4 ${small ? 'text-xs' : 'text-sm'} line-clamp-2 leading-relaxed transition-all duration-300 ${isHovered ? 'text-gray-700' : ''}`}>
+        <h3 className={`font-bold text-gray-900 mb-2 ${small ? 'text-lg' : 'text-2xl'} transition-all duration-500 group-hover:text-blue-600 group-hover:scale-105 transform`}>{coach.name}</h3>
+        <p className={`text-gray-600 mb-4 ${small ? 'text-xs' : 'text-sm'} line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700`}>
           {coach.bio.length > 100 ? `${coach.bio.substring(0, 100)}...` : coach.bio}
         </p>
         <div className="flex flex-wrap gap-1 items-center mb-4">
-          {specialties.length > 0 && renderTags(specialties, 'bg-blue-100 text-blue-800', 'Specialty')}
-          {credentials.length > 0 && renderTags(credentials, 'bg-green-100 text-green-800', 'Credential')}
-          {divisions.length > 0 && renderTags(divisions, 'bg-purple-100 text-purple-800', 'Division')}
-          {clientTypes.length > 0 && renderTags(clientTypes, 'bg-yellow-100 text-yellow-800', 'Client Type')}
-          {federations.length > 0 && renderTags(federations, 'bg-pink-100 text-pink-800', 'Federation')}
+          {specialties.length > 0 && renderTags(specialties, 'bg-blue-100 text-blue-800 group-hover:bg-blue-200 group-hover:text-blue-900', 'Specialty')}
+          {credentials.length > 0 && renderTags(credentials, 'bg-green-100 text-green-800 group-hover:bg-green-200 group-hover:text-green-900', 'Credential')}
+          {divisions.length > 0 && renderTags(divisions, 'bg-purple-100 text-purple-800 group-hover:bg-purple-200 group-hover:text-purple-900', 'Division')}
+          {clientTypes.length > 0 && renderTags(clientTypes, 'bg-yellow-100 text-yellow-800 group-hover:bg-yellow-200 group-hover:text-yellow-900', 'Client Type')}
+          {federations.length > 0 && renderTags(federations, 'bg-pink-100 text-pink-800 group-hover:bg-pink-200 group-hover:text-pink-900', 'Federation')}
         </div>
         
-        {/* Profile link button */}
-        {!hideViewProfile && (
-          <Link 
-            href={`/coaches/${'id' in coach ? coach.id : coach.userId}`}
-            className={`inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-105 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform`}
-          >
-            <FaUser className="mr-2" size={small ? 12 : 14} />
-            View Profile
-          </Link>
-        )}
+        {/* Subtle click indicator */}
+        <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
+          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
+            <FaUser className="text-white text-sm" />
+          </div>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
