@@ -111,6 +111,7 @@ export default function CoachCard({
 
   const handleSelectionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    e.preventDefault();
     if (selectable && onSelect) {
       // Handle both Coach and CoachProfile types
       const coachId = 'id' in coach ? coach.id : coach.userId;
@@ -118,23 +119,20 @@ export default function CoachCard({
     }
   };
 
-  return (
-    <Link 
-      href={`/coaches/${'id' in coach ? coach.id : coach.userId}`}
-      className="block w-full h-full"
+  const cardContent = (
+    <div 
+      className={`flex w-full h-full ${small ? 'w-full' : 'max-w-lg'} rounded-2xl overflow-hidden shadow-2xl coach-card-enhanced group cursor-pointer relative border border-gray-100`} 
+      style={{ 
+        minHeight: small ? 120 : 180,
+        opacity: isLoaded ? 1 : 0,
+        transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
+        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        background: 'linear-gradient(135deg, #e6f3ff 0%, #d1e7ff 100%)'
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={showCheckbox ? handleSelectionClick : undefined}
     >
-      <div 
-        className={`flex w-full h-full ${small ? 'w-full' : 'max-w-lg'} rounded-2xl overflow-hidden shadow-2xl coach-card-enhanced group cursor-pointer relative border border-gray-100`} 
-        style={{ 
-          minHeight: small ? 120 : 180,
-          opacity: isLoaded ? 1 : 0,
-          transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
-          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-          background: 'linear-gradient(135deg, #e6f3ff 0%, #d1e7ff 100%)'
-        }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
         {/* Enhanced hover overlay effect */}
         <div className={`absolute inset-0 bg-gradient-to-br from-blue-600/15 to-purple-600/15 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none`}></div>
         
@@ -222,6 +220,19 @@ export default function CoachCard({
         )}
       </div>
     </div>
+  );
+
+  // Conditionally wrap in Link only when not in compare mode
+  if (showCheckbox) {
+    return cardContent;
+  }
+
+  return (
+    <Link 
+      href={`/coaches/${'id' in coach ? coach.id : coach.userId}`}
+      className="block w-full h-full"
+    >
+      {cardContent}
     </Link>
   );
 }
