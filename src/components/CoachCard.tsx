@@ -124,7 +124,7 @@ export default function CoachCard({
       className="block w-full h-full"
     >
       <div 
-        className={`flex w-full h-full ${small ? 'max-w-sm' : 'max-w-lg'} rounded-xl overflow-hidden shadow-md coach-card-enhanced group bg-white !bg-white cursor-pointer relative`} 
+        className={`flex w-full h-full ${small ? 'max-w-sm' : 'max-w-lg'} rounded-xl overflow-hidden shadow-lg coach-card-enhanced group bg-white cursor-pointer relative`} 
         style={{ 
           minHeight: small ? 120 : 160,
           opacity: isLoaded ? 1 : 0,
@@ -139,7 +139,7 @@ export default function CoachCard({
         <div className={`absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-xl pointer-events-none`}></div>
         
         {/* Left: Image section */}
-      <div className={`w-2/5 ${small ? 'bg-gray-200' : 'bg-gray-300'} relative overflow-hidden`}>
+      <div className={`w-2/5 bg-gray-100 relative overflow-hidden`}>
         {/* Handle both Coach and CoachProfile image fields */}
         {(() => {
           const imageUrl = 'profileImage' in coach ? coach.profileImage : ('avatar' in coach ? coach.avatar : undefined);
@@ -174,27 +174,7 @@ export default function CoachCard({
         )}
       </div>
       {/* Right: Main info */}
-      <div className={`w-3/5 ${small ? 'bg-white p-4' : 'bg-white p-6'} flex flex-col justify-center relative !bg-white`} style={{ backgroundColor: 'white' }}>
-        {/* Selection checkbox - only show when in compare mode */}
-        {selectable && showCheckbox && (
-          <div className="absolute top-2 right-2">
-            <button
-              onClick={handleSelectionClick}
-              className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 ${
-                selected 
-                  ? 'bg-blue-500 border-blue-500' 
-                  : 'bg-transparent border-white hover:border-blue-300'
-              }`}
-              title={selected ? "Deselect for comparison" : "Select for comparison"}
-            >
-              {selected && (
-                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-              )}
-            </button>
-          </div>
-        )}
+      <div className={`w-3/5 ${small ? 'bg-white p-4' : 'bg-white p-6'} flex flex-col justify-center relative`} style={{ backgroundColor: 'white' }}>
         
         <h3 className={`font-bold text-gray-900 mb-2 ${small ? 'text-lg' : 'text-2xl'} transition-all duration-500 group-hover:text-blue-600 group-hover:scale-105 transform`}>{coach.name}</h3>
         <p className={`text-gray-600 mb-4 ${small ? 'text-xs' : 'text-sm'} line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700 overflow-hidden`}>
@@ -208,10 +188,12 @@ export default function CoachCard({
           {federations.length > 0 && renderTags(federations, 'bg-pink-100 text-pink-800 group-hover:bg-pink-200 group-hover:text-pink-900', 'Federation')}
         </div>
         
-        {/* Subtle click indicator */}
-        <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
-          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
-            <FaUser className="text-white text-sm" />
+        {/* Modern click indicator */}
+        <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
+          <div className="w-6 h-6 bg-gradient-to-r from-blue-600 to-blue-700 rounded-full flex items-center justify-center shadow-lg">
+            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
           </div>
         </div>
       </div>

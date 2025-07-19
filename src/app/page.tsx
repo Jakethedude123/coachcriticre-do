@@ -8,58 +8,58 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import SearchBar from '@/components/SearchBar';
 import type { Coach } from '@/lib/firebase/models/coach';
 
-// CoachSpotlight carousel key fix - force redeploy
+// Modern Coach Spotlight - Single Featured Coach
 function CoachSpotlight() {
   const [coaches, setCoaches] = useState<Coach[]>([]);
-  const [current, setCurrent] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/coaches/all')
       .then(res => res.json())
       .then(data => {
-        // Filter for Pro coaches, fallback to first 5
-        const proCoaches = (data.coaches || []).filter((c: Coach) => c.subscription?.plan === 'pro');
-        setCoaches(proCoaches.length > 0 ? proCoaches : (data.coaches || []).slice(0, 5));
+        // Get the first available coach
+        const availableCoaches = data.coaches || [];
+        setCoaches(availableCoaches.slice(0, 1)); // Just show one coach
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
       });
   }, []);
 
-  // Auto-advance carousel
-  useEffect(() => {
-    if (coaches.length < 2) return;
-    const interval = setInterval(() => {
-      setCurrent(c => (c + 1) % coaches.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [coaches]);
+  if (loading) {
+    return (
+      <section className="w-full bg-white dark:bg-transparent py-12">
+        <div className="max-w-3xl mx-auto text-center mb-8">
+          <h2 className="text-3xl font-bold mb-2 text-blue-900">Coach Spotlight</h2>
+          <p className="text-gray-500">Meet our top coaches—handpicked for their expertise and results.</p>
+        </div>
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white rounded-xl shadow-lg p-6 animate-pulse">
+            <div className="flex">
+              <div className="w-32 h-32 bg-gray-200 rounded-lg mr-6"></div>
+              <div className="flex-1">
+                <div className="h-6 bg-gray-200 rounded mb-4"></div>
+                <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (!coaches.length) return null;
 
   return (
-    <section className="w-full bg-white dark:bg-transparent py-12 relative overflow-hidden">
+    <section className="w-full bg-white dark:bg-transparent py-12">
       <div className="max-w-3xl mx-auto text-center mb-8">
         <h2 className="text-3xl font-bold mb-2 text-blue-900">Coach Spotlight</h2>
         <p className="text-gray-500">Meet our top coaches—handpicked for their expertise and results.</p>
       </div>
-      <div className="relative max-w-xl mx-auto flex items-center justify-center bg-white dark:bg-transparent">
-        {coaches.map((coach, idx) => (
-          <div
-            key={coach.userId || idx}
-            className={`absolute left-0 right-0 transition-all duration-700 ${idx === current ? 'opacity-100 scale-100 z-10 pointer-events-auto' : 'opacity-0 scale-95 z-0 pointer-events-none'}`}
-            style={{ minHeight: 320 }}
-          >
-            <CoachCard coach={coach} />
-          </div>
-        ))}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-          {coaches.map((_, idx) => (
-            <button
-              key={idx}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${idx === current ? 'bg-blue-600' : 'bg-gray-300'}`}
-              onClick={() => setCurrent(idx)}
-              aria-label={`Show coach ${idx + 1}`}
-            />
-          ))}
-        </div>
+      <div className="max-w-2xl mx-auto px-4">
+        <CoachCard coach={coaches[0]} />
       </div>
     </section>
   );
@@ -150,8 +150,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Coach Spotlight Section (moved below features) */}
-      <section className="w-full bg-white dark:bg-transparent py-12 relative">
+      {/* Coach Spotlight Section */}
+      <section className="w-full bg-white dark:bg-transparent py-12">
         <CoachSpotlight />
       </section>
     </main>
