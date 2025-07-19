@@ -135,7 +135,7 @@ export default function CoachCard({
       <div className={`w-2/5 ${small ? 'bg-gray-200' : 'bg-gray-300'} relative overflow-hidden`}>
         {/* Handle both Coach and CoachProfile image fields */}
         {(() => {
-          const imageUrl = 'profileImage' in coach ? coach.profileImage : coach.avatar;
+          const imageUrl = 'profileImage' in coach ? coach.profileImage : ('avatar' in coach ? coach.avatar : undefined);
           return imageUrl && !imageError ? (
             <Image
               src={imageUrl}
