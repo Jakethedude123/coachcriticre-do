@@ -4,31 +4,10 @@ import { useState, useEffect } from 'react';
 import { FaStar, FaInfoCircle, FaEdit, FaCamera, FaUser, FaMedal, FaTrophy, FaAward } from 'react-icons/fa';
 import { Tooltip } from '@/components/ui/Tooltip';
 
+import { Coach } from '@/lib/firebase/models/coach';
+
 interface CoachCardProps {
-  coach: {
-    id: string;
-    name: string;
-    specialties: string[];
-    bio: string;
-    profileImageUrl?: string;
-    rating: number;
-    testimonialCount: number;
-    score?: number;
-    scoreDetails?: {
-      satisfaction: number;
-      consistency: number;
-      experience: number;
-      successRatio: number;
-      retention: number;
-    };
-    credentials?: string[];
-    certifications?: string[];
-    divisions?: string[];
-    clientTypes?: string[];
-    federations?: string[];
-    responseTime?: string;
-    yearsExperience?: number | string;
-  };
+  coach: Coach;
   small?: boolean;
   isOwner?: boolean;
   onImageEdit?: () => void;
@@ -118,9 +97,9 @@ export default function CoachCard({
 
   return (
     <div 
-      className={`flex w-full h-full ${small ? 'max-w-md' : 'max-w-xl'} rounded-2xl overflow-hidden shadow-lg transition-all duration-500 hover:shadow-2xl transform hover:scale-[1.02] group`} 
+      className={`flex w-full h-full ${small ? 'max-w-sm' : 'max-w-lg'} rounded-xl overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg transform hover:scale-[1.01] group bg-white`} 
       style={{ 
-        minHeight: small ? 140 : 200,
+        minHeight: small ? 120 : 160,
         opacity: isLoaded ? 1 : 0,
         transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
         transition: 'all 0.5s ease-out'
@@ -129,22 +108,22 @@ export default function CoachCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Left: Image section */}
-      <div className={`w-2/5 ${small ? 'bg-gradient-to-br from-[#3a4250] to-[#2a3140]' : 'bg-gradient-to-br from-[#374151] to-[#232b36]'} relative overflow-hidden`}>
-        {coach.profileImageUrl && !imageError ? (
+      <div className={`w-2/5 ${small ? 'bg-gray-200' : 'bg-gray-300'} relative overflow-hidden`}>
+        {coach.avatar && !imageError ? (
           <Image
-            src={coach.profileImageUrl}
+            src={coach.avatar}
             alt={coach.name}
             fill
             className={`object-cover transition-transform duration-700 ${isHovered ? 'scale-110' : 'scale-100'}`}
-            unoptimized={coach.profileImageUrl.includes('firebasestorage.googleapis.com')}
+            unoptimized={coach.avatar.includes('firebasestorage.googleapis.com')}
             onError={() => {
-              console.error('Failed to load image:', coach.profileImageUrl);
+              console.error('Failed to load image:', coach.avatar);
               setImageError(true);
             }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <FaUser className="text-white/30 text-4xl" />
+            <FaUser className="text-gray-400 text-4xl" />
           </div>
         )}
         {/* Gradient overlay for better text readability */}
@@ -160,7 +139,7 @@ export default function CoachCard({
         )}
       </div>
       {/* Right: Main info */}
-      <div className={`w-3/5 ${small ? 'bg-gradient-to-br from-[#2a3140] to-[#1a1f28] p-4' : 'bg-gradient-to-br from-[#232b36] to-[#1a1f28] p-6'} flex flex-col justify-center relative`}>
+      <div className={`w-3/5 ${small ? 'bg-white p-4' : 'bg-white p-6'} flex flex-col justify-center relative`}>
         {/* Selection checkbox - only show when in compare mode */}
         {selectable && showCheckbox && (
           <div className="absolute top-2 right-2">
@@ -182,22 +161,22 @@ export default function CoachCard({
           </div>
         )}
         
-        <h3 className={`font-bold text-white mb-2 ${small ? 'text-lg' : 'text-2xl'} transition-all duration-300 ${isHovered ? 'text-blue-300' : ''}`}>{coach.name}</h3>
-        <p className={`text-gray-300 mb-4 ${small ? 'text-xs' : 'text-sm'} line-clamp-2 leading-relaxed transition-all duration-300 ${isHovered ? 'text-gray-200' : ''}`}>
+        <h3 className={`font-bold text-gray-900 mb-2 ${small ? 'text-lg' : 'text-2xl'} transition-all duration-300 ${isHovered ? 'text-blue-600' : ''}`}>{coach.name}</h3>
+        <p className={`text-gray-600 mb-4 ${small ? 'text-xs' : 'text-sm'} line-clamp-2 leading-relaxed transition-all duration-300 ${isHovered ? 'text-gray-700' : ''}`}>
           {coach.bio.length > 100 ? `${coach.bio.substring(0, 100)}...` : coach.bio}
         </p>
         <div className="flex flex-wrap gap-1 items-center mb-4">
-          {specialties.length > 0 && renderTags(specialties, 'bg-blue-500/20 text-blue-300 border border-blue-500/30', 'Specialty')}
-          {credentials.length > 0 && renderTags(credentials, 'bg-green-500/20 text-green-300 border border-green-500/30', 'Credential')}
-          {divisions.length > 0 && renderTags(divisions, 'bg-purple-500/20 text-purple-300 border border-purple-500/30', 'Division')}
-          {clientTypes.length > 0 && renderTags(clientTypes, 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30', 'Client Type')}
-          {federations.length > 0 && renderTags(federations, 'bg-pink-500/20 text-pink-300 border border-pink-500/30', 'Federation')}
+          {specialties.length > 0 && renderTags(specialties, 'bg-blue-100 text-blue-800', 'Specialty')}
+          {credentials.length > 0 && renderTags(credentials, 'bg-green-100 text-green-800', 'Credential')}
+          {divisions.length > 0 && renderTags(divisions, 'bg-purple-100 text-purple-800', 'Division')}
+          {clientTypes.length > 0 && renderTags(clientTypes, 'bg-yellow-100 text-yellow-800', 'Client Type')}
+          {federations.length > 0 && renderTags(federations, 'bg-pink-100 text-pink-800', 'Federation')}
         </div>
         
         {/* Profile link button */}
         {!hideViewProfile && (
           <Link 
-            href={`/coaches/${coach.id}`}
+            href={`/coaches/${coach.userId}`}
             className={`inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-105 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform`}
           >
             <FaUser className="mr-2" size={small ? 12 : 14} />
