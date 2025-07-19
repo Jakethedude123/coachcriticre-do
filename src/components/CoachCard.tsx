@@ -124,6 +124,30 @@ export default function CoachCard({
     }
   };
 
+  // Helper function to get image URL from coach data
+  const getImageUrl = (coach: any): string | undefined => {
+    // Check multiple possible field names for the profile image
+    const possibleFields = ['profileImageUrl', 'profileImage', 'avatar', 'image', 'profilePicture', 'photo'];
+    
+    for (const field of possibleFields) {
+      if (coach[field] && typeof coach[field] === 'string' && coach[field].trim() !== '') {
+        console.log(`Found image in field: ${field}`, coach[field]);
+        return coach[field];
+      }
+    }
+    
+    console.log('No image found in coach data:', {
+      profileImageUrl: coach.profileImageUrl,
+      profileImage: coach.profileImage,
+      avatar: coach.avatar,
+      image: coach.image,
+      profilePicture: coach.profilePicture,
+      photo: coach.photo
+    });
+    
+    return undefined;
+  };
+
   // Helper function to truncate bio with word limit
   const truncateBio = (bio: string, wordLimit: number = 8) => {
     if (!bio) return 'No bio available';
@@ -153,7 +177,7 @@ export default function CoachCard({
       <div className={`h-1/2 relative overflow-hidden flex items-center justify-center`}>
         {/* Blurred background image (Instagram story style) */}
         {(() => {
-          const imageUrl = 'profileImage' in coach ? coach.profileImage : ('avatar' in coach ? coach.avatar : undefined);
+          const imageUrl = getImageUrl(coach);
           return imageUrl && !imageError ? (
             <div className="absolute inset-0">
               <Image
@@ -177,7 +201,7 @@ export default function CoachCard({
         
         {/* Circular profile picture */}
         {(() => {
-          const imageUrl = 'profileImage' in coach ? coach.profileImage : ('avatar' in coach ? coach.avatar : undefined);
+          const imageUrl = getImageUrl(coach);
           return imageUrl && !imageError ? (
             <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg relative z-10">
               <Image

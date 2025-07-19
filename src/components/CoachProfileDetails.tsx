@@ -196,7 +196,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
           <span>View Posts</span>
         </Link>
       </div>
-      {/* Top row with coach card and location box */}
+      {/* Top row with coach card */}
       <div className="flex justify-center mb-8">
         <div className="flex gap-6 items-start max-w-4xl w-full">
           {/* Coach Card */}
@@ -208,62 +208,7 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
               hideViewProfile={true}
             />
           </div>
-          
-          {/* Location Box - positioned next to card */}
-          <div className="w-80">
-          {editBox === 'location' ? (
-            <div className="bg-white rounded-lg shadow p-6 relative">
-              <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
-                <span>Location</span>
-                <button
-                  className="text-gray-400 hover:text-blue-600 transition-colors p-1"
-                  onClick={() => setEditBox(editBox === 'location' ? null : 'location')}
-                  aria-label="Edit Location"
-                >
-                  <FaEdit size={18} />
-                </button>
-              </h2>
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter your location (city, state, country)..."
-                />
-                <div className="flex justify-end space-x-2">
-                  <button
-                    onClick={() => setEditBox(null)}
-                    className="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={() => handleLocationSave()}
-                    className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="bg-white rounded-lg shadow p-6 relative">
-              <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
-                <span>Location</span>
-                <button
-                  className="text-gray-400 hover:text-blue-600 transition-colors p-1"
-                  onClick={() => setEditBox(editBox === 'location' ? null : 'location')}
-                  aria-label="Edit Location"
-                >
-                  <FaEdit size={18} />
-                </button>
-              </h2>
-              <p className="text-gray-700">{coach.location?.address || 'No location set'}</p>
-            </div>
-          )}
         </div>
-      </div>
       </div>
       
       {/* Grid layout for info boxes - aligned with coach card */}
@@ -320,6 +265,60 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
             <p className="text-gray-700 whitespace-pre-line">{coach.bio}</p>
           </div>
         )}
+
+        {/* Location Box - positioned above specialties */}
+        {editBox === 'location' ? (
+          <div className="bg-white rounded-lg shadow p-6 relative">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>Location</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'location' ? null : 'location')}
+                aria-label="Edit Location"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <div className="space-y-4">
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter your location (city, state, country)..."
+              />
+              <div className="flex justify-end space-x-2">
+                <button
+                  onClick={() => setEditBox(null)}
+                  className="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleLocationSave()}
+                  className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-white rounded-lg shadow p-6 relative">
+            <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">
+              <span>Location</span>
+              <button
+                className="text-gray-400 hover:text-blue-600 transition-colors p-1"
+                onClick={() => setEditBox(editBox === 'location' ? null : 'location')}
+                aria-label="Edit Location"
+              >
+                <FaEdit size={18} />
+              </button>
+            </h2>
+            <p className="text-gray-700">{coach.location?.address || 'No location set'}</p>
+          </div>
+        )}
+
         {/* Specialties Box with edit icon and all options as checkboxes */}
         {editBox === 'specialties' ? (
           <div className="bg-white rounded-lg shadow p-6 relative col-span-1 md:col-span-2">
