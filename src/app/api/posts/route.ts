@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
 
     const filters = {
       filter,
-      coachId: filter === 'my-posts' ? coachId : undefined,
+      coachId: filter === 'my-posts' ? (coachId || undefined) : undefined,
       followedTags: filter === 'followed-tags' ? followedTags : undefined
     };
 
