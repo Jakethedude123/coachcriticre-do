@@ -4,30 +4,39 @@ import Link from 'next/link';
 
 async function handleUpgrade(priceId: string) {
   try {
+    console.log('Starting upgrade process with priceId:', priceId);
+    
     const successUrl = window.location.origin + '/upgrade/success';
     const cancelUrl = window.location.origin + '/upgrade/cancel';
     const customerEmail = undefined; // Could be set from user context if needed
 
+    console.log('Making API request to create subscription...');
     const res = await fetch('/api/create-platform-subscription', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ priceId, successUrl, cancelUrl, customerEmail }),
     });
     
+    console.log('API response status:', res.status);
+    
     if (!res.ok) {
       const errorData = await res.json();
-      throw new Error(errorData.error || 'Failed to create checkout session');
+      console.error('API error response:', errorData);
+      throw new Error(errorData.error || errorData.details || 'Failed to create checkout session');
     }
     
     const data = await res.json();
+    console.log('API success response:', data);
+    
     if (data.sessionId) {
+      console.log('Redirecting to Stripe checkout:', data.sessionId);
       window.location.href = `https://checkout.stripe.com/pay/${data.sessionId}`;
     } else {
       throw new Error('No session ID received');
     }
   } catch (error) {
     console.error('Checkout error:', error);
-    alert('Failed to start checkout. Please try again.');
+    alert(`Failed to start checkout: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 

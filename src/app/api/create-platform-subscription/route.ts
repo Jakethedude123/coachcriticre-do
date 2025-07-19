@@ -11,6 +11,15 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 export async function POST(request: Request) {
   try {
+    // Check if Stripe is properly configured
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('STRIPE_SECRET_KEY is not configured');
+      return NextResponse.json(
+        { error: 'Stripe is not properly configured' },
+        { status: 500 }
+      );
+    }
+
     const {
       priceId,
       successUrl,
@@ -25,6 +34,13 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+
+    console.log('Creating checkout session with:', {
+      priceId,
+      successUrl,
+      cancelUrl,
+      customerEmail: customerEmail ? 'provided' : 'not provided'
+    });
 
     // Create checkout session for platform subscription
     const session = await stripe.checkout.sessions.create({
@@ -43,11 +59,20 @@ export async function POST(request: Request) {
       },
     });
 
+    console.log('Checkout session created successfully:', session.id);
     return NextResponse.json({ sessionId: session.id });
   } catch (err) {
     console.error('Error creating platform subscription session:', err);
+    console.error('Error details:', {
+      message: err instanceof Error ? err.message : 'Unknown error',
+      stack: err instanceof Error ? err.stack : undefined,
+      name: err instanceof Error ? err.name : 'Unknown'
+    });
     return NextResponse.json(
-      { error: 'Failed to create subscription session' },
+      { 
+        error: 'Failed to create subscription session',
+        details: err instanceof Error ? err.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
