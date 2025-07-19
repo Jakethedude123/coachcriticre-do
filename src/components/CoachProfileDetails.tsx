@@ -197,17 +197,19 @@ const CoachProfileDetails: React.FC<CoachProfileDetailsProps> = ({ coach: initia
         </Link>
       </div>
       <div className="flex justify-center mb-8">
-        <CoachCard 
-          coach={coach} 
-          isOwner={isOwner}
-          onImageEdit={() => setIsImageModalOpen(true)}
-          hideViewProfile={true}
-        />
-      </div>
-      
-      {/* Location Box - positioned next to card, under View Posts */}
-      <div className="flex justify-end mb-6">
-        <div className="w-full max-w-md">
+        <div className="flex gap-6 items-start max-w-4xl w-full">
+          {/* Coach Card */}
+          <div className="flex-1 max-w-sm">
+            <CoachCard 
+              coach={coach} 
+              isOwner={isOwner}
+              onImageEdit={() => setIsImageModalOpen(true)}
+              hideViewProfile={true}
+            />
+          </div>
+          
+          {/* Location Box - positioned next to card */}
+          <div className="w-80">
           {editBox === 'location' ? (
             <div className="bg-white rounded-lg shadow p-6 relative">
               <h2 className="text-lg font-semibold mb-2 flex justify-between items-center">

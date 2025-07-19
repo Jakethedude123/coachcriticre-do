@@ -119,48 +119,51 @@ export default function CoachCard({
     }
   };
 
-  const cardContent = (
+    const cardContent = (
     <div 
-      className={`flex w-full h-full ${small ? 'w-full' : 'max-w-lg'} rounded-2xl overflow-hidden shadow-2xl coach-card-enhanced group cursor-pointer relative border border-gray-100`} 
+      className={`flex flex-col w-full ${small ? 'w-full' : 'max-w-sm'} rounded-2xl overflow-hidden shadow-2xl coach-card-enhanced group cursor-pointer relative border border-gray-100`} 
       style={{ 
-        minHeight: small ? 120 : 180,
+        minHeight: small ? 200 : 320,
         opacity: isLoaded ? 1 : 0,
         transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
         transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-        background: 'linear-gradient(135deg, #e6f3ff 0%, #d1e7ff 100%)'
+        background: 'white'
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={showCheckbox ? handleSelectionClick : undefined}
     >
-        {/* Enhanced hover overlay effect */}
-        <div className={`absolute inset-0 bg-gradient-to-br from-blue-600/15 to-purple-600/15 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none`}></div>
-        
-        {/* Left: Image section */}
-      <div className={`w-1/3 bg-gradient-to-br from-gray-50 to-gray-100 relative overflow-hidden`}>
+      {/* Enhanced hover overlay effect */}
+      <div className={`absolute inset-0 bg-gradient-to-br from-blue-600/15 to-purple-600/15 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none`}></div>
+      
+      {/* Top: Image section with gradient background */}
+      <div className={`h-2/5 bg-gradient-to-br from-purple-600 to-pink-500 relative overflow-hidden flex items-center justify-center`}>
         {/* Handle both Coach and CoachProfile image fields */}
         {(() => {
           const imageUrl = 'profileImage' in coach ? coach.profileImage : ('avatar' in coach ? coach.avatar : undefined);
           return imageUrl && !imageError ? (
-            <Image
-              src={imageUrl}
-              alt={coach.name}
-              fill
-              className={`object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110`}
-              unoptimized={imageUrl.includes('firebasestorage.googleapis.com')}
-              onError={() => {
-                console.error('Failed to load image:', imageUrl);
-                setImageError(true);
-              }}
-            />
+            <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg">
+              <Image
+                src={imageUrl}
+                alt={coach.name}
+                width={96}
+                height={96}
+                className={`object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110`}
+                unoptimized={imageUrl.includes('firebasestorage.googleapis.com')}
+                onError={() => {
+                  console.error('Failed to load image:', imageUrl);
+                  setImageError(true);
+                }}
+              />
+            </div>
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-              <FaUser className="text-gray-400 text-5xl" />
+            <div className="w-24 h-24 rounded-full bg-white/20 flex items-center justify-center border-4 border-white shadow-lg">
+              <FaUser className="text-white text-4xl" />
             </div>
           );
         })()}
-        {/* Enhanced gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        
+        {/* Camera edit button */}
         {isOwner && onImageEdit && (
           <button
             onClick={(e) => {
@@ -168,26 +171,38 @@ export default function CoachCard({
               e.stopPropagation();
               onImageEdit();
             }}
-            className="absolute top-2 left-2 p-2 bg-black/60 hover:bg-black/80 rounded-full text-white transition-all duration-300 hover:scale-110 backdrop-blur-sm z-10"
+            className="absolute top-2 right-2 p-2 bg-black/60 hover:bg-black/80 rounded-full text-white transition-all duration-300 hover:scale-110 backdrop-blur-sm z-10"
             title="Edit profile image"
           >
-            <FaCamera size={small ? 12 : 16} />
+            <FaCamera size={small ? 12 : 14} />
           </button>
         )}
       </div>
-      {/* Right: Main info */}
-      <div className={`w-2/3 ${small ? 'p-4' : 'p-6'} flex flex-col justify-center relative`} style={{ background: 'linear-gradient(135deg, #f8fbff 0%, #e6f3ff 100%)' }}>
+
+      {/* Bottom: Main info */}
+      <div className={`h-3/5 p-6 flex flex-col justify-start relative bg-white`}>
+        {/* Coach name */}
+        <h3 className={`font-bold text-gray-900 mb-1 text-center ${small ? 'text-lg' : 'text-xl'} transition-all duration-500 group-hover:text-blue-600`}>
+          {coach.name.toUpperCase()}
+        </h3>
         
-        <h3 className={`font-extrabold text-gray-900 mb-2 ${small ? 'text-lg' : 'text-3xl'} transition-all duration-500 group-hover:text-blue-600 group-hover:scale-105 transform bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text group-hover:from-blue-600 group-hover:to-blue-800`}>{coach.name}</h3>
-        <p className={`text-gray-600 mb-3 ${small ? 'text-xs' : 'text-base'} line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700 overflow-hidden font-medium`}>
-          {coach.bio && coach.bio.length > 100 ? `${coach.bio.substring(0, 100)}...` : (coach.bio || 'No bio available')}
+        {/* Bio */}
+        <p className={`text-gray-600 mb-4 text-center text-sm line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700`}>
+          {coach.bio && coach.bio.length > 80 ? `${coach.bio.substring(0, 80)}...` : (coach.bio || 'No bio available')}
         </p>
-        <div className="flex flex-wrap gap-2 items-center mb-3">
-          {specialties.length > 0 && renderTags(specialties, 'bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 group-hover:from-blue-200 group-hover:to-blue-300 group-hover:text-blue-900 shadow-sm', 'Specialty')}
-          {credentials.length > 0 && renderTags(credentials, 'bg-gradient-to-r from-green-100 to-green-200 text-green-800 group-hover:from-green-200 group-hover:to-green-300 group-hover:text-green-900 shadow-sm', 'Credential')}
-          {divisions.length > 0 && renderTags(divisions, 'bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 group-hover:from-purple-200 group-hover:to-purple-300 group-hover:text-purple-900 shadow-sm', 'Division')}
-          {clientTypes.length > 0 && renderTags(clientTypes, 'bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 group-hover:from-yellow-200 group-hover:to-yellow-300 group-hover:text-yellow-900 shadow-sm', 'Client Type')}
-          {federations.length > 0 && renderTags(federations, 'bg-gradient-to-r from-pink-100 to-pink-200 text-pink-800 group-hover:from-pink-200 group-hover:to-pink-300 group-hover:text-pink-900 shadow-sm', 'Federation')}
+        
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1 justify-center mb-4">
+          {specialties.slice(0, 3).map((specialty, idx) => (
+            <span key={`specialty-${idx}`} className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
+              {specialty}
+            </span>
+          ))}
+          {credentials.slice(0, 2).map((credential, idx) => (
+            <span key={`credential-${idx}`} className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+              {credential}
+            </span>
+          ))}
         </div>
         
         {/* Selection checkbox for compare mode */}
