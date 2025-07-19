@@ -98,12 +98,13 @@ export default function CoachCard({
 
   return (
     <div 
-      className={`flex w-full h-full ${small ? 'max-w-sm' : 'max-w-lg'} rounded-xl overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg transform hover:scale-[1.01] group bg-white`} 
+      className={`flex w-full h-full ${small ? 'max-w-sm' : 'max-w-lg'} rounded-xl overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg transform hover:scale-[1.01] group bg-white !bg-white`} 
       style={{ 
         minHeight: small ? 120 : 160,
         opacity: isLoaded ? 1 : 0,
         transform: isLoaded ? 'translateY(0)' : 'translateY(20px)',
-        transition: 'all 0.5s ease-out'
+        transition: 'all 0.5s ease-out',
+        backgroundColor: 'white'
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -140,7 +141,7 @@ export default function CoachCard({
         )}
       </div>
       {/* Right: Main info */}
-      <div className={`w-3/5 ${small ? 'bg-white p-4' : 'bg-white p-6'} flex flex-col justify-center relative`}>
+      <div className={`w-3/5 ${small ? 'bg-white p-4' : 'bg-white p-6'} flex flex-col justify-center relative !bg-white`} style={{ backgroundColor: 'white' }}>
         {/* Selection checkbox - only show when in compare mode */}
         {selectable && showCheckbox && (
           <div className="absolute top-2 right-2">
