@@ -124,7 +124,7 @@ export default function CoachCard({
       className="block w-full h-full"
     >
       <div 
-        className={`flex w-full h-full ${small ? 'max-w-sm' : 'max-w-lg'} rounded-2xl overflow-hidden shadow-2xl coach-card-enhanced group cursor-pointer relative border border-gray-100`} 
+        className={`flex w-full h-full ${small ? 'w-full' : 'max-w-lg'} rounded-2xl overflow-hidden shadow-2xl coach-card-enhanced group cursor-pointer relative border border-gray-100`} 
         style={{ 
           minHeight: small ? 120 : 180,
           opacity: isLoaded ? 1 : 0,
