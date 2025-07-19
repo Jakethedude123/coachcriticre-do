@@ -3,21 +3,30 @@ import React from 'react';
 import Link from 'next/link';
 
 async function handleUpgrade(priceId: string) {
-  // You may want to get these from user context or environment
-  const coachStripeAccountId = undefined; // Set if needed
-  const successUrl = window.location.origin + '/upgrade/success';
-  const cancelUrl = window.location.origin + '/upgrade/cancel';
-  const customerEmail = undefined; // Set if needed
+  try {
+    const successUrl = window.location.origin + '/upgrade/success';
+    const cancelUrl = window.location.origin + '/upgrade/cancel';
+    const customerEmail = undefined; // Could be set from user context if needed
 
-  const res = await fetch('/api/create-checkout-session', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ priceId, coachStripeAccountId, successUrl, cancelUrl, customerEmail }),
-  });
-  const data = await res.json();
-  if (data.sessionId) {
-    window.location.href = `https://checkout.stripe.com/pay/${data.sessionId}`;
-  } else {
+    const res = await fetch('/api/create-platform-subscription', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ priceId, successUrl, cancelUrl, customerEmail }),
+    });
+    
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || 'Failed to create checkout session');
+    }
+    
+    const data = await res.json();
+    if (data.sessionId) {
+      window.location.href = `https://checkout.stripe.com/pay/${data.sessionId}`;
+    } else {
+      throw new Error('No session ID received');
+    }
+  } catch (error) {
+    console.error('Checkout error:', error);
     alert('Failed to start checkout. Please try again.');
   }
 }

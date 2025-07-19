@@ -160,7 +160,21 @@ export class NotificationService {
   }
 
   static async updateAnalytics(coachId: string, type: keyof Analytics) {
-    // This would update the analytics in Firebase
-    // Implementation would go here
+    try {
+      const { adminDb } = await import('../firebase/firebaseAdmin');
+      const coachRef = adminDb.collection('coaches').doc(coachId);
+      
+      await coachRef.update({
+        [`analytics.${type}`]: adminDb.FieldValue.increment(1),
+        [`analytics.history`]: adminDb.FieldValue.arrayUnion({
+          date: new Date().toISOString(),
+          metric: type,
+          value: 1
+        })
+      });
+    } catch (error) {
+      console.error('Error updating analytics:', error);
+      // Don't throw error to prevent breaking the main flow
+    }
   }
 } 
