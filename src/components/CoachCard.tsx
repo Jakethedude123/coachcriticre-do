@@ -197,8 +197,8 @@ export default function CoachCard({
         )}
         
         <h3 className={`font-bold text-gray-900 mb-2 ${small ? 'text-lg' : 'text-2xl'} transition-all duration-500 group-hover:text-blue-600 group-hover:scale-105 transform`}>{coach.name}</h3>
-        <p className={`text-gray-600 mb-4 ${small ? 'text-xs' : 'text-sm'} line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700`}>
-          {coach.bio.length > 100 ? `${coach.bio.substring(0, 100)}...` : coach.bio}
+        <p className={`text-gray-600 mb-4 ${small ? 'text-xs' : 'text-sm'} line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700 overflow-hidden`}>
+          {coach.bio && coach.bio.length > 100 ? `${coach.bio.substring(0, 100)}...` : (coach.bio || 'No bio available')}
         </p>
         <div className="flex flex-wrap gap-1 items-center mb-4">
           {specialties.length > 0 && renderTags(specialties, 'bg-blue-100 text-blue-800 group-hover:bg-blue-200 group-hover:text-blue-900', 'Specialty')}
