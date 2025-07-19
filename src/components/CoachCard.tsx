@@ -5,9 +5,10 @@ import { FaStar, FaInfoCircle, FaEdit, FaCamera, FaUser, FaMedal, FaTrophy, FaAw
 import { Tooltip } from '@/components/ui/Tooltip';
 
 import { Coach } from '@/lib/firebase/models/coach';
+import type { CoachProfile } from '@/lib/types/coach';
 
 interface CoachCardProps {
-  coach: Coach;
+  coach: Coach | CoachProfile;
   small?: boolean;
   isOwner?: boolean;
   onImageEdit?: () => void;
@@ -109,15 +110,15 @@ export default function CoachCard({
     >
       {/* Left: Image section */}
       <div className={`w-2/5 ${small ? 'bg-gray-200' : 'bg-gray-300'} relative overflow-hidden`}>
-        {coach.avatar && !imageError ? (
+        {(coach.avatar || (coach as any).profileImage) && !imageError ? (
           <Image
-            src={coach.avatar}
+            src={coach.avatar || (coach as any).profileImage}
             alt={coach.name}
             fill
             className={`object-cover transition-transform duration-700 ${isHovered ? 'scale-110' : 'scale-100'}`}
-            unoptimized={coach.avatar.includes('firebasestorage.googleapis.com')}
+            unoptimized={(coach.avatar || (coach as any).profileImage).includes('firebasestorage.googleapis.com')}
             onError={() => {
-              console.error('Failed to load image:', coach.avatar);
+              console.error('Failed to load image:', coach.avatar || (coach as any).profileImage);
               setImageError(true);
             }}
           />
@@ -176,7 +177,7 @@ export default function CoachCard({
         {/* Profile link button */}
         {!hideViewProfile && (
           <Link 
-            href={`/coaches/${coach.userId}`}
+            href={`/coaches/${coach.userId || (coach as any).id}`}
             className={`inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-105 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform`}
           >
             <FaUser className="mr-2" size={small ? 12 : 14} />
