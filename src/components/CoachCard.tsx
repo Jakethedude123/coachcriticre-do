@@ -176,11 +176,11 @@ export default function CoachCard({
       {/* Right: Main info */}
       <div className={`w-3/5 ${small ? 'bg-white p-4' : 'bg-white p-6'} flex flex-col justify-center relative`} style={{ backgroundColor: 'white' }}>
         
-        <h3 className={`font-extrabold text-gray-900 mb-3 ${small ? 'text-lg' : 'text-3xl'} transition-all duration-500 group-hover:text-blue-600 group-hover:scale-105 transform bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text group-hover:from-blue-600 group-hover:to-blue-800`}>{coach.name}</h3>
-        <p className={`text-gray-600 mb-5 ${small ? 'text-xs' : 'text-base'} line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700 overflow-hidden font-medium`}>
+        <h3 className={`font-extrabold text-gray-900 mb-2 ${small ? 'text-lg' : 'text-3xl'} transition-all duration-500 group-hover:text-blue-600 group-hover:scale-105 transform bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text group-hover:from-blue-600 group-hover:to-blue-800`}>{coach.name}</h3>
+        <p className={`text-gray-600 mb-3 ${small ? 'text-xs' : 'text-base'} line-clamp-2 leading-relaxed transition-all duration-500 group-hover:text-gray-700 overflow-hidden font-medium`}>
           {coach.bio && coach.bio.length > 100 ? `${coach.bio.substring(0, 100)}...` : (coach.bio || 'No bio available')}
         </p>
-        <div className="flex flex-wrap gap-2 items-center mb-4">
+        <div className="flex flex-wrap gap-2 items-center mb-3">
           {specialties.length > 0 && renderTags(specialties, 'bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 group-hover:from-blue-200 group-hover:to-blue-300 group-hover:text-blue-900 shadow-sm', 'Specialty')}
           {credentials.length > 0 && renderTags(credentials, 'bg-gradient-to-r from-green-100 to-green-200 text-green-800 group-hover:from-green-200 group-hover:to-green-300 group-hover:text-green-900 shadow-sm', 'Credential')}
           {divisions.length > 0 && renderTags(divisions, 'bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 group-hover:from-purple-200 group-hover:to-purple-300 group-hover:text-purple-900 shadow-sm', 'Division')}

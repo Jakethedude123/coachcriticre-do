@@ -8,18 +8,19 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import SearchBar from '@/components/SearchBar';
 import type { Coach } from '@/lib/firebase/models/coach';
 
-// Modern Coach Spotlight - Single Featured Coach
+// Modern Coach Spotlight - Working Carousel
 function CoachSpotlight() {
   const [coaches, setCoaches] = useState<Coach[]>([]);
+  const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('/api/coaches/all')
       .then(res => res.json())
       .then(data => {
-        // Get the first available coach
+        // Get up to 5 coaches for the carousel
         const availableCoaches = data.coaches || [];
-        setCoaches(availableCoaches.slice(0, 1)); // Just show one coach
+        setCoaches(availableCoaches.slice(0, 5));
         setLoading(false);
       })
       .catch(() => {
@@ -27,11 +28,20 @@ function CoachSpotlight() {
       });
   }, []);
 
+  // Auto-advance carousel
+  useEffect(() => {
+    if (coaches.length < 2) return;
+    const interval = setInterval(() => {
+      setCurrent(c => (c + 1) % coaches.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [coaches]);
+
   if (loading) {
     return (
-      <section className="w-full bg-white dark:bg-transparent py-8">
-        <div className="max-w-4xl mx-auto text-center mb-8">
-          <h2 className="text-5xl font-extrabold mb-4 text-blue-900 bg-gradient-to-r from-blue-900 to-blue-700 bg-clip-text text-transparent">
+      <section className="w-full bg-white dark:bg-transparent py-6">
+        <div className="max-w-4xl mx-auto text-center mb-6">
+          <h2 className="text-5xl font-extrabold mb-3 text-blue-900 bg-gradient-to-r from-blue-900 to-blue-700 bg-clip-text text-transparent">
             Coach Spotlight
           </h2>
           <p className="text-xl font-semibold text-gray-700 mb-2">Meet our top coaches—handpicked for their expertise and results.</p>
@@ -56,16 +66,72 @@ function CoachSpotlight() {
   if (!coaches.length) return null;
 
   return (
-    <section className="w-full bg-white dark:bg-transparent py-8">
-      <div className="max-w-4xl mx-auto text-center mb-8">
-        <h2 className="text-5xl font-extrabold mb-4 text-blue-900 bg-gradient-to-r from-blue-900 to-blue-700 bg-clip-text text-transparent">
+    <section className="w-full bg-white dark:bg-transparent py-6">
+      <div className="max-w-4xl mx-auto text-center mb-6">
+        <h2 className="text-5xl font-extrabold mb-3 text-blue-900 bg-gradient-to-r from-blue-900 to-blue-700 bg-clip-text text-transparent">
           Coach Spotlight
         </h2>
         <p className="text-xl font-semibold text-gray-700 mb-2">Meet our top coaches—handpicked for their expertise and results.</p>
         <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
       </div>
-      <div className="max-w-3xl mx-auto px-4">
-        <CoachCard coach={coaches[0]} />
+      <div className="max-w-3xl mx-auto px-4 relative">
+        {/* Carousel Container */}
+        <div className="relative overflow-hidden rounded-2xl">
+          {coaches.map((coach, idx) => (
+            <div
+              key={coach.userId || idx}
+              className={`absolute left-0 right-0 transition-all duration-700 ${
+                idx === current 
+                  ? 'opacity-100 scale-100 z-10 pointer-events-auto' 
+                  : 'opacity-0 scale-95 z-0 pointer-events-none'
+              }`}
+            >
+              <CoachCard coach={coach} />
+            </div>
+          ))}
+        </div>
+        
+        {/* Carousel Controls */}
+        {coaches.length > 1 && (
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+            {coaches.map((_, idx) => (
+              <button
+                key={idx}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  idx === current 
+                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 scale-125' 
+                    : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+                onClick={() => setCurrent(idx)}
+                aria-label={`Show coach ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
+        
+        {/* Navigation Arrows */}
+        {coaches.length > 1 && (
+          <>
+            <button
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-20"
+              onClick={() => setCurrent(c => (c - 1 + coaches.length) % coaches.length)}
+              aria-label="Previous coach"
+            >
+              <svg className="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+            </button>
+            <button
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 z-20"
+              onClick={() => setCurrent(c => (c + 1) % coaches.length)}
+              aria-label="Next coach"
+            >
+              <svg className="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              </svg>
+            </button>
+          </>
+        )}
       </div>
     </section>
   );
@@ -136,7 +202,7 @@ export default function Home() {
       </div>
 
       {/* Features Section */}
-      <section className="py-12">
+      <section className="py-8">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-6">
             {FEATURES.map((feature, idx) => (
@@ -145,10 +211,10 @@ export default function Home() {
                 className={
                   `rounded-xl p-6 shadow-md flex-1 flex flex-col items-center text-center bg-white dark:bg-[#181d23]/80 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:bg-blue-50 dark:hover:bg-[#232b36] cursor-pointer`
                 }
-                style={{ minHeight: 220 }}
+                style={{ minHeight: 200 }}
               >
-                <div className="mb-4 text-blue-600 text-3xl">{feature.icon}</div>
-                <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">{feature.title}</h2>
+                <div className="mb-3 text-blue-600 text-3xl">{feature.icon}</div>
+                <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{feature.title}</h2>
                 <p className="text-gray-600 dark:text-gray-300 text-base">{feature.description}</p>
               </div>
             ))}
@@ -157,7 +223,7 @@ export default function Home() {
       </section>
 
       {/* Coach Spotlight Section */}
-      <section className="w-full bg-white dark:bg-transparent py-8">
+      <section className="w-full bg-white dark:bg-transparent py-6">
         <CoachSpotlight />
       </section>
     </main>
