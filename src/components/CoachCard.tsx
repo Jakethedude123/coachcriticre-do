@@ -106,8 +106,8 @@ export default function CoachCard({
 
   return (
     <div 
-      className={`flex w-full ${small ? 'max-w-md' : 'max-w-xl'} rounded-2xl overflow-hidden shadow-lg transition-all duration-200 hover:shadow-xl`} 
-      style={{ minHeight: small ? 120 : 180 }}
+      className={`flex w-full h-full ${small ? 'max-w-md' : 'max-w-xl'} rounded-2xl overflow-hidden shadow-lg transition-all duration-200 hover:shadow-xl`} 
+      style={{ minHeight: small ? 140 : 200 }}
     >
       {/* Left: Image section */}
       <div className={`w-2/5 ${small ? 'bg-[#3a4250]' : 'bg-[#374151]'} relative`}>
@@ -158,7 +158,9 @@ export default function CoachCard({
         )}
         
         <h3 className={`font-bold text-white mb-1 ${small ? 'text-lg' : 'text-2xl'}`}>{coach.name}</h3>
-        <p className={`text-white mb-3 ${small ? 'text-xs' : 'text-sm'}`}>{coach.bio}</p>
+        <p className={`text-white mb-3 ${small ? 'text-xs' : 'text-sm'} line-clamp-2`}>
+          {coach.bio.length > 100 ? `${coach.bio.substring(0, 100)}...` : coach.bio}
+        </p>
         <div className="flex flex-wrap gap-1 items-center mb-3">
           {specialties.length > 0 && renderTags(specialties, 'bg-blue-100 text-blue-800', 'Specialty')}
           {credentials.length > 0 && renderTags(credentials, 'bg-green-100 text-green-800', 'Credential')}

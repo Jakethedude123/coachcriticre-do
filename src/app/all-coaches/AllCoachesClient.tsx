@@ -28,16 +28,23 @@ export default function AllCoachesClient() {
     : coaches;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white dark:bg-transparent rounded-xl">
-      <h1 className="text-2xl font-bold mb-4">All Coaches{query && ` matching "${query}"`}</h1>
+    <div className="max-w-7xl mx-auto p-6 bg-white dark:bg-transparent rounded-xl">
+      <h1 className="text-2xl font-bold mb-6 text-center">Coach Directory{query && ` matching "${query}"`}</h1>
       {loading ? (
-        <p>Loading...</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-sm animate-pulse">
+              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+            </div>
+          ))}
+        </div>
       ) : filtered.length === 0 ? (
-        <p>No coaches found.</p>
+        <p className="text-center text-gray-600 dark:text-gray-400">No coaches found.</p>
       ) : (
-        <ul className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((coach) => (
-            <li key={coach.userId}>
+            <div key={coach.userId} className="h-full">
               <CoachCard coach={{
                 id: coach.userId,
                 name: coach.name,
@@ -51,9 +58,9 @@ export default function AllCoachesClient() {
                 clientTypes: coach.clientTypes || [],
                 federations: coach.federations || [],
               }} small />
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
