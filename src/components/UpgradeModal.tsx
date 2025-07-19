@@ -44,7 +44,7 @@ export default function UpgradeModal({ open, onClose }: { open: boolean; onClose
           </button>
           
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl mb-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#667eea] to-[#764ba2] rounded-2xl mb-4">
               <FaUsers className="text-white text-2xl" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
@@ -102,7 +102,7 @@ export default function UpgradeModal({ open, onClose }: { open: boolean; onClose
 
         {/* CTA */}
         <div className="px-8 pb-8">
-          <button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 flex items-center justify-center space-x-2">
+          <button className="w-full bg-gradient-to-r from-[#667eea] to-[#764ba2] hover:from-[#5a6fd8] hover:to-[#6a4190] text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 flex items-center justify-center space-x-2">
             <FaCheck className="text-sm" />
             <span>Upgrade to Pro and Start Connecting</span>
           </button>

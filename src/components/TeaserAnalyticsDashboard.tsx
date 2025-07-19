@@ -175,7 +175,7 @@ export default function TeaserAnalyticsDashboard({ onUpgradeClick }: { onUpgrade
 
                 {/* Upgrade Hint */}
                 <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs px-2 py-1 rounded-full font-medium">
+                  <div className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white text-xs px-2 py-1 rounded-full font-medium">
                     Upgrade to Pro
                   </div>
                 </div>
@@ -204,7 +204,7 @@ export default function TeaserAnalyticsDashboard({ onUpgradeClick }: { onUpgrade
 
         {/* Bottom CTA */}
         <div className="text-center mt-8">
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 cursor-pointer" onClick={onUpgradeClick}>
+          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 cursor-pointer" onClick={onUpgradeClick}>
             <span>Unlock Full Analytics</span>
             <FaArrowUp className="text-sm" />
           </div>

@@ -134,10 +134,10 @@ export default function CoachCard({
       onClick={showCheckbox ? handleSelectionClick : undefined}
     >
       {/* Enhanced hover overlay effect */}
-      <div className={`absolute inset-0 bg-gradient-to-br from-blue-600/15 to-purple-600/15 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-br from-[#667eea]/15 to-[#764ba2]/15 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none`}></div>
       
       {/* Top: Image section with gradient background */}
-      <div className={`h-2/5 bg-gradient-to-br from-purple-600 to-pink-500 relative overflow-hidden flex items-center justify-center`}>
+      <div className={`h-2/5 bg-gradient-to-br from-[#667eea] to-[#764ba2] relative overflow-hidden flex items-center justify-center`}>
         {/* Handle both Coach and CoachProfile image fields */}
         {(() => {
           const imageUrl = 'profileImage' in coach ? coach.profileImage : ('avatar' in coach ? coach.avatar : undefined);
@@ -226,7 +226,7 @@ export default function CoachCard({
         {/* Enhanced click indicator (only show when not in compare mode) */}
         {!showCheckbox && (
           <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center shadow-xl border-2 border-white">
+            <div className="w-8 h-8 bg-gradient-to-r from-[#667eea] to-[#764ba2] rounded-full flex items-center justify-center shadow-xl border-2 border-white">
               <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
               </svg>

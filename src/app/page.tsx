@@ -47,7 +47,7 @@ function CoachSpotlight() {
             Coaches
           </h2>
           <p className="text-xl font-semibold text-gray-700 mb-2">This week's featured coach from our community.</p>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-[#667eea] to-[#764ba2] mx-auto rounded-full"></div>
         </div>
         <div className="max-w-3xl mx-auto px-4">
           <div className="bg-white rounded-xl shadow-lg p-6 animate-pulse">
@@ -74,7 +74,7 @@ function CoachSpotlight() {
             Coach Spotlight
           </h2>
           <p className="text-xl font-semibold text-gray-700 mb-2">This week's featured coaches from our community.</p>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-[#667eea] to-[#764ba2] mx-auto rounded-full"></div>
         </div>
         <div className="max-w-3xl mx-auto px-4">
           <div className="bg-white rounded-xl shadow-lg p-6 text-center">
@@ -92,7 +92,7 @@ function CoachSpotlight() {
           Coach Spotlight
         </h2>
         <p className="text-xl font-semibold text-gray-700 mb-2">This week's featured coaches from our community.</p>
-        <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
+        <div className="w-24 h-1 bg-gradient-to-r from-[#667eea] to-[#764ba2] mx-auto rounded-full"></div>
       </div>
       <div className="max-w-3xl mx-auto px-4 relative">
         {/* Carousel Container */}
@@ -127,7 +127,7 @@ function CoachSpotlight() {
                 key={idx}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   idx === current 
-                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 scale-125' 
+                    ? 'bg-gradient-to-r from-[#667eea] to-[#764ba2] scale-125' 
                     : 'bg-gray-300 hover:bg-gray-400'
                 }`}
                 onClick={() => setCurrent(idx)}
