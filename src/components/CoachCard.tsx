@@ -72,7 +72,26 @@ export default function CoachCard({
   };
 
   const divisions = normalizeTags(coach.divisions).map(fixDivisionName);
-  const clientTypes = normalizeTags('clientTypes' in coach ? coach.clientTypes : []);
+  
+  // Handle clientTypes - CoachProfile has object, Coach has string array
+  const clientTypes = (() => {
+    if ('clientTypes' in coach) {
+      if (Array.isArray(coach.clientTypes)) {
+        return normalizeTags(coach.clientTypes);
+      } else if (coach.clientTypes && typeof coach.clientTypes === 'object') {
+        // Convert boolean object to string array
+        const types: string[] = [];
+        if (coach.clientTypes.natural) types.push('Natural');
+        if (coach.clientTypes.enhanced) types.push('Enhanced');
+        if (coach.clientTypes.beginners) types.push('Beginners');
+        if (coach.clientTypes.advanced) types.push('Advanced');
+        if (coach.clientTypes.competitors) types.push('Competitors');
+        return normalizeTags(types);
+      }
+    }
+    return normalizeTags([]);
+  })();
+  
   const federations = normalizeTags(coach.federations);
 
   // Helper to render tags with consistent styling and animations
